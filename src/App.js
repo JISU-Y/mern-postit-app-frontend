@@ -1,7 +1,12 @@
+import TodoBoard from "./components/TodoBoard";
+
 function App() {
   return (
-    <div className="App">
-      <h2>Front end</h2>
+    <div className="container">
+      <h1 className="title">Post your plans!</h1>
+      <div>
+        <TodoBoard />
+      </div>
     </div>
   );
 }
