@@ -35,7 +35,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   position: relative;
-  border: 20px solid #cd6133;
+  /* border: 20px solid #cd6133; */
   /* overflow 안에 element 밖으로 나가도 됨 */
 }
 
@@ -132,6 +132,11 @@ h1 {
 .todo-form {
   margin-bottom: 32px;
   resize: none;
+}
+
+.todo-form pre {
+  font-size: 20px;
+  color: black;
 }
 
 .todo-input {

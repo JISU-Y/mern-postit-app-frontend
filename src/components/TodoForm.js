@@ -19,29 +19,44 @@ const TodoForm = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (input === "") {
-      if (props.isEdit || props.todoList.id === 0) {
-        props.openNoInputModal();
-      } else {
-        props.openPleaseEditModal();
-      }
-    }
+    // if (input === "") {
+    //   if (props.isEdit || props.todoList.id === 0) {
+    //     props.openNoInputModal();
+    //   } else {
+    //     props.openPleaseEditModal();
+    //   }
+    // }
 
     // 다른 component로 data 전달
     // id는 랜덤생성, text는 input에서 전달받은 value
     // 근데 이건 뭐지 .onSubmit은 뭐야
     // 여기서 TodoList.js에 있는 addTodo로 todo를 넘겨주어서 항목 생성
+    // props.onSubmit({
+    //   id: Math.floor(Math.random() * 10000),
+    //   text: input,
+    // });
+
+    // // Input 초기화
+    // setInput("");
+
     props.onSubmit({
       id: Math.floor(Math.random() * 10000),
-      text: input,
+      text: props.postTodo.todoText,
     });
 
-    // Input 초기화
-    setInput("");
+    props.setPostTodo({
+      todoText: "",
+      todoDone: false,
+    });
   };
+
+  // useEffect(() => {
+  //   console.log(props.postTodo);
+  // }, [props.postTodo]);
 
   return (
     <form className="todo-form" onSubmit={handleSubmit}>
+      <pre>{JSON.stringify(props.postTodo)}</pre>
       {props.edit ? (
         <>
           <input
@@ -62,10 +77,14 @@ const TodoForm = (props) => {
           <input
             type="text"
             placeholder="Add a todo"
-            value={input}
+            // value={input} // 이렇게 하면 한 글자만 입력됨
+            value={props.postTodo.todoText}
             name="text"
             className="todo-input"
-            onChange={handleChange}
+            // onChange={handleChange}
+            onChange={(e) =>
+              props.setPostTodo({ ...props.postTodo, todoText: e.target.value })
+            }
             ref={inputRef}
           />
           <button className="todo-btn" type="submit">

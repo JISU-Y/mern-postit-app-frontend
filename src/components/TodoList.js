@@ -6,6 +6,8 @@ import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
 import { TiEdit } from "react-icons/ti";
 import { MdDone } from "react-icons/md";
 import { ImCross } from "react-icons/im";
+import { readPosts } from "../functions";
+import { createPost } from "../functions";
 
 //todoList 는 TodoBoard에서 가져온 todos의 배열 중 배열 한 개씩
 const TodoList = ({
@@ -25,6 +27,17 @@ const TodoList = ({
   // menu 보여주거나 말거나
   const [show, setShow] = useState(false);
 
+  const tag = "Default Tag";
+
+  // fetchData (posts)
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await readPosts();
+      console.log(result);
+    };
+    fetchData();
+  }, []);
+
   const addTodo = (todo) => {
     // todo는 {id: number, text: textInput} 임
     // 추가하려고 하는 todo의 text를 검사
@@ -32,11 +45,21 @@ const TodoList = ({
       return;
     }
 
+    setPost({
+      tag: tag,
+      todos: [],
+    });
     // 새 todo와 기존의 todos 배열을 합침
     const newTodos = [todo, ...todos];
 
     // Todos를 새로 만든 todos 배열로 set함
     setTodos(newTodos);
+
+    setPost({
+      tag: tag,
+      todos: newTodos,
+    });
+    console.log(post);
   };
 
   const updateTodo = (todoId, newValue) => {
@@ -121,6 +144,7 @@ const TodoList = ({
     };
   }, [handleClick, handleContextMenu]);
 
+  // change colors
   const [colorIndex, setColorIndex] = useState(1); // 이게 중요 / 보통 / 나중 태그로 활용될 수도
   const postColor = ["#ffd20c", "#5d0cff", "#ff7614", "#149fff", "#fa0087"];
 
@@ -178,6 +202,23 @@ const TodoList = ({
     setModalType(false, "", "");
   };
 
+  // post format
+  const [postTodo, setPostTodo] = useState({
+    todoText: "",
+    todoDone: false,
+  });
+  const [post, setPost] = useState({
+    tag: tag,
+    todos: [postTodo],
+  });
+
+  const AddPostHandler = async (e) => {
+    // e.preventDefault();
+
+    const result = await createPost(post);
+    console.log(result);
+  };
+
   return (
     <div
       className="todo-app"
@@ -190,6 +231,8 @@ const TodoList = ({
         isEdit={isEdit}
         openPleaseEditModal={openPleaseEditModal}
         todoList={todoList}
+        postTodo={postTodo}
+        setPostTodo={setPostTodo}
       />
       <Todo
         // postit이 motherpost일때만 받아적을 수 있도록 todos 해놓고,
@@ -201,7 +244,13 @@ const TodoList = ({
         isEdit={isEdit}
         todoList={todoList}
       />
-      <FiPlusCircle className="plus-icon" onClick={handleAddPost} />
+      <FiPlusCircle
+        className="plus-icon"
+        onClick={() => {
+          handleAddPost(); // 기존
+          AddPostHandler(); // 210903 추가
+        }}
+      />
       {/* postit이 1개 남았을 때(motherpost만 남았을 때/id = 0)는 제거 못하도록 한다 */}
       {todoList.id !== 0 && (
         <FiMinusCircle className="minus-icon" onClick={openRemoveModal} />
