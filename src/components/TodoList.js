@@ -6,7 +6,6 @@ import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
 import { TiEdit } from "react-icons/ti";
 import { MdDone } from "react-icons/md";
 import { ImCross } from "react-icons/im";
-import { createPost } from "../functions";
 
 //todoList 는 TodoBoard에서 가져온 todos의 배열 중 배열 한 개씩
 const TodoList = ({
@@ -15,6 +14,8 @@ const TodoList = ({
   removePostit,
   editPostit,
   handlePostIndex,
+  setPost,
+  AddPostHandler,
 }) => {
   // 여기서 따로 사용할 todo 배열
   // todos는 todo ({id:1,text:a}의 모음/배열)
@@ -188,29 +189,6 @@ const TodoList = ({
     setModalType(false, "", "");
   };
 
-  // post format
-  const [post, setPost] = useState({
-    tag: tag,
-    todos: [
-      {
-        todoText: "",
-        todoDone: false,
-      },
-    ],
-  });
-
-  const AddPostHandler = async () => {
-    // e.preventDefault(); // 하니까 안됨
-
-    const result = await createPost(post);
-    // + 버튼 누르는 순간 post를 set함
-    // 그 안에 할일 배열들 todos는 newTodos로 set하고 있던 todos로 set
-    // 이렇게 하나만 하는게 아니라 post도 여러개로 가지고 있어야함
-    // posts가 있어야 할 듯? 그건 board 에다가???
-
-    console.log(result);
-  };
-
   return (
     <div
       className="todo-app"
@@ -225,32 +203,17 @@ const TodoList = ({
         todoList={todoList}
       />
       <Todo
-        // postit이 motherpost일때만 받아적을 수 있도록 todos 해놓고,
-        // 나머지는 todoList에 있는 todos 내용 고대로 가져와서 display 한다
-        todos={todoList.id === 0 || isEdit ? todos : todoList.todos}
+        todos={todoList.todos}
         completeTodo={completeTodo}
         removeTodo={removeTodo}
         updateTodo={updateTodo}
         isEdit={isEdit}
         todoList={todoList}
       />
-      <FiPlusCircle
-        className="plus-icon"
-        onClick={() => {
-          handleAddPost(); // 기존
-          AddPostHandler(); // 210903 추가
-        }}
-      />
-      {/* postit이 1개 남았을 때(motherpost만 남았을 때/id = 0)는 제거 못하도록 한다 */}
-      {todoList.id !== 0 && (
-        <FiMinusCircle className="minus-icon" onClick={openRemoveModal} />
-      )}
-      {todoList.id !== 0 && !isEdit && (
-        <TiEdit className="edit-icon postit" onClick={handleEditPost} />
-      )}
-      {todoList.id !== 0 && isEdit && (
-        <MdDone className="done-icon" onClick={openEditDoneModal} />
-      )}
+      <FiPlusCircle className="plus-icon" onClick={AddPostHandler} />
+      <FiMinusCircle className="minus-icon" onClick={openRemoveModal} />
+      <TiEdit className="edit-icon postit" onClick={handleEditPost} />
+      {isEdit && <MdDone className="done-icon" onClick={openEditDoneModal} />}
       {show ? (
         <ul
           className="menu"

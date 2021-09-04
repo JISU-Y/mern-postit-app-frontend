@@ -3,13 +3,24 @@ import Preloader from "./Preloader";
 import { FiBox } from "react-icons/fi";
 import TodoList from "./TodoList";
 import Modal from "./Modal";
-import { readPosts } from "../functions";
+import { readPosts, createPost } from "../functions";
 
 const TodoBoard = () => {
-  // todoList -> todo 배열의 배열
-  // posts 임 / {}
-  const [todoLists, setTodoLists] = useState([{ id: 0, todos: [] }]);
-  const [posts, setPosts] = useState(null);
+  const tag = "Default Tag";
+
+  // post format
+  const [post, setPost] = useState({
+    tag: tag,
+    todos: [
+      {
+        todoText: "",
+        todoDone: false,
+      },
+    ],
+  });
+
+  // posts (post의 배열)
+  const [posts, setPosts] = useState([]);
 
   // 드랍할 영역이 위치한 컴포넌트
   const postBoard = useRef(null);
@@ -20,32 +31,40 @@ const TodoBoard = () => {
   // fetchData (posts)
   useEffect(() => {
     const fetchData = async () => {
-      const result = await readPosts();
+      const result = await readPosts(); // post들 가져오기
       console.log(result);
-      setTodoLists(result);
+      setPosts(result);
     };
     fetchData();
-  }, []);
+  }, []); // posts를 넣으면 300ms 마다 fetch함
+
+  const AddPostHandler = async () => {
+    // e.preventDefault(); // 하니까 안됨
+
+    const result = await createPost(post);
+
+    console.log(result);
+  };
 
   // post it 추가
-  const addPostit = (todos) => {
-    // todos는 [ {id:1234, text: input}, {id:1234, text: input}, {id:1234, text: input}, ... ,{} ]
-    // 추가했던 to do 들 저장하여 todoLists에 옮긴다
+  // const addPostit = (todos) => {
+  //   // todos는 [ {id:1234, text: input}, {id:1234, text: input}, {id:1234, text: input}, ... ,{} ]
+  //   // 추가했던 to do 들 저장하여 todoLists에 옮긴다
 
-    // { id: null, todos: [] } 이거 하나 -> 이것의 배열의 위에 있는 todoLists
+  //   // { id: null, todos: [] } 이거 하나 -> 이것의 배열의 위에 있는 todoLists
 
-    const newTodoList = {
-      // 0은 motherPost 꺼임
-      id: Math.floor(Math.random() * 10000 + 1),
-      todos: todos,
-    };
+  //   const newTodoList = {
+  //     // 0은 motherPost 꺼임
+  //     id: Math.floor(Math.random() * 10000 + 1),
+  //     todos: todos,
+  //   };
 
-    const newTodoLists = [...todoLists, newTodoList];
+  //   const newTodoLists = [...todoLists, newTodoList];
 
-    setTodoLists(newTodoLists);
+  //   setTodoLists(newTodoLists);
 
-    console.log(newTodoLists);
-  };
+  //   console.log(newTodoLists);
+  // };
 
   // post it Edit
   const editPostit = (id, todos) => {
@@ -58,23 +77,23 @@ const TodoBoard = () => {
       id: id,
       todos: todos,
     };
-    setTodoLists((prev) =>
-      prev.map((item) => (item.id === id ? newTodoList : item))
-    );
+    // setTodoLists((prev) =>
+    //   prev.map((item) => (item.id === id ? newTodoList : item))
+    // );
   };
 
   // PostIt 삭제
-  const removePostit = (id) => {
-    // source post는 remove 하지 않음
-    if (id === 0) return;
+  // const removePostit = (id) => {
+  //   // source post는 remove 하지 않음
+  //   if (id === 0) return;
 
-    const removedPost = [...todoLists].filter((todoList) => todoList.id !== id);
+  //   const removedPost = [...todoLists].filter((todoList) => todoList.id !== id);
 
-    // 지우면 해당 포스트잇이 지워지기는 하는데
-    // 지워진 포스트잇의 자리를 다음 포스트잇들이 뺏어서 채움
+  //   // 지우면 해당 포스트잇이 지워지기는 하는데
+  //   // 지워진 포스트잇의 자리를 다음 포스트잇들이 뺏어서 채움
 
-    setTodoLists(removedPost);
-  };
+  //   setTodoLists(removedPost);
+  // };
 
   // Drag and Drop 구현
 
@@ -156,19 +175,28 @@ const TodoBoard = () => {
       onDrag={dragHandler}
       onDragEnd={dragEndHandler}
     >
-      {todoLists.map((todoList, index) => {
-        return (
-          <TodoList
-            key={index}
-            todoLists={todoLists}
-            todoList={todoList}
-            addPostit={addPostit}
-            removePostit={removePostit}
-            editPostit={editPostit}
-            handlePostIndex={handlePostIndex}
-          />
-        );
-      })}
+      {posts.length > 0 ? (
+        posts.map((post) => {
+          return (
+            <TodoList
+              key={post._id}
+              todoList={post}
+              // addPostit={addPostit}
+              // removePostit={removePostit}
+              editPostit={editPostit}
+              handlePostIndex={handlePostIndex}
+              setPost={setPost}
+              AddPostHandler={AddPostHandler}
+            />
+          );
+        })
+      ) : (
+        // <h2>nothing else to do</h2>
+        // 하고 빈 post 하나는 남겨둬야 하지 않을까
+        // 아니면 버튼을 생성해서 빈 post를 하나 생성?
+        // 생성했을 때 바로 post 생겼으면 좋겠는데 안되네....ㅠㅠ
+        <button onClick={AddPostHandler}>start postiting</button>
+      )}
     </div>
   );
 };
