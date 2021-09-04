@@ -39,27 +39,23 @@ const TodoList = ({
   }, []);
 
   const addTodo = (todo) => {
-    // todo는 {id: number, text: textInput} 임
-    // 추가하려고 하는 todo의 text를 검사
-    if (!todo.text || /^\s*$/.test(todo.text)) {
+    // todo는 {todoText: postTodo.todoText, todoDone:false}
+    // 추가하려고 하는 todo의 todoText를 검사
+    if (!todo.todoText || /^\s*$/.test(todo.todoText)) {
       return;
     }
 
-    setPost({
-      tag: tag,
-      todos: [],
-    });
-    // 새 todo와 기존의 todos 배열을 합침
+    // 새 todo와 기존의 todos 배열을 합침 (할일 리스트를 배열로 모음)
     const newTodos = [todo, ...todos];
 
-    // Todos를 새로 만든 todos 배열로 set함
+    // 배열로 모은 todos를 Todos로 set함
     setTodos(newTodos);
+    console.log(newTodos);
 
     setPost({
       tag: tag,
       todos: newTodos,
     });
-    console.log(post);
   };
 
   const updateTodo = (todoId, newValue) => {
@@ -203,19 +199,27 @@ const TodoList = ({
   };
 
   // post format
-  const [postTodo, setPostTodo] = useState({
-    todoText: "",
-    todoDone: false,
-  });
   const [post, setPost] = useState({
     tag: tag,
-    todos: [postTodo],
+    todos: [
+      {
+        todoText: "",
+        todoDone: false,
+      },
+    ],
   });
 
-  const AddPostHandler = async (e) => {
-    // e.preventDefault();
+  const AddPostHandler = async () => {
+    // e.preventDefault(); // 하니까 안됨
+
+    console.log(post);
 
     const result = await createPost(post);
+    // + 버튼 누르는 순간 post를 set함
+    // 그 안에 할일 배열들 todos는 newTodos로 set하고 있던 todos로 set
+    // 이렇게 하나만 하는게 아니라 post도 여러개로 가지고 있어야함
+    // posts가 있어야 할 듯? 그건 board 에다가???
+
     console.log(result);
   };
 
@@ -231,8 +235,6 @@ const TodoList = ({
         isEdit={isEdit}
         openPleaseEditModal={openPleaseEditModal}
         todoList={todoList}
-        postTodo={postTodo}
-        setPostTodo={setPostTodo}
       />
       <Todo
         // postit이 motherpost일때만 받아적을 수 있도록 todos 해놓고,

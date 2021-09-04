@@ -31,7 +31,7 @@ const Todo = ({
       key={index}
     >
       <div key={todo.id} onClick={() => completeTodo(todo.id)}>
-        {todo.text}
+        {todo.todoText}
       </div>
       {/* edit 중일 때만 icons 보이기 */}
       {(todoList.id === 0 || isEdit) && (
