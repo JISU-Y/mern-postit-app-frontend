@@ -3,17 +3,29 @@ import Preloader from "./Preloader";
 import { FiBox } from "react-icons/fi";
 import TodoList from "./TodoList";
 import Modal from "./Modal";
+import { readPosts } from "../functions";
 
 const TodoBoard = () => {
   // todoList -> todo 배열의 배열
-  // ['apple', 'avocado', 'ace'], ['banana','bun', 'bowl'], ['cake','cactus'] ... 이렇게 가야함
+  // posts 임 / {}
   const [todoLists, setTodoLists] = useState([{ id: 0, todos: [] }]);
+  const [posts, setPosts] = useState(null);
 
   // 드랍할 영역이 위치한 컴포넌트
   const postBoard = useRef(null);
   // position은 실시간 좌표 / oriPosition은 원래 좌표만 담고 있음
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [oriPosition, setOriPosition] = useState({ x: 0, y: 0 });
+
+  // fetchData (posts)
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await readPosts();
+      console.log(result);
+      setTodoLists(result);
+    };
+    fetchData();
+  }, []);
 
   // post it 추가
   const addPostit = (todos) => {

@@ -6,7 +6,6 @@ import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
 import { TiEdit } from "react-icons/ti";
 import { MdDone } from "react-icons/md";
 import { ImCross } from "react-icons/im";
-import { readPosts } from "../functions";
 import { createPost } from "../functions";
 
 //todoList 는 TodoBoard에서 가져온 todos의 배열 중 배열 한 개씩
@@ -29,15 +28,6 @@ const TodoList = ({
 
   const tag = "Default Tag";
 
-  // fetchData (posts)
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await readPosts();
-      console.log(result);
-    };
-    fetchData();
-  }, []);
-
   const addTodo = (todo) => {
     // todo는 {todoText: postTodo.todoText, todoDone:false}
     // 추가하려고 하는 todo의 todoText를 검사
@@ -50,8 +40,8 @@ const TodoList = ({
 
     // 배열로 모은 todos를 Todos로 set함
     setTodos(newTodos);
-    console.log(newTodos);
 
+    // post set // 최신 newTodos로 todos 설정
     setPost({
       tag: tag,
       todos: newTodos,
@@ -211,8 +201,6 @@ const TodoList = ({
 
   const AddPostHandler = async () => {
     // e.preventDefault(); // 하니까 안됨
-
-    console.log(post);
 
     const result = await createPost(post);
     // + 버튼 누르는 순간 post를 set함
