@@ -6,7 +6,7 @@ import Modal from "./Modal";
 import { readPosts, createPost } from "../functions";
 
 const TodoBoard = () => {
-  const tag = "Default Tag";
+  const tag = "Default";
 
   // post format
   const [post, setPost] = useState({
@@ -38,6 +38,7 @@ const TodoBoard = () => {
     fetchData();
   }, []); // posts를 넣으면 300ms 마다 fetch함
 
+  // post를 추가하기만 하는 것 (일단 내용(todos)은 없는 것으로 하기)
   const AddPostHandler = async () => {
     // e.preventDefault(); // 하니까 안됨
 

@@ -11,43 +11,55 @@ const Todo = ({
   isEdit,
   todoList,
 }) => {
-  const [edit, setEdit] = useState({ id: null, value: "" });
+  const [edit, setEdit] = useState({
+    todoText: "",
+    todoDone: false,
+  });
 
   const submitUpdate = (value) => {
-    updateTodo(edit.id, value);
+    // updateTodo(edit.id, value); // edit 하려는 post의 id와 value를 넘겨줘야함
     setEdit({
-      id: null,
-      value: "",
+      todoText: "",
+      todoDone: false,
     });
   };
 
-  if (edit.id) {
-    return <TodoForm edit={edit} onSubmit={submitUpdate} />;
-  }
+  // if (edit.id) {
+  //   return <TodoForm edit={edit} onSubmit={submitUpdate} />;
+  // }
 
-  return todos.map((todo, index) => (
-    <div
-      className={todo.isComplete ? "todo-row complete" : "todo-row"}
-      key={index}
-    >
-      <div key={todo.id} onClick={() => completeTodo(todo.id)}>
-        {todo.todoText}
-      </div>
-      {/* edit 중일 때만 icons 보이기 */}
-      {(todoList.id === 0 || isEdit) && (
-        <div className="icons">
-          <RiCloseCircleLine
-            onClick={() => removeTodo(todo.id)}
-            className="delete-icon"
-          />
-          <RiEdit2Fill
-            onClick={() => setEdit({ id: todo.id, value: todo.text })}
-            className="edit-icon"
-          />
+  return todos.map((todo, index) => {
+    // todo의 text 중에 빈 text가 있으면 null을 return 해서 아예 목록 보이지 않도록 한다
+    if (todo.todoText === "") return null;
+    return (
+      <div
+        className={todo.isComplete ? "todo-row complete" : "todo-row"}
+        key={index}
+      >
+        <div key={todo._id} onClick={() => completeTodo(todo._id)}>
+          {todo.todoText}
         </div>
-      )}
-    </div>
-  ));
+        {/* edit 중일 때만 icons 보이기 */}
+        {isEdit && (
+          <div className="icons">
+            <RiCloseCircleLine
+              onClick={() => removeTodo(todo._id)}
+              className="delete-icon"
+            />
+            <RiEdit2Fill
+              onClick={() =>
+                setEdit({
+                  todoText: todo.todoText,
+                  todoDone: false,
+                })
+              }
+              className="edit-icon"
+            />
+          </div>
+        )}
+      </div>
+    );
+  });
 };
 
 export default Todo;
