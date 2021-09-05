@@ -6,28 +6,30 @@ import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
 import { TiEdit } from "react-icons/ti";
 import { MdDone } from "react-icons/md";
 import { ImCross } from "react-icons/im";
+import { updatePost } from "../functions";
 
 //todoList 는 TodoBoard에서 가져온 todos의 배열 중 배열 한 개씩
 const TodoList = ({
-  todoList,
+  posts,
+  post,
   addPostit,
   removePostit,
-  editPostit,
+  addTodos,
   handlePostIndex,
   setPost,
   AddPostHandler,
+  currentId,
+  setCurrentId,
 }) => {
   // 여기서 따로 사용할 todo 배열
   // todos는 todo ({id:1,text:a}의 모음/배열)
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(post.todos);
   const [isEdit, setIsEdit] = useState(false);
 
   // 오른쪽 클릭 좌표
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
   // menu 보여주거나 말거나
   const [show, setShow] = useState(false);
-
-  const tag = "Default Tag";
 
   const addTodo = (todo) => {
     // todo는 {todoText: postTodo.todoText, todoDone:false}
@@ -42,11 +44,21 @@ const TodoList = ({
     // 배열로 모은 todos를 Todos로 set함
     setTodos(newTodos);
 
+    console.log(newTodos);
+
+    console.log(currentId);
     // post set // 최신 newTodos로 todos 설정
-    setPost({
-      tag: tag,
-      todos: newTodos,
-    });
+    // 이제는 todo를 추가하는거에도 하나하나 id를 달아주어야함
+    // 맨 처음부터 post를 생성하고 그 안에서 수정을 하는 것이기 때문에
+    addTodos(newTodos);
+  };
+
+  const handleEditDone = async () => {
+    console.log(posts.find((post) => post._id === currentId));
+    await updatePost(
+      currentId,
+      posts.find((post) => post._id === currentId)
+    );
   };
 
   const updateTodo = (todoId, newValue) => {
@@ -86,15 +98,15 @@ const TodoList = ({
   const handleEditPost = () => {
     setIsEdit(true);
 
-    setTodos(todoList.todos);
+    setTodos(post.todos);
   };
 
-  const handleEditDone = () => {
-    setIsEdit(false);
-    editPostit(todoList.id, todos);
+  // const handleEditDone = () => {
+  //   setIsEdit(false);
+  //   addTodos(todoList.id, todos);
 
-    setTodos([]); // edit done 하고 add post 하면 todos 그대로 복사해가므로 초기화
-  };
+  //   setTodos([]); // edit done 하고 add post 하면 todos 그대로 복사해가므로 초기화
+  // };
 
   // 색 바꾸기 혹은 오른쪽 클릭 메뉴 생성
   const handleContextMenu = useCallback(
@@ -193,27 +205,35 @@ const TodoList = ({
     <div
       className="todo-app"
       ref={todoAppRef}
-      onClick={(e) => handlePostIndex(e)}
+      onClick={(e) => {
+        handlePostIndex(e);
+        // 여기서 edit 하는 함수로 넘어가는 것이 나을 듯
+        setCurrentId(post._id);
+      }}
     >
       <TodoForm
         onSubmit={addTodo}
         openNoInputModal={openNoInputModal}
         isEdit={isEdit}
         openPleaseEditModal={openPleaseEditModal}
-        todoList={todoList}
+        post={post}
       />
       <Todo
-        todos={todoList.todos}
+        todos={todos}
         completeTodo={completeTodo}
         removeTodo={removeTodo}
         updateTodo={updateTodo}
         isEdit={isEdit}
-        todoList={todoList}
+        post={post}
       />
       <FiPlusCircle className="plus-icon" onClick={AddPostHandler} />
       <FiMinusCircle className="minus-icon" onClick={openRemoveModal} />
-      <TiEdit className="edit-icon postit" onClick={handleEditPost} />
-      {isEdit && <MdDone className="done-icon" onClick={openEditDoneModal} />}
+      <MdDone className="done-icon" onClick={handleEditDone} />
+      {/* {isEdit ? (
+        <MdDone className="done-icon" onClick={openEditDoneModal} />
+      ) : (
+        <TiEdit className="edit-icon postit" onClick={handleEditPost} />
+      )} */}
       {show ? (
         <ul
           className="menu"
@@ -234,9 +254,8 @@ const TodoList = ({
       <Modal
         modalType={modalType}
         close={closeModal}
-        todoList={todoList}
+        todoList={post}
         removePostit={removePostit}
-        handleEditDone={handleEditDone}
       />
     </div>
   );

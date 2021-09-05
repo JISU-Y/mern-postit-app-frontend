@@ -17,3 +17,12 @@ export const createPost = async (post) => {
     console.log(error);
   }
 };
+
+export const updatePost = async (id, post) => {
+  try {
+    const { data } = await api.updatePost(id, post);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

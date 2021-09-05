@@ -9,7 +9,7 @@ const Todo = ({
   removeTodo,
   updateTodo,
   isEdit,
-  todoList,
+  post,
 }) => {
   const [edit, setEdit] = useState({
     todoText: "",
@@ -24,13 +24,9 @@ const Todo = ({
     });
   };
 
-  // if (edit.id) {
-  //   return <TodoForm edit={edit} onSubmit={submitUpdate} />;
-  // }
-
   return todos.map((todo, index) => {
     // todo의 text 중에 빈 text가 있으면 null을 return 해서 아예 목록 보이지 않도록 한다
-    if (todo.todoText === "") return null;
+    // if (todo.todoText === "") return null;
     return (
       <div
         className={todo.isComplete ? "todo-row complete" : "todo-row"}
@@ -39,24 +35,21 @@ const Todo = ({
         <div key={todo._id} onClick={() => completeTodo(todo._id)}>
           {todo.todoText}
         </div>
-        {/* edit 중일 때만 icons 보이기 */}
-        {isEdit && (
-          <div className="icons">
-            <RiCloseCircleLine
-              onClick={() => removeTodo(todo._id)}
-              className="delete-icon"
-            />
-            <RiEdit2Fill
-              onClick={() =>
-                setEdit({
-                  todoText: todo.todoText,
-                  todoDone: false,
-                })
-              }
-              className="edit-icon"
-            />
-          </div>
-        )}
+        <div className="icons">
+          <RiCloseCircleLine
+            onClick={() => removeTodo(todo._id)}
+            className="delete-icon"
+          />
+          <RiEdit2Fill
+            onClick={() =>
+              setEdit({
+                todoText: todo.todoText,
+                todoDone: false,
+              })
+            }
+            className="edit-icon"
+          />
+        </div>
       </div>
     );
   });

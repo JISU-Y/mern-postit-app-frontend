@@ -7,26 +7,38 @@ import { readPosts, createPost } from "../functions";
 
 const TodoBoard = () => {
   const tag = "Default";
-
   // post format
+  // { tag: tag, todos: [ { todoText: "", todoDone: false}]}
   const [post, setPost] = useState({
     tag: tag,
-    todos: [
-      {
-        todoText: "",
-        todoDone: false,
-      },
-    ],
+    todos: [],
   });
-
   // posts (post의 배열)
   const [posts, setPosts] = useState([]);
+  const [currentId, setCurrentId] = useState(0);
 
   // 드랍할 영역이 위치한 컴포넌트
   const postBoard = useRef(null);
   // position은 실시간 좌표 / oriPosition은 원래 좌표만 담고 있음
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [oriPosition, setOriPosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    // 선택한 post
+    // currentId가 0이면 그냥 null로 설정하고
+    // currentId가 0이 아니고 뭔가 눌렸을 때는 그 currentId와 posts 중에 id가 같은 것을 찾아서 그 post를 반환
+    let currentPost =
+      currentId !== 0
+        ? posts.find((post) => post._id === currentId)
+        : {
+            tag: tag,
+            todos: [],
+          };
+
+    // setPost(currentPost);
+    console.log(currentId);
+    console.log(currentPost);
+  }, [currentId]);
 
   // fetchData (posts)
   useEffect(() => {
@@ -38,12 +50,27 @@ const TodoBoard = () => {
     fetchData();
   }, []); // posts를 넣으면 300ms 마다 fetch함
 
+  // esc 눌러서 불러왔던 post 선택을 무른다
+  useEffect(() => {
+    const clearField = (e) => {
+      if (e.keyCode === 27) {
+        clear();
+      }
+    };
+    window.addEventListener("keydown", clearField);
+    return () => window.removeEventListener("keydown", clearField);
+  }, []);
+
+  const clear = () => {
+    setCurrentId(0);
+  };
+
   // post를 추가하기만 하는 것 (일단 내용(todos)은 없는 것으로 하기)
   const AddPostHandler = async () => {
     // e.preventDefault(); // 하니까 안됨
 
     const result = await createPost(post);
-
+    setPosts([...posts, result]);
     console.log(result);
   };
 
@@ -54,33 +81,31 @@ const TodoBoard = () => {
 
   //   // { id: null, todos: [] } 이거 하나 -> 이것의 배열의 위에 있는 todoLists
 
-  //   const newTodoList = {
-  //     // 0은 motherPost 꺼임
-  //     id: Math.floor(Math.random() * 10000 + 1),
+  //   const newPost = {
+  //     tag: tag,
   //     todos: todos,
   //   };
 
-  //   const newTodoLists = [...todoLists, newTodoList];
-
-  //   setTodoLists(newTodoLists);
-
-  //   console.log(newTodoLists);
+  //   const newPosts = [...posts, newPost];
+  //   setPosts(newPosts);
+  //   console.log(newPosts);
   // };
 
-  // post it Edit
-  const editPostit = (id, todos) => {
-    if (id === 0) return;
-    // id에 맞는지 확인하고 잠금? 클릭 불가하게 막아뒀던거 풀기
-    // 수정 중
+  // post it (id 선택된) 에 todos (할일 배열) 추가
+  const addTodos = (todos) => {
+    // id = _id / 나중에 tag 수정도 추가 / todos는 수정할 todo 배열
+    if (currentId === 0) return;
 
-    // 위에랑 합쳐도 될 것 같은데 일단 ㄱㄱ
-    const newTodoList = {
-      id: id,
-      todos: todos,
-    };
-    // setTodoLists((prev) =>
-    //   prev.map((item) => (item.id === id ? newTodoList : item))
-    // );
+    // 기존의 post들을 map loop 돌려서 그 중에 찾고자 하는 id와 같은 post를 찾아서
+    // post를 newPost로 교체한다 / 아니면 그냥 그대로
+    setPosts((items) =>
+      items.map((item) =>
+        item._id === currentId ? { ...item, todos: todos } : item
+      )
+    );
+    // newPost를 생성해서 덮어씌우면 부여받은 id가 없으니 당연히 안됐던거지
+
+    console.log(posts);
   };
 
   // PostIt 삭제
@@ -181,13 +206,16 @@ const TodoBoard = () => {
           return (
             <TodoList
               key={post._id}
-              todoList={post}
               // addPostit={addPostit}
               // removePostit={removePostit}
-              editPostit={editPostit}
-              handlePostIndex={handlePostIndex}
+              posts={posts}
+              post={post}
               setPost={setPost}
+              addTodos={addTodos}
+              handlePostIndex={handlePostIndex}
               AddPostHandler={AddPostHandler}
+              currentId={currentId}
+              setCurrentId={setCurrentId}
             />
           );
         })
@@ -195,7 +223,6 @@ const TodoBoard = () => {
         // <h2>nothing else to do</h2>
         // 하고 빈 post 하나는 남겨둬야 하지 않을까
         // 아니면 버튼을 생성해서 빈 post를 하나 생성?
-        // 생성했을 때 바로 post 생겼으면 좋겠는데 안되네....ㅠㅠ
         <button onClick={AddPostHandler}>start postiting</button>
       )}
     </div>

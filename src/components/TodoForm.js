@@ -17,19 +17,14 @@ const TodoForm = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // 알림
     if (postTodo.todoText === "") {
-      if (props.isEdit || props.todoList.id === 0) {
+      if (props.isEdit || props.post.id === 0) {
         props.openNoInputModal();
       } else {
         props.openPleaseEditModal();
       }
     }
-
-    // id는 랜덤생성, text는 input에서 전달받은 value
-    // props.onSubmit({
-    //   id: Math.floor(Math.random() * 10000),
-    //   text: postTodo.todoText,
-    // });
 
     props.onSubmit({
       todoText: postTodo.todoText,
