@@ -25,8 +25,6 @@ const Todo = ({
   };
 
   return todos.map((todo, index) => {
-    // todo의 text 중에 빈 text가 있으면 null을 return 해서 아예 목록 보이지 않도록 한다
-    // if (todo.todoText === "") return null;
     return (
       <div
         className={todo.isComplete ? "todo-row complete" : "todo-row"}

@@ -53,28 +53,11 @@ const TodoList = ({
     addTodos(newTodos);
   };
 
-  const handleEditDone = async () => {
-    console.log(posts.find((post) => post._id === currentId));
-    await updatePost(
-      currentId,
-      posts.find((post) => post._id === currentId)
-    );
-  };
-
-  const updateTodo = (todoId, newValue) => {
-    if (!newValue.text || /^\s*$/.test(newValue.text)) {
-      return;
-    }
-
-    setTodos((prev) =>
-      prev.map((item) => (item.id === todoId ? newValue : item))
-    );
-  };
-
   const removeTodo = (id) => {
-    const removeArr = [...todos].filter((todo) => todo.id !== id);
-
+    console.log(id);
+    const removeArr = [...todos].filter((todo) => todo._id !== id);
     setTodos(removeArr);
+    addTodos(removeArr);
   };
 
   const completeTodo = (id) => {
@@ -88,6 +71,25 @@ const TodoList = ({
     setTodos(updatedTodos);
   };
 
+  const handleEditDone = async () => {
+    console.log(posts.find((post) => post._id === currentId));
+    await updatePost(
+      currentId,
+      posts.find((post) => post._id === currentId)
+    );
+    setIsEdit(false);
+  };
+
+  const updateTodo = (todoId, newValue) => {
+    if (!newValue.text || /^\s*$/.test(newValue.text)) {
+      return;
+    }
+
+    setTodos((prev) =>
+      prev.map((item) => (item.id === todoId ? newValue : item))
+    );
+  };
+
   const handleAddPost = () => {
     addPostit(todos);
 
@@ -95,10 +97,30 @@ const TodoList = ({
     setTodos([]);
   };
 
-  const handleEditPost = () => {
-    setIsEdit(true);
+  const handleEditPost = (e) => {
+    setIsEdit(true); // edit 상태로 변경
 
-    setTodos(post.todos);
+    handlePostIndex(e); // postIndex 맞추기
+
+    setCurrentId(post._id); // 선택한 post의 id set
+
+    // setTodos(post.todos);
+  };
+
+  // esc 눌러서 불러왔던 post 선택을 무른다
+  useEffect(() => {
+    const clearField = (e) => {
+      if (e.keyCode === 27) {
+        clear();
+      }
+    };
+    window.addEventListener("keydown", clearField);
+    return () => window.removeEventListener("keydown", clearField);
+  }, []);
+
+  const clear = () => {
+    setCurrentId(0);
+    setIsEdit(false);
   };
 
   // const handleEditDone = () => {
@@ -205,11 +227,7 @@ const TodoList = ({
     <div
       className="todo-app"
       ref={todoAppRef}
-      onClick={(e) => {
-        handlePostIndex(e);
-        // 여기서 edit 하는 함수로 넘어가는 것이 나을 듯
-        setCurrentId(post._id);
-      }}
+      onClick={(e) => handleEditPost(e)}
     >
       <TodoForm
         onSubmit={addTodo}
@@ -228,7 +246,7 @@ const TodoList = ({
       />
       <FiPlusCircle className="plus-icon" onClick={AddPostHandler} />
       <FiMinusCircle className="minus-icon" onClick={openRemoveModal} />
-      <MdDone className="done-icon" onClick={handleEditDone} />
+      {isEdit && <MdDone className="done-icon" onClick={openEditDoneModal} />}
       {/* {isEdit ? (
         <MdDone className="done-icon" onClick={openEditDoneModal} />
       ) : (
@@ -254,8 +272,9 @@ const TodoList = ({
       <Modal
         modalType={modalType}
         close={closeModal}
-        todoList={post}
+        post={post}
         removePostit={removePostit}
+        handleEditDone={handleEditDone}
       />
     </div>
   );
