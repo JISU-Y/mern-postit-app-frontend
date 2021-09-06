@@ -3,7 +3,7 @@ import Preloader from "./Preloader";
 import { FiBox } from "react-icons/fi";
 import TodoList from "./TodoList";
 import Modal from "./Modal";
-import { readPosts, createPost } from "../functions";
+import { readPosts, createPost, updatePost, deletePost } from "../functions";
 
 const TodoBoard = () => {
   const tag = "Default";
@@ -36,6 +36,7 @@ const TodoBoard = () => {
           };
 
     // setPost(currentPost);
+
     console.log(currentId);
     console.log(currentPost);
   }, [currentId]);
@@ -48,7 +49,7 @@ const TodoBoard = () => {
       setPosts(result);
     };
     fetchData();
-  }, []); // posts를 넣으면 300ms 마다 fetch함
+  }, [currentId]); // posts를 넣으면 실시간으로 rendering은 되는데 너무 자주 rendering 됨
 
   // post를 추가하기만 하는 것 (일단 내용(todos)은 없는 것으로 하기)
   const AddPostHandler = async () => {
@@ -77,36 +78,49 @@ const TodoBoard = () => {
   // };
 
   // post it (id 선택된) 에 todos (할일 배열) set 해주는
-  const setTodosHandler = (todos) => {
+  const setTodosHandler = async (todos) => {
     // id = _id / 나중에 tag 수정도 추가 / todos는 수정할 todo 배열
     if (currentId === 0) return;
 
     // 기존의 post들을 map loop 돌려서 그 중에 찾고자 하는 id와 같은 post를 찾아서
     // post를 newPost로 교체한다 / 아니면 그냥 그대로
-    setPosts((items) =>
-      items.map((item) =>
-        item._id === currentId ? { ...item, todos: todos } : item
-      )
-    );
     // newPost를 생성해서 덮어씌우면 부여받은 id가 없으니 당연히 안됐던거지
+    // setPosts((item) =>
+    //   item.map((itemInside) =>
+    //     itemInside._id === currentId
+    //       ? { ...itemInside, todos: todos }
+    //       : itemInside
+    //   )
+    // );
 
+    // 이렇게 해도 바로 update가 안되네
+    let copiedPosts = posts.map((item) => {
+      if (item._id === currentId) {
+        item = { ...item, todos: todos };
+      }
+      return item;
+    });
+    setPosts(copiedPosts);
+    console.log(copiedPosts);
+
+    // edit done을 누를때만 update하면 todos를 생성하는 도중에 id가 없어서 remove/update 안됨
+    // 근데 문제는 post set이 늦게되는 것 같음
+    await updatePost(
+      currentId,
+      posts.find((post) => post._id === currentId)
+    );
     console.log(posts);
   };
 
-  // post it에 todos 업데이트
-
   // PostIt 삭제
-  // const removePostit = (id) => {
-  //   // source post는 remove 하지 않음
-  //   if (id === 0) return;
+  const removePostHandler = async (id) => {
+    if (id === 0) return;
 
-  //   const removedPost = [...todoLists].filter((todoList) => todoList.id !== id);
+    await deletePost(id);
 
-  //   // 지우면 해당 포스트잇이 지워지기는 하는데
-  //   // 지워진 포스트잇의 자리를 다음 포스트잇들이 뺏어서 채움
-
-  //   setTodoLists(removedPost);
-  // };
+    const removedPost = [...posts].filter((item) => item.id !== id);
+    setPosts(removedPost);
+  };
 
   // Drag and Drop 구현
 
@@ -193,14 +207,13 @@ const TodoBoard = () => {
           return (
             <TodoList
               key={post._id}
-              // addPostit={addPostit}
-              // removePostit={removePostit}
               posts={posts}
               post={post}
               setPost={setPost}
               setTodosHandler={setTodosHandler}
               handlePostIndex={handlePostIndex}
               AddPostHandler={AddPostHandler}
+              removePostHandler={removePostHandler}
               currentId={currentId}
               setCurrentId={setCurrentId}
             />

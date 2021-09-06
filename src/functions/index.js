@@ -26,3 +26,11 @@ export const updatePost = async (id, post) => {
     console.log(error);
   }
 };
+
+export const deletePost = async (id) => {
+  try {
+    await api.deletePost(id);
+  } catch (error) {
+    console.log(error);
+  }
+};

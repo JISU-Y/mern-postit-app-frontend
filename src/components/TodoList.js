@@ -6,18 +6,17 @@ import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
 import { TiEdit } from "react-icons/ti";
 import { MdDone } from "react-icons/md";
 import { ImCross } from "react-icons/im";
-import { updatePost } from "../functions";
+import { readPosts, updatePost } from "../functions";
 
 //todoList 는 TodoBoard에서 가져온 todos의 배열 중 배열 한 개씩
 const TodoList = ({
   posts,
   post,
-  addPostit,
-  removePostit,
   setTodosHandler,
   handlePostIndex,
   setPost,
   AddPostHandler,
+  removePostHandler,
   currentId,
   setCurrentId,
 }) => {
@@ -41,12 +40,12 @@ const TodoList = ({
     // 새 todo와 기존의 todos 배열을 합침 (할일 리스트를 배열로 모음)
     const newTodos = [todo, ...todos];
 
-    // 배열로 모은 todos를 Todos로 set함
-    setTodos(newTodos);
-
     console.log(newTodos);
 
     console.log(currentId);
+
+    // 배열로 모은 todos를 Todos로 set함
+    setTodos(newTodos);
     // post set // 최신 newTodos로 todos 설정
     // 이제는 todo를 추가하는거에도 하나하나 id를 달아주어야함
     // 맨 처음부터 post를 생성하고 그 안에서 수정을 하는 것이기 때문에
@@ -104,12 +103,12 @@ const TodoList = ({
     setIsEdit(false);
   };
 
-  const handleAddPost = () => {
-    addPostit(todos);
+  // const handleAddPost = () => {
+  //   addPostit(todos);
 
-    // todos 초기화
-    setTodos([]);
-  };
+  //   // todos 초기화
+  //   setTodos([]);
+  // };
 
   const handleEditPost = (e) => {
     setIsEdit(true); // edit 상태로 변경
@@ -117,8 +116,6 @@ const TodoList = ({
     handlePostIndex(e); // postIndex 맞추기
 
     setCurrentId(post._id); // 선택한 post의 id set
-
-    // setTodos(post.todos);
   };
 
   // esc 눌러서 불러왔던 post 선택을 무른다
@@ -135,6 +132,8 @@ const TodoList = ({
   const clear = () => {
     setCurrentId(0);
     setIsEdit(false);
+    console.log("clear");
+    // edit 상태였다가 다른 곳을 클릭했을 때 edit false로 되어야 하니까
   };
 
   // const handleEditDone = () => {
@@ -258,7 +257,13 @@ const TodoList = ({
         isEdit={isEdit}
         post={post}
       />
-      <FiPlusCircle className="plus-icon" onClick={AddPostHandler} />
+      <FiPlusCircle
+        className="plus-icon"
+        onClick={() => {
+          clear(); // + 눌렀을 때는 edit 상태로 넘어가지 않도록
+          AddPostHandler();
+        }}
+      />
       <FiMinusCircle className="minus-icon" onClick={openRemoveModal} />
       {isEdit && <MdDone className="done-icon" onClick={openEditDoneModal} />}
       {/* {isEdit ? (
@@ -274,7 +279,14 @@ const TodoList = ({
             left: anchorPoint.x,
           }}
         >
-          <li onClick={handleAddPost}>add</li>
+          <li
+            onClick={() => {
+              clear();
+              AddPostHandler();
+            }}
+          >
+            add
+          </li>
           <li onClick={handleEditPost}>edit</li>
           {isEdit && <li onClick={openEditDoneModal}>edit done</li>}
           <li onClick={openRemoveModal}>delete</li>
@@ -287,8 +299,9 @@ const TodoList = ({
         modalType={modalType}
         close={closeModal}
         post={post}
-        removePostit={removePostit}
+        removePostHandler={removePostHandler}
         handleEditDone={handleEditDone}
+        clear={clear}
       />
     </div>
   );

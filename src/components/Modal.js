@@ -1,6 +1,13 @@
 import React from "react";
 
-const modal = ({ modalType, close, post, removePostit, handleEditDone }) => {
+const modal = ({
+  modalType,
+  close,
+  post,
+  removePostHandler,
+  handleEditDone,
+  clear,
+}) => {
   return (
     <div className={modalType.open ? "modal open" : "modal"} onClick={close}>
       {modalType.open ? (
@@ -17,7 +24,8 @@ const modal = ({ modalType, close, post, removePostit, handleEditDone }) => {
               className="close"
               onClick={() => {
                 if (modalType.type === "remove") {
-                  removePostit(post.id);
+                  removePostHandler(post._id);
+                  clear();
                 } else if (modalType.type === "editDone") {
                   handleEditDone();
                 } else if (modalType.type === "warning") {
