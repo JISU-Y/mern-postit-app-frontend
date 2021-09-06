@@ -14,7 +14,7 @@ const TodoList = ({
   post,
   addPostit,
   removePostit,
-  addTodos,
+  setTodosHandler,
   handlePostIndex,
   setPost,
   AddPostHandler,
@@ -50,27 +50,51 @@ const TodoList = ({
     // post set // 최신 newTodos로 todos 설정
     // 이제는 todo를 추가하는거에도 하나하나 id를 달아주어야함
     // 맨 처음부터 post를 생성하고 그 안에서 수정을 하는 것이기 때문에
-    addTodos(newTodos);
+    setTodosHandler(newTodos);
   };
 
   const removeTodo = (id) => {
     console.log(id);
     const removeArr = [...todos].filter((todo) => todo._id !== id);
     setTodos(removeArr);
-    addTodos(removeArr);
+    setTodosHandler(removeArr);
   };
 
-  const completeTodo = (id) => {
+  const updateTodo = (todoId, newValue) => {
+    // edit 끝낸 todo value가 빈 String인지 확인
+    if (!newValue.todoText || /^\s*$/.test(newValue.todoText)) {
+      return;
+    }
+
     let updatedTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        todo.isComplete = !todo.isComplete;
+      if (todo._id === todoId) {
+        todo = {
+          ...todo,
+          todoText: newValue.todoText,
+          todoDone: newValue.todoDone,
+        };
+      }
+
+      return todo;
+    });
+
+    setTodos(updatedTodos);
+    setTodosHandler(updatedTodos);
+  };
+
+  const completeTodo = (todoId) => {
+    let updatedTodos = todos.map((todo) => {
+      if (todo._id === todoId) {
+        todo.todoDone = !todo.todoDone;
       }
 
       return todo;
     });
     setTodos(updatedTodos);
+    setTodosHandler(updatedTodos);
   };
 
+  // post edit done
   const handleEditDone = async () => {
     console.log(posts.find((post) => post._id === currentId));
     await updatePost(
@@ -78,16 +102,6 @@ const TodoList = ({
       posts.find((post) => post._id === currentId)
     );
     setIsEdit(false);
-  };
-
-  const updateTodo = (todoId, newValue) => {
-    if (!newValue.text || /^\s*$/.test(newValue.text)) {
-      return;
-    }
-
-    setTodos((prev) =>
-      prev.map((item) => (item.id === todoId ? newValue : item))
-    );
   };
 
   const handleAddPost = () => {

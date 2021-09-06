@@ -11,23 +11,29 @@ const Todo = ({
   isEdit,
   post,
 }) => {
+  const [currTodoId, setCurrTodoId] = useState(0);
   const [edit, setEdit] = useState({
-    todoText: "",
+    todoText: null,
     todoDone: false,
   });
 
   const submitUpdate = (value) => {
-    // updateTodo(edit.id, value); // edit 하려는 post의 id와 value를 넘겨줘야함
+    updateTodo(currTodoId, value); // edit 하려는 post의 id와 value를 넘겨줘야함
     setEdit({
-      todoText: "",
+      todoText: null,
       todoDone: false,
     });
   };
 
+  //todoText가 원래 null인데 setEdit해서 뭐라도 들어가면 그때 TodoForm 열음
+  if (edit.todoText) {
+    return <TodoForm edit={edit} onSubmit={submitUpdate} />;
+  }
+
   return todos.map((todo, index) => {
     return (
       <div
-        className={todo.isComplete ? "todo-row complete" : "todo-row"}
+        className={todo.todoDone ? "todo-row complete" : "todo-row"}
         key={index}
       >
         <div key={todo._id} onClick={() => completeTodo(todo._id)}>
@@ -39,12 +45,13 @@ const Todo = ({
             className="delete-icon"
           />
           <RiEdit2Fill
-            onClick={() =>
+            onClick={() => {
+              setCurrTodoId(todo._id);
               setEdit({
                 todoText: todo.todoText,
                 todoDone: false,
-              })
-            }
+              });
+            }}
             className="edit-icon"
           />
         </div>

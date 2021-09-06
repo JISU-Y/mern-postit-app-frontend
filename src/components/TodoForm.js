@@ -2,10 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 
 // todo form
 const TodoForm = (props) => {
-  const [postTodo, setPostTodo] = useState({
-    todoText: "",
-    todoDone: false,
-  });
+  const [postTodo, setPostTodo] = useState(
+    props.edit
+      ? props.edit
+      : {
+          todoText: "",
+          todoDone: false,
+        }
+  );
 
   const inputRef = useRef(null);
 

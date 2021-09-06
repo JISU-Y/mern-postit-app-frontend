@@ -76,8 +76,8 @@ const TodoBoard = () => {
   //   console.log(newPosts);
   // };
 
-  // post it (id 선택된) 에 todos (할일 배열) 추가
-  const addTodos = (todos) => {
+  // post it (id 선택된) 에 todos (할일 배열) set 해주는
+  const setTodosHandler = (todos) => {
     // id = _id / 나중에 tag 수정도 추가 / todos는 수정할 todo 배열
     if (currentId === 0) return;
 
@@ -198,7 +198,7 @@ const TodoBoard = () => {
               posts={posts}
               post={post}
               setPost={setPost}
-              addTodos={addTodos}
+              setTodosHandler={setTodosHandler}
               handlePostIndex={handlePostIndex}
               AddPostHandler={AddPostHandler}
               currentId={currentId}
