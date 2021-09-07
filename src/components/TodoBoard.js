@@ -12,6 +12,7 @@ const TodoBoard = () => {
   const [post, setPost] = useState({
     tag: tag,
     todos: [],
+    position: { x: null, y: null },
   });
   // posts (post의 배열)
   const [posts, setPosts] = useState([]);
@@ -33,6 +34,7 @@ const TodoBoard = () => {
         : {
             tag: tag,
             todos: [],
+            position: { x: null, y: null },
           };
 
     // setPost(currentPost);
@@ -50,6 +52,20 @@ const TodoBoard = () => {
     };
     fetchData();
   }, [currentId]); // posts를 넣으면 실시간으로 rendering은 되는데 너무 자주 rendering 됨
+
+  useEffect(() => {
+    console.log(document.getElementsByClassName("todo-app"));
+
+    const allPosts = [...document.getElementsByClassName("todo-app")].filter(
+      (post) => post.className === "todo-app"
+    ); // todo app 만 걸러냄(children에서 modal은 뺌)
+    allPosts.map((eachpost, index) => {
+      console.log([...posts]);
+      eachpost.style.left = `${[...posts][index].position.x}`;
+      eachpost.style.top = `${[...posts][index].position.y}`;
+      return eachpost;
+    });
+  }, [posts]);
 
   // post를 추가하기만 하는 것 (일단 내용(todos)은 없는 것으로 하기)
   const AddPostHandler = async () => {
@@ -105,6 +121,25 @@ const TodoBoard = () => {
 
     // edit done을 누를때만 update하면 todos를 생성하는 도중에 id가 없어서 remove/update 안됨
     // 근데 문제는 post set이 늦게되는 것 같음
+    await updatePost(
+      currentId,
+      posts.find((post) => post._id === currentId)
+    );
+    console.log(posts);
+  };
+
+  const setPositionHandler = async (position) => {
+    if (currentId === 0) return;
+
+    let copiedPosts = posts.map((item) => {
+      if (item._id === currentId) {
+        item = { ...item, position: position };
+      }
+      return item;
+    });
+    setPosts(copiedPosts);
+    console.log(position);
+
     await updatePost(
       currentId,
       posts.find((post) => post._id === currentId)
@@ -175,6 +210,8 @@ const TodoBoard = () => {
       e.target.style.left = `${oriPosition.x}px`;
       e.target.style.top = `${oriPosition.y}px`;
     }
+
+    setPositionHandler({ x: e.target.style.left, y: e.target.style.top });
   };
 
   const handlePostIndex = (e) => {
