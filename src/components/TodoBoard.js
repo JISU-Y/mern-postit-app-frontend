@@ -6,11 +6,11 @@ import Modal from "./Modal";
 import { readPosts, createPost, updatePost, deletePost } from "../functions";
 
 const TodoBoard = () => {
-  const tag = "Default";
+  // const tag = "Default";
   // post format
   // { tag: tag, todos: [ { todoText: "", todoDone: false}]}
   const [post, setPost] = useState({
-    tag: tag,
+    tag: [],
     todos: [],
     position: { x: null, y: null },
   });
@@ -32,7 +32,7 @@ const TodoBoard = () => {
       currentId !== 0
         ? posts.find((post) => post._id === currentId)
         : {
-            tag: tag,
+            tag: [],
             todos: [],
             position: { x: null, y: null },
           };
@@ -147,6 +147,25 @@ const TodoBoard = () => {
     console.log(posts);
   };
 
+  const setTagsHandler = async (tags) => {
+    if (currentId === 0) return;
+
+    let copiedPosts = posts.map((item) => {
+      if (item._id === currentId) {
+        item = { ...item, tag: tags };
+      }
+      return item;
+    });
+    setPosts(copiedPosts);
+    console.log(tags);
+
+    await updatePost(
+      currentId,
+      posts.find((post) => post._id === currentId)
+    );
+    console.log(posts);
+  };
+
   // PostIt 삭제
   const removePostHandler = async (id) => {
     if (id === 0) return;
@@ -253,6 +272,7 @@ const TodoBoard = () => {
               removePostHandler={removePostHandler}
               currentId={currentId}
               setCurrentId={setCurrentId}
+              setTagsHandler={setTagsHandler}
             />
           );
         })

@@ -7,6 +7,7 @@ import { TiEdit } from "react-icons/ti";
 import { MdDone } from "react-icons/md";
 import { ImCross } from "react-icons/im";
 import { readPosts, updatePost } from "../functions";
+import Tag from "./Tag";
 
 //todoList 는 TodoBoard에서 가져온 todos의 배열 중 배열 한 개씩
 const TodoList = ({
@@ -19,16 +20,19 @@ const TodoList = ({
   removePostHandler,
   currentId,
   setCurrentId,
+  setTagsHandler,
 }) => {
   // 여기서 따로 사용할 todo 배열
   // todos는 todo ({id:1,text:a}의 모음/배열)
   const [todos, setTodos] = useState(post.todos);
   const [isEdit, setIsEdit] = useState(false);
+  const [tags, setTags] = useState(post.tag);
 
   // 오른쪽 클릭 좌표
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
   // menu 보여주거나 말거나
   const [show, setShow] = useState(false);
+  const [showTags, setShowTags] = useState(false);
 
   const addTodo = (todo) => {
     // todo는 {todoText: postTodo.todoText, todoDone:false}
@@ -147,7 +151,10 @@ const TodoList = ({
   const handleContextMenu = useCallback(
     (e) => {
       e.preventDefault();
-      if (e.target.className !== "todo-app") {
+      if (
+        e.target.className !== "todo-app" &&
+        e.target.className !== "tag-container"
+      ) {
         setShow(false);
         return;
       }
@@ -156,14 +163,23 @@ const TodoList = ({
       const rectX = e.clientX - rect.left; // x position within the element.
       const rectY = e.clientY - rect.top; // y position within the element.
 
-      // setAnchorPoint({ x: e.pageX, y: e.pageY });
       setAnchorPoint({ x: rectX, y: rectY });
-      setShow(true);
+      if (e.target.className === "todo-app") {
+        setShow(true);
+      }
+      if (e.target.className === "tag-container") {
+        console.log("tag-container");
+        setShowTags(true);
+      }
     },
-    [setAnchorPoint, setShow]
+    [setAnchorPoint, setShow, setShowTags]
   );
 
-  const handleClick = useCallback(() => (show ? setShow(false) : null), [show]);
+  const handleClick = useCallback(() => {
+    setShow(() => (show ? false : null));
+    // (show ? setShow(false) : null)
+    setShowTags(() => (showTags ? false : null));
+  }, [show, showTags]);
 
   const todoAppRef = useRef(null);
 
@@ -236,12 +252,33 @@ const TodoList = ({
     setModalType(false, "", "");
   };
 
+  const handleTags = (tagName) => {
+    console.log(tagName);
+    console.log(tags);
+    if (tags.includes(tagName)) return;
+    setTags([...tags, tagName]);
+
+    // setTagsHandler(tags);
+    console.log(tags);
+  };
+
   return (
     <div
       className="todo-app"
       ref={todoAppRef}
       onClick={(e) => handleEditPost(e)}
     >
+      {/* tag */}
+      <div className="tag-container" onClick={() => console.log("tag")}>
+        {post.tag.length > 0 ? (
+          post.tag.map((tag, index) => {
+            return <Tag key={index} tag={tag} />;
+          })
+        ) : (
+          <h3>add tags</h3>
+        )}
+      </div>
+
       <TodoForm
         onSubmit={addTodo}
         openNoInputModal={openNoInputModal}
@@ -257,6 +294,7 @@ const TodoList = ({
         isEdit={isEdit}
         post={post}
       />
+      {/* 여기에 setting area 만들고 안에 - + 시간까지 */}
       <FiPlusCircle
         className="plus-icon"
         onClick={() => {
@@ -271,6 +309,7 @@ const TodoList = ({
       ) : (
         <TiEdit className="edit-icon postit" onClick={handleEditPost} />
       )} */}
+      {/* post context menu */}
       {show ? (
         <ul
           className="menu"
@@ -292,6 +331,48 @@ const TodoList = ({
           <li onClick={openRemoveModal}>delete</li>
           <li onClick={changeColor}>changing color</li>
           <hr className="divider" />
+          <li onClick={handleClick}>Exit</li>
+        </ul>
+      ) : null}
+      {/* tag context menu */}
+      {showTags ? (
+        <ul
+          className="menu"
+          style={{
+            top: anchorPoint.y,
+            left: anchorPoint.x,
+          }}
+        >
+          <li
+            onClick={() => {
+              handleTags("Default");
+            }}
+          >
+            Default
+          </li>
+          <li
+            onClick={() => {
+              handleTags("Important");
+            }}
+          >
+            Important
+          </li>
+          <li
+            onClick={() => {
+              handleTags("Today");
+            }}
+          >
+            Today's to do
+          </li>
+          <li
+            onClick={() => {
+              handleTags("To buy");
+            }}
+          >
+            Need to buy
+          </li>
+          <hr className="divider" />
+          <li onClick={() => setTagsHandler(tags)}>Set Tags</li>
           <li onClick={handleClick}>Exit</li>
         </ul>
       ) : null}

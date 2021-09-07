@@ -82,6 +82,25 @@ body {
   position: absolute;
 } */
 
+.tag-container {
+  /* backgroud transparent로 */
+  background-color: blueviolet;
+  display: flex;
+}
+
+.tag-container .post-tag {
+  background-color: cyan;
+  width: max-content;
+  margin: 5px 10px;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.tag-container .post-tag .rm-tag-btn {
+  cursor: pointer;
+}
+
 .plus-icon {
   position: absolute;
   bottom: 8px;

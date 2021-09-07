@@ -44,7 +44,6 @@ const TodoForm = (props) => {
 
   return (
     <form className="todo-form" onSubmit={handleSubmit}>
-      <pre>{JSON.stringify(postTodo)}</pre>
       {props.edit ? (
         <>
           <input
