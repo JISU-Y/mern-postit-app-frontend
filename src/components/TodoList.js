@@ -252,16 +252,27 @@ const TodoList = ({
     setModalType(false, "", "");
   };
 
-  const handleTags = (tagName) => {
+  const handleAddTags = (tagName) => {
     console.log(tagName);
     console.log(tags);
     if (tags.includes(tagName)) return;
-    setTags([...tags, tagName]);
 
-    // setTagsHandler(tags);
+    const addedTags = [...tags, tagName];
+    setTags(addedTags);
+
+    setTagsHandler(tags);
     console.log(tags);
   };
 
+  const handleRemoveTags = (tagName) => {
+    console.log(tagName);
+    console.log(tags);
+    const removedTags = tags.filter((tag) => tag !== tagName);
+    setTags(removedTags);
+
+    setTagsHandler(removedTags);
+    console.log(tags);
+  };
   return (
     <div
       className="todo-app"
@@ -270,9 +281,12 @@ const TodoList = ({
     >
       {/* tag */}
       <div className="tag-container" onClick={() => console.log("tag")}>
-        {post.tag.length > 0 ? (
-          post.tag.map((tag, index) => {
-            return <Tag key={index} tag={tag} />;
+        {/* post.tag = tags ??*/}
+        {tags.length > 0 ? (
+          tags.map((tag, index) => {
+            return (
+              <Tag key={index} tag={tag} handleRemoveTags={handleRemoveTags} />
+            );
           })
         ) : (
           <h3>add tags</h3>
@@ -345,28 +359,28 @@ const TodoList = ({
         >
           <li
             onClick={() => {
-              handleTags("Default");
+              handleAddTags("Default");
             }}
           >
             Default
           </li>
           <li
             onClick={() => {
-              handleTags("Important");
+              handleAddTags("Important");
             }}
           >
             Important
           </li>
           <li
             onClick={() => {
-              handleTags("Today");
+              handleAddTags("Today");
             }}
           >
             Today's to do
           </li>
           <li
             onClick={() => {
-              handleTags("To buy");
+              handleAddTags("To buy");
             }}
           >
             Need to buy
