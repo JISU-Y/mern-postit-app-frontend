@@ -1,12 +1,16 @@
 import React from "react";
+import { RiCloseCircleLine } from "react-icons/ri";
 
 const Tag = ({ tag, handleRemoveTags }) => {
   return (
     <div className="post-tag">
       <p>{tag}</p>
-      <button className="rm-tag-btn btn" onClick={() => handleRemoveTags(tag)}>
+      <RiCloseCircleLine
+        className="rm-tag-btn btn"
+        onClick={() => handleRemoveTags(tag)}
+      >
         X
-      </button>
+      </RiCloseCircleLine>
     </div>
   );
 };

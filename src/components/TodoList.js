@@ -27,6 +27,7 @@ const TodoList = ({
   const [todos, setTodos] = useState(post.todos);
   const [isEdit, setIsEdit] = useState(false);
   const [tags, setTags] = useState(post.tag);
+  const [isUpdated, setIsUpdated] = useState(post.createdAt !== post.updatedAt);
 
   // 오른쪽 클릭 좌표
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
@@ -120,6 +121,8 @@ const TodoList = ({
     handlePostIndex(e); // postIndex 맞추기
 
     setCurrentId(post._id); // 선택한 post의 id set
+
+    console.log(post.createdAt);
   };
 
   // esc 눌러서 불러왔던 post 선택을 무른다
@@ -260,6 +263,8 @@ const TodoList = ({
     const addedTags = [...tags, tagName];
     setTags(addedTags);
 
+    // remove는 바로바로 적용이 되는데 왜 add는 바로바로 적용이 안되지?
+    // 지금은 setTagHandler 따로 해주어야지 됨
     setTagsHandler(tags);
     console.log(tags);
   };
@@ -308,21 +313,23 @@ const TodoList = ({
         isEdit={isEdit}
         post={post}
       />
-      {/* 여기에 setting area 만들고 안에 - + 시간까지 */}
-      <FiPlusCircle
-        className="plus-icon"
-        onClick={() => {
-          clear(); // + 눌렀을 때는 edit 상태로 넘어가지 않도록
-          AddPostHandler();
-        }}
-      />
-      <FiMinusCircle className="minus-icon" onClick={openRemoveModal} />
-      {isEdit && <MdDone className="done-icon" onClick={openEditDoneModal} />}
-      {/* {isEdit ? (
-        <MdDone className="done-icon" onClick={openEditDoneModal} />
-      ) : (
-        <TiEdit className="edit-icon postit" onClick={handleEditPost} />
-      )} */}
+      {/* setting area */}
+      <div className="setting-container">
+        {isUpdated ? <p>{post.updatedAt}(수정됨)</p> : <p>{post.createdAt}</p>}
+        <div className="icons-container">
+          <FiMinusCircle className="minus-icon" onClick={openRemoveModal} />
+          {isEdit && (
+            <MdDone className="done-icon" onClick={openEditDoneModal} />
+          )}
+          <FiPlusCircle
+            className="plus-icon"
+            onClick={() => {
+              clear(); // + 눌렀을 때는 edit 상태로 넘어가지 않도록
+              AddPostHandler();
+            }}
+          />
+        </div>
+      </div>
       {/* post context menu */}
       {show ? (
         <ul

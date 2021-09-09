@@ -46,12 +46,10 @@ body {
   justify-content: start;
   width: 300px;
   min-height: 300px;
-  /* background: #161a2b; */
   background: #ffd20c;
   text-align: center;
-  /* margin: 15px; */
   border-radius: 10px;
-  padding-bottom: 32px;
+  padding-bottom: 55px;
   position: absolute;
   top: 0;
   left: 0;
@@ -86,55 +84,27 @@ body {
   /* backgroud transparent로 */
   background-color: blueviolet;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .tag-container .post-tag {
   background-color: cyan;
-  width: max-content;
-  margin: 5px 10px;
+  width: fit-content;
+  margin: 5px 0 5px 10px;
   padding: 3px 10px;
   border-radius: 10px;
   font-size: 13px;
+  display: flex;
+}
+
+.tag-container .post-tag p {
+  word-break: keep-all;
 }
 
 .tag-container .post-tag .rm-tag-btn {
   cursor: pointer;
-}
-
-.plus-icon {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  font-size: 25px;
-  color: #fff;
-  cursor: pointer;
-}
-
-.minus-icon {
-  position: absolute;
-  bottom: 8px;
-  left: 8px;
-  font-size: 25px;
-  color: #fff;
-  cursor: pointer;
-}
-
-.edit-icon.postit {
-  position: absolute;
-  bottom: 8px;
-  left: 50px;
-  font-size: 25px;
-  color: #fff;
-  cursor: pointer;
-}
-
-.done-icon {
-  position: absolute;
-  bottom: 8px;
-  left: 80px;
-  font-size: 25px;
-  color: #fff;
-  cursor: pointer;
+  font-size: 17px;
+  margin-left: 5px;
 }
 
 h1 {
@@ -206,7 +176,6 @@ h1 {
 .todo-container {
   display: flex;
   flex-direction: row;
-  position: relative;
 }
 
 .todo-row {
@@ -263,6 +232,39 @@ h1 {
 
 .edit-icon {
   color: #fff;
+}
+
+/* setting container */
+.todo-app .setting-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  position: absolute;
+  bottom: 0;
+  padding-bottom: 10px;
+}
+
+.todo-app .setting-container p {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: rgba(170, 170, 170, 0.6);
+}
+
+.todo-app .setting-container .icons-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.setting-container .icons-container .plus-icon,
+.setting-container .icons-container .minus-icon,
+.setting-container .icons-container .edit-icon,
+.setting-container .icons-container .done-icon {
+  font-size: 25px;
+  color: #fff;
+  cursor: pointer;
 }
 
 .menu {
