@@ -67,28 +67,27 @@ body {
 노란색 ffd20c
 */
 
-/* editing block */
-/* .edit-block {
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  width: 100%;
-  min-height: 100%;
-  background: #aaa;
-  text-align: center;
-  border-radius: 10px;
-  position: absolute;
-} */
-
 .tag-container {
-  /* backgroud transparent로 */
-  background-color: blueviolet;
+  width: 100%;
+  min-height: 23px;
+  background-color: transparent;
   display: flex;
   flex-wrap: wrap;
+  position: relative;
+}
+
+.tag-container .no-tag {
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: rgba(170, 170, 170, 0.6);
+  margin: 7px 12px 0 0;
+  position: absolute;
+  right: 0;
+  pointer-events: none;
 }
 
 .tag-container .post-tag {
-  background-color: cyan;
+  background-color: lawngreen;
   width: fit-content;
   margin: 5px 0 5px 10px;
   padding: 3px 10px;

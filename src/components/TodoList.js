@@ -171,7 +171,6 @@ const TodoList = ({
         setShow(true);
       }
       if (e.target.className === "tag-container") {
-        console.log("tag-container");
         setShowTags(true);
       }
     },
@@ -294,7 +293,7 @@ const TodoList = ({
             );
           })
         ) : (
-          <h3>add tags</h3>
+          <p className="no-tag">right click to add tags</p>
         )}
       </div>
 
@@ -351,6 +350,12 @@ const TodoList = ({
           {isEdit && <li onClick={openEditDoneModal}>edit done</li>}
           <li onClick={openRemoveModal}>delete</li>
           <li onClick={changeColor}>changing color</li>
+          <li
+            onMouseEnter={() => setShowTags(true)}
+            onmouseleave={() => setShowTags(false)}
+          >
+            add tags
+          </li>
           <hr className="divider" />
           <li onClick={handleClick}>Exit</li>
         </ul>
