@@ -280,7 +280,9 @@ const TodoBoard = () => {
         // <h2>nothing else to do</h2>
         // 하고 빈 post 하나는 남겨둬야 하지 않을까
         // 아니면 버튼을 생성해서 빈 post를 하나 생성?
-        <button onClick={AddPostHandler}>start postiting</button>
+        <button className="start-post-btn" onClick={AddPostHandler}>
+          start posting
+        </button>
       )}
     </div>
   );

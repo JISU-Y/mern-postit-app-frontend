@@ -371,17 +371,17 @@ const TodoList = ({
         >
           <li
             onClick={() => {
-              handleAddTags("Default");
+              handleAddTags("Later");
             }}
           >
-            Default
+            Later to do
           </li>
           <li
             onClick={() => {
               handleAddTags("Important");
             }}
           >
-            Important
+            Important to do
           </li>
           <li
             onClick={() => {

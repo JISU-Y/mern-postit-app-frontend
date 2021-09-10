@@ -33,10 +33,27 @@ body {
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   display: flex;
-  flex-wrap: wrap;
   position: relative;
+  justify-content: center;
+  align-items: center;
   /* border: 20px solid #cd6133; */
   /* overflow 안에 element 밖으로 나가도 됨 */
+}
+
+.todo-board .start-post-btn {
+  width: 125px;
+  height: 50px;
+  background-color: #ffd20c;
+  border: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+}
+.todo-board .start-post-btn:active {
+  transform: scale(0.98);
 }
 
 /* post it 하나 */
@@ -94,6 +111,19 @@ body {
   border-radius: 10px;
   font-size: 13px;
   display: flex;
+}
+
+.tag-container .post-tag.Later {
+  background-color: lawngreen;
+}
+.tag-container .post-tag.Important {
+  background-color: firebrick;
+}
+.tag-container .post-tag.Today {
+  background-color: hotpink;
+}
+.tag-container .post-tag.To.buy {
+  background-color: slategray;
 }
 
 .tag-container .post-tag p {
