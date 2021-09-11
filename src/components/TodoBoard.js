@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import Preloader from "./Preloader";
 import { FiBox } from "react-icons/fi";
 import TodoList from "./TodoList";
 import Modal from "./Modal";
-import { readPosts, createPost, updatePost, deletePost } from "../functions";
+import { getPosts, createPost, updatePost, deletePost } from "../functions";
 
-const TodoBoard = () => {
+const TodoBoard = ({ currentId, setCurrentId }) => {
+  // getPosts로 가져옴 (App.js 에서)
+  const postits = useSelector((state) => state.posts);
+  const dispatch = useDispatch();
+
   // const tag = "Default";
   // post format
   // { tag: tag, todos: [ { todoText: "", todoDone: false}]}
@@ -16,7 +22,6 @@ const TodoBoard = () => {
   });
   // posts (post의 배열)
   const [posts, setPosts] = useState([]);
-  const [currentId, setCurrentId] = useState(0);
 
   // 드랍할 영역이 위치한 컴포넌트
   const postBoard = useRef(null);
@@ -37,7 +42,7 @@ const TodoBoard = () => {
             position: { x: null, y: null },
           };
 
-    // setPost(currentPost);
+    setPost(currentPost);
 
     console.log(currentId);
     console.log(currentPost);
@@ -45,13 +50,11 @@ const TodoBoard = () => {
 
   // fetchData (posts)
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await readPosts(); // post들 가져오기
-      console.log(result);
-      setPosts(result);
+    const fetchData = () => {
+      setPosts(postits); // App js에서 getPosts로 가져온 postits를 set해줌
     };
     fetchData();
-  }, [currentId]); // posts를 넣으면 실시간으로 rendering은 되는데 너무 자주 rendering 됨
+  }, [dispatch, postits, currentId]); // posts를 넣으면 실시간으로 rendering은 되는데 너무 자주 rendering 됨
 
   useEffect(() => {
     console.log(document.getElementsByClassName("todo-app"));
@@ -60,38 +63,26 @@ const TodoBoard = () => {
       (post) => post.className === "todo-app"
     ); // todo app 만 걸러냄(children에서 modal은 뺌)
     allPosts.map((eachpost, index) => {
-      console.log([...posts]);
       eachpost.style.left = `${[...posts][index].position.x}`;
       eachpost.style.top = `${[...posts][index].position.y}`;
       return eachpost;
     });
+
+    setPosts(posts);
   }, [posts]);
 
   // post를 추가하기만 하는 것 (일단 내용(todos)은 없는 것으로 하기)
+  // add post 를 누르면 <Form />를 띄우는 것으로 하는 게 맞을 것 같은데
+  // 지금 이런식으로 하면 무조건 create 먼저하고 다음에 수정하는 걸로 해야하는 건데
   const AddPostHandler = async () => {
     // e.preventDefault(); // 하니까 안됨
 
-    const result = await createPost(post);
-    setPosts([...posts, result]);
-    console.log(result);
+    dispatch(createPost(post)); // 따로 setPost를 안해줘도 되는 건가..
+
+    // const result = await createPost(post);
+    // setPosts([...posts, result]);
+    // console.log(result);
   };
-
-  // post it 추가
-  // const addPostit = (todos) => {
-  //   // todos는 [ {id:1234, text: input}, {id:1234, text: input}, {id:1234, text: input}, ... ,{} ]
-  //   // 추가했던 to do 들 저장하여 todoLists에 옮긴다
-
-  //   // { id: null, todos: [] } 이거 하나 -> 이것의 배열의 위에 있는 todoLists
-
-  //   const newPost = {
-  //     tag: tag,
-  //     todos: todos,
-  //   };
-
-  //   const newPosts = [...posts, newPost];
-  //   setPosts(newPosts);
-  //   console.log(newPosts);
-  // };
 
   // post it (id 선택된) 에 todos (할일 배열) set 해주는
   const setTodosHandler = async (todos) => {
@@ -119,13 +110,19 @@ const TodoBoard = () => {
     setPosts(copiedPosts);
     console.log(copiedPosts);
 
+    dispatch(
+      updatePost(
+        currentId,
+        posts.find((post) => post._id === currentId)
+      )
+    );
     // edit done을 누를때만 update하면 todos를 생성하는 도중에 id가 없어서 remove/update 안됨
     // 근데 문제는 post set이 늦게되는 것 같음
-    await updatePost(
-      currentId,
-      posts.find((post) => post._id === currentId)
-    );
-    console.log(posts);
+    // await updatePost(
+    //   currentId,
+    //   posts.find((post) => post._id === currentId)
+    // );
+    // console.log(posts);
   };
 
   const setPositionHandler = async (position) => {
@@ -140,11 +137,11 @@ const TodoBoard = () => {
     setPosts(copiedPosts);
     console.log(position);
 
-    await updatePost(
-      currentId,
-      posts.find((post) => post._id === currentId)
-    );
-    console.log(posts);
+    // await updatePost(
+    //   currentId,
+    //   posts.find((post) => post._id === currentId)
+    // );
+    // console.log(posts);
   };
 
   const setTagsHandler = async (tags) => {
@@ -159,11 +156,11 @@ const TodoBoard = () => {
     setPosts(copiedPosts);
     console.log(tags);
 
-    await updatePost(
-      currentId,
-      posts.find((post) => post._id === currentId)
-    );
-    console.log(posts);
+    // await updatePost(
+    //   currentId,
+    //   posts.find((post) => post._id === currentId)
+    // );
+    // console.log(posts);
   };
 
   // PostIt 삭제

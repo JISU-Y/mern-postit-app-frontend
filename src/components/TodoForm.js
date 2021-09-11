@@ -43,7 +43,7 @@ const TodoForm = (props) => {
   };
 
   return (
-    <form className="todo-form" onSubmit={handleSubmit}>
+    <form autoComplete="off" className="todo-form" onSubmit={handleSubmit}>
       {props.edit ? (
         <>
           <input

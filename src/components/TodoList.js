@@ -1,4 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { Typography } from "@material-ui/core";
+import moment from "moment";
+
 import Todo from "./Todo";
 import TodoForm from "./TodoForm";
 import Modal from "./Modal";
@@ -6,7 +10,7 @@ import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
 import { TiEdit } from "react-icons/ti";
 import { MdDone } from "react-icons/md";
 import { ImCross } from "react-icons/im";
-import { readPosts, updatePost } from "../functions";
+import { updatePost } from "../functions";
 import Tag from "./Tag";
 
 //todoList 는 TodoBoard에서 가져온 todos의 배열 중 배열 한 개씩
@@ -22,12 +26,13 @@ const TodoList = ({
   setCurrentId,
   setTagsHandler,
 }) => {
+  const dispatch = useDispatch();
   // 여기서 따로 사용할 todo 배열
   // todos는 todo ({id:1,text:a}의 모음/배열)
   const [todos, setTodos] = useState(post.todos);
-  const [isEdit, setIsEdit] = useState(false);
   const [tags, setTags] = useState(post.tag);
   const [isUpdated, setIsUpdated] = useState(post.createdAt !== post.updatedAt);
+  const [isEdit, setIsEdit] = useState(false);
 
   // 오른쪽 클릭 좌표
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
@@ -95,34 +100,35 @@ const TodoList = ({
       return todo;
     });
     setTodos(updatedTodos);
+    console.log(todos);
     setTodosHandler(updatedTodos);
   };
 
   // post edit done
-  const handleEditDone = async () => {
+  const handleEditDone = () => {
+    console.log(posts);
     console.log(posts.find((post) => post._id === currentId));
-    await updatePost(
-      currentId,
-      posts.find((post) => post._id === currentId)
+
+    console.log("edit done");
+    dispatch(
+      updatePost(
+        currentId,
+        posts.find((post) => post._id === currentId)
+      )
     );
-    setIsEdit(false);
+    clear();
   };
 
-  // const handleAddPost = () => {
-  //   addPostit(todos);
-
-  //   // todos 초기화
-  //   setTodos([]);
-  // };
-
   const handleEditPost = (e) => {
-    setIsEdit(true); // edit 상태로 변경
+    if (e.target.nodeName !== "DIV" && e.target.nodeName !== "INPUT") return;
 
     handlePostIndex(e); // postIndex 맞추기
 
     setCurrentId(post._id); // 선택한 post의 id set
 
-    console.log(post.createdAt);
+    setIsEdit(true); // edit 상태로 변경
+
+    console.log("edit post");
   };
 
   // esc 눌러서 불러왔던 post 선택을 무른다
@@ -132,23 +138,20 @@ const TodoList = ({
         clear();
       }
     };
+
     window.addEventListener("keydown", clearField);
-    return () => window.removeEventListener("keydown", clearField);
+    window.addEventListener("click", clearField);
+    return () => {
+      window.removeEventListener("keydown", clearField);
+      window.removeEventListener("click", clearField);
+    };
   }, []);
 
   const clear = () => {
     setCurrentId(0);
     setIsEdit(false);
     console.log("clear");
-    // edit 상태였다가 다른 곳을 클릭했을 때 edit false로 되어야 하니까
   };
-
-  // const handleEditDone = () => {
-  //   setIsEdit(false);
-  //   addTodos(todoList.id, todos);
-
-  //   setTodos([]); // edit done 하고 add post 하면 todos 그대로 복사해가므로 초기화
-  // };
 
   // 색 바꾸기 혹은 오른쪽 클릭 메뉴 생성
   const handleContextMenu = useCallback(
@@ -314,19 +317,16 @@ const TodoList = ({
       />
       {/* setting area */}
       <div className="setting-container">
-        {isUpdated ? <p>{post.updatedAt}(수정됨)</p> : <p>{post.createdAt}</p>}
+        <Typography varian="body2">
+          {moment(post.createdAt).fromNow()}
+        </Typography>
+        {/* {isUpdated ? <p>{post.updatedAt}(수정됨)</p> : <p>{post.createdAt}</p>} */}
         <div className="icons-container">
           <FiMinusCircle className="minus-icon" onClick={openRemoveModal} />
           {isEdit && (
             <MdDone className="done-icon" onClick={openEditDoneModal} />
           )}
-          <FiPlusCircle
-            className="plus-icon"
-            onClick={() => {
-              clear(); // + 눌렀을 때는 edit 상태로 넘어가지 않도록
-              AddPostHandler();
-            }}
-          />
+          <FiPlusCircle className="plus-icon" onClick={AddPostHandler} />
         </div>
       </div>
       {/* post context menu */}
@@ -352,7 +352,7 @@ const TodoList = ({
           <li onClick={changeColor}>changing color</li>
           <li
             onMouseEnter={() => setShowTags(true)}
-            onmouseleave={() => setShowTags(false)}
+            onMouseLeave={() => setShowTags(false)}
           >
             add tags
           </li>
