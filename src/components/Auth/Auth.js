@@ -15,17 +15,43 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import useStyles from "./sytles";
 import Input from "./Input";
 import Icon from "./Icon";
+import { signin, signup } from "../../functions/auth";
+
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 const Auth = () => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
+  const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    // react에서는 form submit할 때 무조건 해줘야 한다
+    e.preventDefault();
 
-  const handleChange = () => {};
+    // handleChange에서 set된 formData를
+    // signup인지 아닌지에 따라 dispatch로 동작 전달한다
+    if (isSignup) {
+      dispatch(signup(formData, history)); // history는 어떤 동작이 일어난 것을 전달???
+    } else {
+      dispatch(signin(formData, history));
+    }
+  };
+
+  const handleChange = (e) => {
+    // handlechange를 모든 form에서 사용하고 있음
+    // 그렇기 때문에, formData는 기존 데이터를 뿌리고
+    // 현재 수정하고 있는 요소만 변경해야함 => 각 요소들이 가지고 있는 name을 이용
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleShowPassword = () => setShowPassword((prev) => !prev); // showPassword toggling
 
