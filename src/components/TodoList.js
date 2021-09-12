@@ -14,6 +14,20 @@ import { ImCross } from "react-icons/im";
 import { updatePost } from "../functions";
 import Tag from "./Tag";
 
+// Blinking effect on edit / styled-components
+// => props 바깥에 해야 warning(The component styled.div with the id of  has been created dynamically.) 안 생김
+const blinkingEffect = () => {
+  return keyframes`
+      50% {
+        opacity: 0;
+      }
+    `;
+};
+
+const AnimatedComponent = styled.div`
+  animation: ${blinkingEffect} 1s linear infinite;
+`;
+
 //todoList 는 TodoBoard에서 가져온 todos의 배열 중 배열 한 개씩
 const TodoList = ({
   posts,
@@ -275,19 +289,6 @@ const TodoList = ({
   const closeModal = () => {
     setModalType(false, "", "");
   };
-
-  // Blinking effect on edit / styled-components
-  const blinkingEffect = () => {
-    return keyframes`
-      50% {
-        opacity: 0;
-      }
-    `;
-  };
-
-  const AnimatedComponent = styled.div`
-    animation: ${blinkingEffect} 1s linear infinite;
-  `;
 
   return (
     <div
