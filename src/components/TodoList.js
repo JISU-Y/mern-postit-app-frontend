@@ -41,6 +41,7 @@ const TodoList = ({
   const [show, setShow] = useState(false);
   const [showTags, setShowTags] = useState(false);
 
+  // Todos
   const addTodo = (todo) => {
     // todo는 {todoText: postTodo.todoText, todoDone:false}
     // 추가하려고 하는 todo의 todoText를 검사
@@ -102,6 +103,24 @@ const TodoList = ({
     });
     setTodos(updatedTodos);
     setTodosHandler(updatedTodos);
+  };
+
+  // Tags
+  const handleAddTags = (tagName) => {
+    console.log(tagName);
+    console.log(tags);
+    if (tags.includes(tagName)) return;
+
+    const addedTags = [...tags, tagName];
+    setTagsHandler(addedTags);
+  };
+
+  const handleRemoveTags = (tagName) => {
+    console.log(tagName);
+    console.log(tags);
+    const removedTags = tags.filter((tag) => tag !== tagName);
+
+    setTagsHandler(removedTags);
   };
 
   // post edit done
@@ -257,30 +276,6 @@ const TodoList = ({
     setModalType(false, "", "");
   };
 
-  const handleAddTags = (tagName) => {
-    console.log(tagName);
-    console.log(tags);
-    if (tags.includes(tagName)) return;
-
-    const addedTags = [...tags, tagName];
-    setTags(addedTags);
-
-    // remove는 바로바로 적용이 되는데 왜 add는 바로바로 적용이 안되지?
-    // 지금은 setTagHandler 따로 해주어야지 됨
-    setTagsHandler(tags);
-    console.log(tags);
-  };
-
-  const handleRemoveTags = (tagName) => {
-    console.log(tagName);
-    console.log(tags);
-    const removedTags = tags.filter((tag) => tag !== tagName);
-    setTags(removedTags);
-
-    setTagsHandler(removedTags);
-    console.log(tags);
-  };
-
   // Blinking effect on edit / styled-components
   const blinkingEffect = () => {
     return keyframes`
@@ -391,7 +386,7 @@ const TodoList = ({
             onMouseEnter={() => setShowTags(true)}
             onMouseLeave={() => setShowTags(false)}
           >
-            add tags
+            add tags (sub menu)
           </li>
           <hr className="divider" />
           <li onClick={handleClick}>Exit</li>
@@ -435,7 +430,6 @@ const TodoList = ({
             Need to buy
           </li>
           <hr className="divider" />
-          <li onClick={() => setTagsHandler(tags)}>Set Tags</li>
           <li onClick={handleClick}>Exit</li>
         </ul>
       ) : null}

@@ -136,13 +136,10 @@ const TodoBoard = ({ currentId, setCurrentId }) => {
   };
 
   // PostIt 삭제
-  const removePostHandler = async (id) => {
+  const removePostHandler = (id) => {
     if (id === 0) return;
 
-    await deletePost(id);
-
-    const removedPost = [...posts].filter((item) => item.id !== id);
-    setPosts(removedPost);
+    dispatch(deletePost(id));
   };
 
   // Drag and Drop 구현
