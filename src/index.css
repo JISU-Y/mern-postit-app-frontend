@@ -18,46 +18,6 @@ body {
   background-size: cover;
 }
 
-/* Navbar */
-/* .appBar {
-  borderRadius: 15,
-  margin: "30px 0",
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "space-between",
-  alignItems: "center",
-  padding: "10px 50px",
-}
-.heading {
-  color: "rgba(0,183,255, 1)",
-  textDecoration: "none",
-}
-.image {
-  marginLeft: "15px",
-}
-.toolbar {
-  display: "flex",
-  justifyContent: "flex-end",
-  width: "400px",
-}
-.profile {
-  display: "flex",
-  justify-content: "space-between",
-  width: "400px",
-},
-userName: {
-  display: "flex",
-  alignItems: "center",
-},
-brandContainer: {
-  display: "flex",
-  alignItems: "center",
-},
-purple: {
-  color: theme.palette.getContrastText(deepPurple[500]),
-  backgroundColor: deepPurple[500],
-} */
-
 /* container - title / board */
 .container {
   display: flex;
@@ -127,6 +87,7 @@ background-position: top left; */
 .todo-app:hover {
   box-shadow: 0 0 10px 0 darkgray;
 }
+
 /* 
 보라색 5d0cff
 주황색 ff7614
@@ -136,12 +97,26 @@ background-position: top left; */
 */
 
 .tag-container {
-  width: 100%;
+  width: 300px;
   min-height: 23px;
   background-color: transparent;
   display: flex;
   flex-wrap: wrap;
   position: relative;
+}
+
+.tag-container .blinking-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 20px;
+  background-color: crimson;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-size: 17px;
+  letter-spacing: 3px;
+  color: #fff;
 }
 
 .tag-container .no-tag {
@@ -336,6 +311,10 @@ h1 {
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
+}
+
+.setting-container .icons-container .edit-done-component:hover {
+  animation: none;
 }
 
 .setting-container .icons-container .plus-icon,

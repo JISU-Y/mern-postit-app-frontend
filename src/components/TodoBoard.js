@@ -57,8 +57,6 @@ const TodoBoard = ({ currentId, setCurrentId }) => {
   }, [dispatch, postits, currentId]); // posts를 넣으면 실시간으로 rendering은 되는데 너무 자주 rendering 됨
 
   useEffect(() => {
-    console.log(document.getElementsByClassName("todo-app"));
-
     const allPosts = [...document.getElementsByClassName("todo-app")].filter(
       (post) => post.className === "todo-app"
     ); // todo app 만 걸러냄(children에서 modal은 뺌)
@@ -109,20 +107,6 @@ const TodoBoard = ({ currentId, setCurrentId }) => {
     });
     setPosts(copiedPosts);
     console.log(copiedPosts);
-
-    dispatch(
-      updatePost(
-        currentId,
-        posts.find((post) => post._id === currentId)
-      )
-    );
-    // edit done을 누를때만 update하면 todos를 생성하는 도중에 id가 없어서 remove/update 안됨
-    // 근데 문제는 post set이 늦게되는 것 같음
-    // await updatePost(
-    //   currentId,
-    //   posts.find((post) => post._id === currentId)
-    // );
-    // console.log(posts);
   };
 
   const setPositionHandler = async (position) => {
@@ -136,12 +120,6 @@ const TodoBoard = ({ currentId, setCurrentId }) => {
     });
     setPosts(copiedPosts);
     console.log(position);
-
-    // await updatePost(
-    //   currentId,
-    //   posts.find((post) => post._id === currentId)
-    // );
-    // console.log(posts);
   };
 
   const setTagsHandler = async (tags) => {
@@ -155,12 +133,6 @@ const TodoBoard = ({ currentId, setCurrentId }) => {
     });
     setPosts(copiedPosts);
     console.log(tags);
-
-    // await updatePost(
-    //   currentId,
-    //   posts.find((post) => post._id === currentId)
-    // );
-    // console.log(posts);
   };
 
   // PostIt 삭제

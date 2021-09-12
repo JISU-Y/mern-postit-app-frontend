@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { Typography } from "@material-ui/core";
+import { Typography, Button } from "@material-ui/core";
 import moment from "moment";
+import styled, { keyframes } from "styled-components";
 
 import Todo from "./Todo";
 import TodoForm from "./TodoForm";
@@ -100,7 +101,6 @@ const TodoList = ({
       return todo;
     });
     setTodos(updatedTodos);
-    console.log(todos);
     setTodosHandler(updatedTodos);
   };
 
@@ -280,6 +280,20 @@ const TodoList = ({
     setTagsHandler(removedTags);
     console.log(tags);
   };
+
+  // Blinking effect on edit / styled-components
+  const blinkingEffect = () => {
+    return keyframes`
+      50% {
+        opacity: 0;
+      }
+    `;
+  };
+
+  const AnimatedComponent = styled.div`
+    animation: ${blinkingEffect} 1s linear infinite;
+  `;
+
   return (
     <div
       className="todo-app"
@@ -288,7 +302,14 @@ const TodoList = ({
     >
       {/* tag */}
       <div className="tag-container" onClick={() => console.log("tag")}>
-        {/* post.tag = tags ??*/}
+        {/* editing warning */}
+        {isEdit ? (
+          <AnimatedComponent>
+            <div className="blinking-block">
+              <h5>EDITING!</h5>
+            </div>
+          </AnimatedComponent>
+        ) : null}
         {tags.length > 0 ? (
           tags.map((tag, index) => {
             return (
@@ -322,10 +343,26 @@ const TodoList = ({
         </Typography>
         {/* {isUpdated ? <p>{post.updatedAt}(수정됨)</p> : <p>{post.createdAt}</p>} */}
         <div className="icons-container">
-          <FiMinusCircle className="minus-icon" onClick={openRemoveModal} />
-          {isEdit && (
-            <MdDone className="done-icon" onClick={openEditDoneModal} />
-          )}
+          <FiMinusCircle
+            className="minus-icon"
+            onClick={() => {
+              setCurrentId(post._id); // currentId로 redering 하기 위함
+              openRemoveModal();
+            }}
+          />
+          {isEdit ? (
+            <AnimatedComponent className="edit-done-component">
+              <Button
+                variant="contained"
+                color="secondary"
+                size="small"
+                onClick={openEditDoneModal}
+              >
+                click to edit done
+                <MdDone className="done-icon" />
+              </Button>
+            </AnimatedComponent>
+          ) : null}
           <FiPlusCircle className="plus-icon" onClick={AddPostHandler} />
         </div>
       </div>
