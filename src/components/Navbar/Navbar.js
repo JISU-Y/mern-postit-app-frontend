@@ -23,15 +23,15 @@ const Navbar = () => {
 
   // user login 되었을 때 (여기서는 Login 되면 home으로 이동하는 것을 이용) re render
   useEffect(() => {
-    // const token = user?.token;
+    const token = user?.token;
 
-    // JWT token 확인
-    // if (token) {
-    //   // JWT decode에서 expire 체크
-    //   const decodedToken = decode(token);
+    // JWT token expire 확인
+    if (token) {
+      // JWT decode에서 expire 체크
+      const decodedToken = decode(token);
 
-    //   if (decodedToken.exp * 1000 < new Date().getTime()) logout();
-    // }
+      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+    }
 
     setUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);

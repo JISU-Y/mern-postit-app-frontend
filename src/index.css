@@ -90,6 +90,7 @@ background-position: top left; */
 
 .todo-app:hover {
   box-shadow: 0 0 10px 0 darkgray;
+  z-index: 100;
 }
 
 /* 

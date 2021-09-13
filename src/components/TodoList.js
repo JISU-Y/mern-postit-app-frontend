@@ -298,7 +298,14 @@ const TodoList = ({
     <div
       className="todo-app"
       ref={todoAppRef}
-      onClick={(e) => handleEditPost(e)}
+      onClick={(e) => {
+        // 로그인 한 user가 클릭했을 때만 반응
+        if (
+          user?.result?.googleId === post?.creator ||
+          user?.result?._id === post?.creator
+        )
+          handleEditPost(e);
+      }}
     >
       {/* tag */}
       <div className="tag-container" onClick={() => console.log("tag")}>
@@ -343,13 +350,16 @@ const TodoList = ({
         </Typography>
         {/* {isUpdated ? <p>{post.updatedAt}(수정됨)</p> : <p>{post.createdAt}</p>} */}
         <div className="icons-container">
-          <FiMinusCircle
-            className="minus-icon"
-            onClick={() => {
-              setCurrentId(post._id); // currentId로 redering 하기 위함
-              openRemoveModal();
-            }}
-          />
+          {(user?.result?.googleId === post?.creator ||
+            user?.result?._id === post?.creator) && (
+            <FiMinusCircle
+              className="minus-icon"
+              onClick={() => {
+                setCurrentId(post._id); // currentId로 redering 하기 위함
+                openRemoveModal();
+              }}
+            />
+          )}
           {isEdit ? (
             <AnimatedComponent className="edit-done-component">
               <Button
@@ -363,7 +373,10 @@ const TodoList = ({
               </Button>
             </AnimatedComponent>
           ) : null}
-          <FiPlusCircle className="plus-icon" onClick={AddPostHandler} />
+          {(user?.result?.googleId === post?.creator ||
+            user?.result?._id === post?.creator) && (
+            <FiPlusCircle className="plus-icon" onClick={AddPostHandler} />
+          )}
         </div>
       </div>
       {/* post context menu */}
