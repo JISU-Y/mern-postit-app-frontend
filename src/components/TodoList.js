@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { Typography, Button } from "@material-ui/core";
+import { Typography, Button, Paper } from "@material-ui/core";
 import moment from "moment";
 import styled, { keyframes } from "styled-components";
 
@@ -40,6 +40,7 @@ const TodoList = ({
   currentId,
   setCurrentId,
   setTagsHandler,
+  user,
 }) => {
   const dispatch = useDispatch();
   // 여기서 따로 사용할 todo 배열
@@ -126,6 +127,7 @@ const TodoList = ({
     if (tags.includes(tagName)) return;
 
     const addedTags = [...tags, tagName];
+    setTags(addedTags);
     setTagsHandler(addedTags);
   };
 
@@ -133,6 +135,8 @@ const TodoList = ({
     console.log(tagName);
     console.log(tags);
     const removedTags = tags.filter((tag) => tag !== tagName);
+
+    setTags(removedTags);
 
     setTagsHandler(removedTags);
   };
@@ -144,10 +148,10 @@ const TodoList = ({
 
     console.log("edit done");
     dispatch(
-      updatePost(
-        currentId,
-        posts.find((post) => post._id === currentId)
-      )
+      updatePost(currentId, {
+        ...posts.find((post) => post._id === currentId),
+        name: user?.result?.name,
+      })
     );
     clear();
   };

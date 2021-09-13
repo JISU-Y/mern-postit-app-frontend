@@ -7,7 +7,7 @@ import TodoList from "./TodoList";
 import Modal from "./Modal";
 import { getPosts, createPost, updatePost, deletePost } from "../functions";
 
-const TodoBoard = ({ currentId, setCurrentId }) => {
+const TodoBoard = ({ currentId, setCurrentId, user }) => {
   // getPosts로 가져옴 (App.js 에서)
   const postits = useSelector((state) => state.posts);
   const dispatch = useDispatch();
@@ -75,7 +75,8 @@ const TodoBoard = ({ currentId, setCurrentId }) => {
   const AddPostHandler = async () => {
     // e.preventDefault(); // 하니까 안됨
 
-    dispatch(createPost(post)); // 따로 setPost를 안해줘도 되는 건가..
+    dispatch(createPost({ ...post, name: user?.result?.name }));
+    // createPost 할 때 name은 따로 입력하지 않아도 Log in 되어 있으면 user의 name 가져와서 post create
 
     // const result = await createPost(post);
     // setPosts([...posts, result]);
@@ -224,32 +225,31 @@ const TodoBoard = ({ currentId, setCurrentId }) => {
       onDrag={dragHandler}
       onDragEnd={dragEndHandler}
     >
-      {posts.length > 0 ? (
-        posts.map((post) => {
-          return (
-            <TodoList
-              key={post._id}
-              posts={posts}
-              post={post}
-              setPost={setPost}
-              setTodosHandler={setTodosHandler}
-              handlePostIndex={handlePostIndex}
-              AddPostHandler={AddPostHandler}
-              removePostHandler={removePostHandler}
-              currentId={currentId}
-              setCurrentId={setCurrentId}
-              setTagsHandler={setTagsHandler}
-            />
-          );
-        })
-      ) : (
-        // <h2>nothing else to do</h2>
-        // 하고 빈 post 하나는 남겨둬야 하지 않을까
-        // 아니면 버튼을 생성해서 빈 post를 하나 생성?
-        <button className="start-post-btn" onClick={AddPostHandler}>
-          start posting
-        </button>
-      )}
+      {posts.length > 0
+        ? posts.map((post) => {
+            return (
+              <TodoList
+                key={post._id}
+                posts={posts}
+                post={post}
+                setPost={setPost}
+                setTodosHandler={setTodosHandler}
+                handlePostIndex={handlePostIndex}
+                AddPostHandler={AddPostHandler}
+                removePostHandler={removePostHandler}
+                currentId={currentId}
+                setCurrentId={setCurrentId}
+                setTagsHandler={setTagsHandler}
+                user={user}
+              />
+            );
+          })
+        : user?.result?.name && (
+            // user log in된 경우만 start posting 가능하도록 함
+            <button className="start-post-btn" onClick={AddPostHandler}>
+              start posting
+            </button>
+          )}
     </div>
   );
 };

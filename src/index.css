@@ -18,6 +18,10 @@ body {
   background-size: cover;
 }
 
+.no-user-warning {
+  margin-bottom: 30px;
+}
+
 /* container - title / board */
 .container {
   display: flex;
