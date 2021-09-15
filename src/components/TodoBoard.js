@@ -218,17 +218,14 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
   };
 
   return (
-    <div
-      className="todo-board"
-      ref={postBoard}
-      onDragStart={dragStartHandler}
-      onDrag={dragHandler}
-      onDragEnd={dragEndHandler}
-    >
+    <div className="todo-board" ref={postBoard}>
       {posts.length > 0
         ? posts.map((post) => {
             return (
               <TodoList
+                dragStartHandler={dragStartHandler}
+                dragHandler={dragHandler}
+                dragEndHandler={dragEndHandler}
                 key={post._id}
                 posts={posts}
                 post={post}

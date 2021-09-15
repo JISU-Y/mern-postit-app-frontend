@@ -30,6 +30,9 @@ const AnimatedComponent = styled.div`
 
 //todoList 는 TodoBoard에서 가져온 todos의 배열 중 배열 한 개씩
 const TodoList = ({
+  dragStartHandler,
+  dragHandler,
+  dragEndHandler,
   posts,
   post,
   setTodosHandler,
@@ -299,6 +302,9 @@ const TodoList = ({
       className="todo-app"
       ref={todoAppRef}
       onClick={(e) => {
+        console.log("yours or not");
+        console.log(e.target);
+        console.log(currentId);
         // 로그인 한 user가 클릭했을 때만 반응
         if (
           user?.result?.googleId === post?.creator ||
@@ -306,6 +312,9 @@ const TodoList = ({
         )
           handleEditPost(e);
       }}
+      onDragStart={dragStartHandler}
+      onDrag={dragHandler}
+      onDragEnd={dragEndHandler}
     >
       {/* tag */}
       <div className="tag-container" onClick={() => console.log("tag")}>

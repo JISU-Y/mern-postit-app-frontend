@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:5000" });
+const API = axios.create({
+  baseURL: "https://postit-app-mern-project.herokuapp.com",
+});
 
 // backend에서 token을 verify할 수 있도록 해줌
 API.interceptors.request.use((req) => {
