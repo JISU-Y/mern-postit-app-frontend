@@ -35,26 +35,31 @@ const Todo = ({
       <div
         className={todo.todoDone ? "todo-row complete" : "todo-row"}
         key={index}
+        style={{
+          pointerEvents: isEdit ? "initial" : "none",
+        }}
       >
         <div key={todo._id} onClick={() => completeTodo(todo._id)}>
           {todo.todoText}
         </div>
-        <div className="icons">
-          <RiCloseCircleLine
-            onClick={() => removeTodo(todo._id)}
-            className="delete-icon"
-          />
-          <RiEdit2Fill
-            onClick={() => {
-              setCurrTodoId(todo._id);
-              setEdit({
-                todoText: todo.todoText,
-                todoDone: false,
-              });
-            }}
-            className="edit-icon"
-          />
-        </div>
+        {isEdit && (
+          <div className="icons">
+            <RiCloseCircleLine
+              onClick={() => removeTodo(todo._id)}
+              className="delete-icon"
+            />
+            <RiEdit2Fill
+              onClick={() => {
+                setCurrTodoId(todo._id);
+                setEdit({
+                  todoText: todo.todoText,
+                  todoDone: false,
+                });
+              }}
+              className="edit-icon"
+            />
+          </div>
+        )}
       </div>
     );
   });

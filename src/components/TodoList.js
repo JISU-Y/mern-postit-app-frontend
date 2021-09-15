@@ -167,8 +167,6 @@ const TodoList = ({
     setCurrentId(post._id); // 선택한 post의 id set
 
     setIsEdit(true); // edit 상태로 변경
-
-    console.log("edit post");
   };
 
   // esc 눌러서 불러왔던 post 선택을 무른다
@@ -198,8 +196,9 @@ const TodoList = ({
     (e) => {
       e.preventDefault();
       if (
-        e.target.className !== "todo-app" &&
-        e.target.className !== "tag-container"
+        (e.target.className !== "todo-app" &&
+          e.target.className !== "tag-container") ||
+        !isEdit
       ) {
         setShow(false);
         return;
@@ -302,22 +301,31 @@ const TodoList = ({
       className="todo-app"
       ref={todoAppRef}
       onClick={(e) => {
-        console.log("yours or not");
-        console.log(e.target);
-        console.log(currentId);
         // 로그인 한 user가 클릭했을 때만 반응
         if (
           user?.result?.googleId === post?.creator ||
           user?.result?._id === post?.creator
-        )
+        ) {
           handleEditPost(e);
+        }
       }}
-      onDragStart={dragStartHandler}
-      onDrag={dragHandler}
-      onDragEnd={dragEndHandler}
+      onDragStart={(e) => {
+        if (isEdit) dragStartHandler(e);
+      }}
+      onDrag={(e) => {
+        if (isEdit) dragHandler(e);
+      }}
+      onDragEnd={(e) => {
+        if (isEdit) dragEndHandler(e);
+      }}
     >
       {/* tag */}
-      <div className="tag-container" onClick={() => console.log("tag")}>
+      <div
+        className="tag-container"
+        style={{
+          pointerEvents: isEdit ? "initial" : "none",
+        }}
+      >
         {/* editing warning */}
         {isEdit ? (
           <AnimatedComponent>
@@ -337,13 +345,18 @@ const TodoList = ({
         )}
       </div>
 
-      <TodoForm
-        onSubmit={addTodo}
-        openNoInputModal={openNoInputModal}
-        isEdit={isEdit}
-        openPleaseEditModal={openPleaseEditModal}
-        post={post}
-      />
+      {(user?.result?.googleId === post?.creator ||
+        user?.result?._id === post?.creator) &&
+        isEdit && (
+          <TodoForm
+            onSubmit={addTodo}
+            openNoInputModal={openNoInputModal}
+            isEdit={isEdit}
+            openPleaseEditModal={openPleaseEditModal}
+            post={post}
+          />
+        )}
+
       <Todo
         todos={todos}
         completeTodo={completeTodo}
@@ -353,7 +366,12 @@ const TodoList = ({
         post={post}
       />
       {/* setting area */}
-      <div className="setting-container">
+      <div
+        className="setting-container"
+        style={{
+          pointerEvents: isEdit ? "initial" : "none",
+        }}
+      >
         <Typography varian="body2">
           {moment(post.createdAt).fromNow()}
         </Typography>
