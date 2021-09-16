@@ -23,6 +23,7 @@ const Home = () => {
           <Typography variant="h6" align="center">
             Please Sign in or Sign up to create your own posts
           </Typography>
+          {/* 여기에 버튼이 있었음 좋겠는데 (add post handler) */}
         </Paper>
       )}
       <div className="container">

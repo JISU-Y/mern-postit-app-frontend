@@ -59,6 +59,9 @@ const TodoList = ({
   const [show, setShow] = useState(false);
   const [showTags, setShowTags] = useState(false);
 
+  // todo-app post ref
+  const todoAppRef = useRef(null);
+
   // Todos
   const addTodo = (todo) => {
     // todo는 {todoText: postTodo.todoText, todoDone:false}
@@ -161,8 +164,14 @@ const TodoList = ({
 
   const handleEditPost = (e) => {
     if (e.target.nodeName !== "DIV" && e.target.nodeName !== "INPUT") return;
+    if (currentId !== 0 && currentId !== post._id) {
+      console.log(`${currentId} => ${post._id}`);
+      // modal
+      openSelectEditModal();
+      return;
+    }
 
-    handlePostIndex(e); // postIndex 맞추기
+    handlePostIndex(e); // post zIndex 맞추기
 
     setCurrentId(post._id); // 선택한 post의 id set
 
@@ -225,8 +234,6 @@ const TodoList = ({
     setShowTags(() => (showTags ? false : null));
   }, [show, showTags]);
 
-  const todoAppRef = useRef(null);
-
   useEffect(() => {
     document.addEventListener("click", handleClick);
     todoAppRef.current.addEventListener("contextmenu", handleContextMenu);
@@ -274,6 +281,15 @@ const TodoList = ({
     setModalType({ open: true, type: "editDone", msg: "Editing done?" });
   };
 
+  // check edit done modal
+  const openSelectEditModal = () => {
+    setModalType({
+      open: true,
+      type: "editSelect",
+      msg: "Please finish editing it first",
+    });
+  };
+
   // no input modal
   const openNoInputModal = () => {
     setModalType({
@@ -300,7 +316,7 @@ const TodoList = ({
     <div
       className="todo-app"
       ref={todoAppRef}
-      onClick={(e) => {
+      onDoubleClick={(e) => {
         // 로그인 한 user가 클릭했을 때만 반응
         if (
           user?.result?.googleId === post?.creator ||
@@ -366,12 +382,7 @@ const TodoList = ({
         post={post}
       />
       {/* setting area */}
-      <div
-        className="setting-container"
-        style={{
-          pointerEvents: isEdit ? "initial" : "none",
-        }}
-      >
+      <div className="setting-container">
         <Typography varian="body2">
           {moment(post.createdAt).fromNow()}
         </Typography>

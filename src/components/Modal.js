@@ -28,6 +28,8 @@ const modal = ({
                   clear();
                 } else if (modalType.type === "editDone") {
                   handleEditDone();
+                } else if (modalType.type === "editSelect") {
+                  console.log("edit done first");
                 } else if (modalType.type === "warning") {
                   console.log("no input warning");
                 } else if (modalType.type === "edit") {

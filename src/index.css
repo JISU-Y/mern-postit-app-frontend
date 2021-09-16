@@ -64,6 +64,7 @@ background-position: top left; */
   letter-spacing: 1px;
   cursor: pointer;
   transition: all 0.3s ease-in;
+  z-index: 200;
 }
 .todo-board .start-post-btn:active {
   transform: scale(0.98);
@@ -183,6 +184,19 @@ h1 {
 .complete {
   text-decoration: line-through;
   opacity: 0.4;
+  position: relative;
+}
+.complete::after {
+  content: "COMPLETE!";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  letter-spacing: 10px;
+  font-size: 17px;
+  font-weight: bold;
+  color: black;
+  opacity: 1;
 }
 
 .todo-form {

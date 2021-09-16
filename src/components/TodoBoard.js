@@ -6,16 +6,17 @@ import { FiBox } from "react-icons/fi";
 import TodoList from "./TodoList";
 import Modal from "./Modal";
 import { getPosts, createPost, updatePost, deletePost } from "../functions";
+import PostForm from "./PostForm";
 
 const TodoBoard = ({ currentId, setCurrentId, user }) => {
   // getPosts로 가져옴 (App.js 에서)
   const postits = useSelector((state) => state.posts);
   const dispatch = useDispatch();
 
-  // const tag = "Default";
   // post format
   // { tag: tag, todos: [ { todoText: "", todoDone: false}]}
   const [post, setPost] = useState({
+    name: "",
     tag: [],
     todos: [],
     position: { x: null, y: null },
@@ -37,6 +38,7 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
       currentId !== 0
         ? posts.find((post) => post._id === currentId)
         : {
+            name: "",
             tag: [],
             todos: [],
             position: { x: null, y: null },
@@ -75,12 +77,19 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
   const AddPostHandler = async () => {
     // e.preventDefault(); // 하니까 안됨
 
-    dispatch(createPost({ ...post, name: user?.result?.name }));
-    // createPost 할 때 name은 따로 입력하지 않아도 Log in 되어 있으면 user의 name 가져와서 post create
+    console.log("add post handler");
+    console.log({ ...post, name: user?.result?.name });
 
-    // const result = await createPost(post);
-    // setPosts([...posts, result]);
-    // console.log(result);
+    dispatch(
+      createPost({
+        name: user?.result?.name,
+        tag: [],
+        todos: [],
+        position: { x: null, y: null },
+      })
+    );
+
+    // createPost 할 때 name은 따로 입력하지 않아도 Log in 되어 있으면 user의 name 가져와서 post create
   };
 
   // post it (id 선택된) 에 todos (할일 배열) set 해주는
@@ -219,6 +228,7 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
 
   return (
     <div className="todo-board" ref={postBoard}>
+      {/* <PostForm AddPostHandler={AddPostHandler} /> */}
       {posts.length > 0
         ? posts.map((post) => {
             return (
@@ -242,7 +252,6 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
             );
           })
         : user?.result?.name && (
-            // user log in된 경우만 start posting 가능하도록 함
             <button className="start-post-btn" onClick={AddPostHandler}>
               start posting
             </button>
