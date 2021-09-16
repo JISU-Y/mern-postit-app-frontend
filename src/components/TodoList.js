@@ -187,10 +187,8 @@ const TodoList = ({
     };
 
     window.addEventListener("keydown", clearField);
-    window.addEventListener("click", clearField);
     return () => {
       window.removeEventListener("keydown", clearField);
-      window.removeEventListener("click", clearField);
     };
   }, []);
 
@@ -225,12 +223,11 @@ const TodoList = ({
         setShowTags(true);
       }
     },
-    [setAnchorPoint, setShow, setShowTags]
+    [setAnchorPoint, setShow, setShowTags, isEdit]
   );
 
   const handleClick = useCallback(() => {
     setShow(() => (show ? false : null));
-    // (show ? setShow(false) : null)
     setShowTags(() => (showTags ? false : null));
   }, [show, showTags]);
 
@@ -286,7 +283,7 @@ const TodoList = ({
     setModalType({
       open: true,
       type: "editSelect",
-      msg: "Please finish editing it first",
+      msg: "Please finish editing first",
     });
   };
 
@@ -350,17 +347,22 @@ const TodoList = ({
             </div>
           </AnimatedComponent>
         ) : null}
-        {tags.length > 0 ? (
-          tags.map((tag, index) => {
-            return (
-              <Tag key={index} tag={tag} handleRemoveTags={handleRemoveTags} />
-            );
-          })
-        ) : (
-          <p className="no-tag">right click to add tags</p>
-        )}
+        {tags.length > 0
+          ? tags.map((tag, index) => {
+              return (
+                <Tag
+                  key={index}
+                  tag={tag}
+                  handleRemoveTags={handleRemoveTags}
+                />
+              );
+            })
+          : isEdit && <p className="no-tag">right click to add tags</p>}
       </div>
-
+      {/*  */}
+      {!isEdit && (
+        <p className="edit-instruction">double tab to edit this post</p>
+      )}
       {(user?.result?.googleId === post?.creator ||
         user?.result?._id === post?.creator) &&
         isEdit && (
@@ -434,16 +436,9 @@ const TodoList = ({
           >
             add
           </li>
-          <li onClick={handleEditPost}>edit</li>
           {isEdit && <li onClick={openEditDoneModal}>edit done</li>}
           <li onClick={openRemoveModal}>delete</li>
           <li onClick={changeColor}>changing color</li>
-          <li
-            onMouseEnter={() => setShowTags(true)}
-            onMouseLeave={() => setShowTags(false)}
-          >
-            add tags (sub menu)
-          </li>
           <hr className="divider" />
           <li onClick={handleClick}>Exit</li>
         </ul>

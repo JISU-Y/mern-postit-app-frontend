@@ -45,9 +45,6 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
           };
 
     setPost(currentPost);
-
-    console.log(currentId);
-    console.log(currentPost);
   }, [currentId]);
 
   // fetchData (posts)

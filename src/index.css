@@ -107,6 +107,27 @@ background-position: top left; */
 노란색 ffd20c
 */
 
+.todo-app .edit-instruction {
+  width: 150px;
+  font-size: 15px;
+  letter-spacing: 1px;
+  background-color: rgba(47, 79, 79, 0.8);
+  color: #fff;
+  margin: 7px 12px 0 0;
+  display: none;
+  justify-content: flex-end;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 30px;
+  padding: 10px 20px;
+}
+.todo-app:hover .edit-instruction {
+  display: flex;
+}
+
 .tag-container {
   width: 300px;
   min-height: 23px;
