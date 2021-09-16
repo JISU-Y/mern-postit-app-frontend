@@ -225,7 +225,8 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
 
   return (
     <div className="todo-board" ref={postBoard}>
-      {/* <PostForm AddPostHandler={AddPostHandler} /> */}
+      {!posts.find((post) => post.name === user?.result?.name) &&
+        user?.result?.name && <PostForm AddPostHandler={AddPostHandler} />}
       {posts.length > 0
         ? posts.map((post) => {
             return (

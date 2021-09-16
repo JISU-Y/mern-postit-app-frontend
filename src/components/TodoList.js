@@ -283,7 +283,7 @@ const TodoList = ({
     setModalType({
       open: true,
       type: "editSelect",
-      msg: "Please finish editing first",
+      msg: "Please finish editing first or Press Esc to exit",
     });
   };
 
@@ -360,9 +360,11 @@ const TodoList = ({
           : isEdit && <p className="no-tag">right click to add tags</p>}
       </div>
       {/*  */}
-      {!isEdit && (
-        <p className="edit-instruction">double tab to edit this post</p>
-      )}
+      {(user?.result?.googleId === post?.creator ||
+        user?.result?._id === post?.creator) &&
+        !isEdit && (
+          <p className="edit-instruction">double tab to edit this post</p>
+        )}
       {(user?.result?.googleId === post?.creator ||
         user?.result?._id === post?.creator) &&
         isEdit && (
