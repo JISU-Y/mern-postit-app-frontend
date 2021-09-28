@@ -21,12 +21,26 @@
 
 #### Main UI Image
 
-<img width="174" alt="Main UI" src="https://user-images.githubusercontent.com/80020227/124286811-484e6880-db8a-11eb-93e2-32eeac25ce7a.PNG">
+![PostItApp2](https://user-images.githubusercontent.com/80020227/135049921-40dc430e-94c3-4ea6-b66e-da90395bd51a.JPG)
 
 ---
 
 #### How to use
-![ResultVideo](https://user-images.githubusercontent.com/80020227/124354549-8493ce80-dc47-11eb-8b3e-e617e783afa5.gif)
+
+1. Sign up/Sign in
+![PostIt App - Chrome 2021-09-28 17-17-12](https://user-images.githubusercontent.com/80020227/135051405-9a243112-6e80-4346-a1ac-a4f62f9b6813.gif)
+
+2. Google Log in
+![PostIt App - Chrome 2021-09-28 17-18-08](https://user-images.githubusercontent.com/80020227/135051472-3d31fca8-a9c4-48aa-a4de-b921402faedf.gif)
+
+3. 첫 Post It 생성 (생성 후 Post 수정/ToDoList, Tag, 위치 등)
+![PostIt App - Chrome 2021-09-28 17-18-50](https://user-images.githubusercontent.com/80020227/135051529-7a19e8a5-80db-4cca-a4eb-ef9b428cbc9e.gif)
+
+4. 기존 Post It 수정 (ToDo 개별 수정, Tag 삭제 등)
+![PostIt App - Chrome 2021-09-28 17-19-50](https://user-images.githubusercontent.com/80020227/135051758-660db6ab-30b0-4b5c-a964-30085bdb7101.gif)
+
+5. Post It 삭제
+![PostIt App - Chrome 2021-09-28 17-29-10](https://user-images.githubusercontent.com/80020227/135052170-0e5c9022-31ef-4cad-90ad-ab3deb0993f5.gif)
 
 ---
 
