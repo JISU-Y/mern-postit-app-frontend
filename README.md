@@ -1,70 +1,64 @@
-# Getting Started with Create React App
+# Climate for Travel App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+여행을 위한 세계 기후 정보 어플
 
-## Available Scripts
+- 여행 국가 및 여행 예정월 선택 후 평균 기후 정보 표시하며 그에 따른 여행 적합성 판단 어플
 
-In the project directory, you can run:
+---
 
-### `npm start`
+### 주요 기능
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. 국가 검색 기능(299 개국)
+2. 국가별/월별 기후(월 평균 기온, 일교차, 강수량) 정보 표시
+3. 기후별 체감 및 강수량별 눈/비 빈도 판단
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+---
+<!-- Line -->
 
-### `npm test`
+### UI 및 결과 Image
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Main UI Image
 
-### `npm run build`
+<img width="174" alt="Main UI" src="https://user-images.githubusercontent.com/80020227/124286811-484e6880-db8a-11eb-93e2-32eeac25ce7a.PNG">
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### How to use
+![ResultVideo](https://user-images.githubusercontent.com/80020227/124354549-8493ce80-dc47-11eb-8b3e-e617e783afa5.gif)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+### 사용 언어
+1. HTML
+2. CSS
+3. Javascript
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+---
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### API
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+1. 국가별 예측 기후 정보
+https://datahelpdesk.worldbank.org/knowledgebase/articles/902061-climate-data-api
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- World Bank에서 제공하는 국가별 예측 기후(월별 평균 기온, 월별 평균 강수량) 정보
+- 예측 년도 (2020 ~ 2039), 예측 시나리오는 현재 기준(2021) 평년 기후와 가장 비슷한 시나리오를 선택
 
-## Learn More
+2. 국가 정보
+https://datahelpdesk.worldbank.org/knowledgebase/articles/898590-country-api-queries
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- World Bank에서 제공하는 국가 정보(국가 코드, 국가명) 정보
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+### 기타
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+#### 개발 이유
+ - 개인적으로 세계 여행을 좋아하며 여행을 떠나기 전 해당 나라가 여행에 적합한지(날씨가 어떤지, 언제 가야 좋은지 등)을 알아보고 싶었습니다.
+ - 여행 적합성 판단에는 국가적인 제한, 성수기 여부, 거리 등 변수가 많지만 여행 국가를 정한 상태라면 가장 중요한 것은 날씨라고 생각했습니다.
+ - 따라서 기온과 강수량에 대한 API를 사용하여 기온, 일교차, 강수량 등을 기준에 따라 판단하여 나름의 여행 적합성을 판단해주는 사이트를 제작하게 되었습니다.
 
-### Analyzing the Bundle Size
+#### 개발 인원
+1인
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+#### 개발 기간
+1주
