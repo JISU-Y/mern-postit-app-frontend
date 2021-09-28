@@ -1,4 +1,4 @@
-# Post It! App
+# Post It!
 
 포스트잇 모양의 To-Do 관리 어플
 
@@ -74,4 +74,4 @@
 1인
 
 #### 개발 기간
-2021.06부터 (Vanilla JS로 구현) 진행 중 
+2021.06부터 (Vanilla JS->React->Mern Stack) 진행 중 
