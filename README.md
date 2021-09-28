@@ -1,16 +1,18 @@
-# Climate for Travel App
+# Post It! App
 
-여행을 위한 세계 기후 정보 어플
+포스트잇 모양의 To-Do 관리 어플
 
-- 여행 국가 및 여행 예정월 선택 후 평균 기후 정보 표시하며 그에 따른 여행 적합성 판단 어플
+- 포스트잇 내부에 To-Do List를 작성하여 게시하고 저장 및 공유하는 어플
 
 ---
 
 ### 주요 기능
 
-1. 국가 검색 기능(299 개국)
-2. 국가별/월별 기후(월 평균 기온, 일교차, 강수량) 정보 표시
-3. 기후별 체감 및 강수량별 눈/비 빈도 판단
+1. Post It 개별 생성, 삭제
+2. Post It 개별 속성 선택 설정 가능(Tag: Important, Today, Later ..)
+3. Post It 개별 위치 선정 가능(Drag & Drop)
+4. Google Log in 및 JWT Sign up/Sign in 가능, User만 사용 가능(Auth)
+5. 다른 User들의 Post It 확인 가능
 
 ---
 <!-- Line -->
@@ -28,37 +30,27 @@
 
 ---
 
-### 사용 언어
-1. HTML
-2. CSS
-3. Javascript
-
----
-
-### API
-
-1. 국가별 예측 기후 정보
-https://datahelpdesk.worldbank.org/knowledgebase/articles/902061-climate-data-api
-
-- World Bank에서 제공하는 국가별 예측 기후(월별 평균 기온, 월별 평균 강수량) 정보
-- 예측 년도 (2020 ~ 2039), 예측 시나리오는 현재 기준(2021) 평년 기후와 가장 비슷한 시나리오를 선택
-
-2. 국가 정보
-https://datahelpdesk.worldbank.org/knowledgebase/articles/898590-country-api-queries
-
-- World Bank에서 제공하는 국가 정보(국가 코드, 국가명) 정보
+### 기술 스택
+1. React
+2. Express
+3. Mongoose
 
 ---
 
 ### 기타
 
 #### 개발 이유
- - 개인적으로 세계 여행을 좋아하며 여행을 떠나기 전 해당 나라가 여행에 적합한지(날씨가 어떤지, 언제 가야 좋은지 등)을 알아보고 싶었습니다.
- - 여행 적합성 판단에는 국가적인 제한, 성수기 여부, 거리 등 변수가 많지만 여행 국가를 정한 상태라면 가장 중요한 것은 날씨라고 생각했습니다.
- - 따라서 기온과 강수량에 대한 API를 사용하여 기온, 일교차, 강수량 등을 기준에 따라 판단하여 나름의 여행 적합성을 판단해주는 사이트를 제작하게 되었습니다.
+ - 처음 Vanilla JS를 배우면서 To-Do List Project를 클론하며 공부하기 시작했고, 나만의 App을 만들어 보고 싶다고 생각했습니다.
+ - 할 일은 여러가지이고, 문서 정리하는 것을 좋아하기 때문에 할일을 분류화할 수 있는 방법이 어떤 것이 있는지 생각해보았고
+ - Post It 처럼 생각날 때마다 할 일이나 사야할 것 등을 적어서 눈에 잘 보이는 곳에 두거나 다른 사람과 공유할 수 있는 방법을 구상했고, 제작하게 되었습니다.
+
+#### 개발 과정
+ - 먼저 Vanilla JS와 Local Storage를 활용한 간단한 Web App을 만들었고, 추후에 React를 배우면서 다시 Refactoring 하였습니다.
+ - 이후 User Log in과 Data 저장을 위해 MongoDB와 Express를 사용하여 Server단을 구축하였습니다.
+ - 추후 Global state 관리 및 디자인 등 추가 업데이트 지속 실시 예정입니다.
 
 #### 개발 인원
 1인
 
 #### 개발 기간
-1주
+2021.06부터 (Vanilla JS로 구현) 진행 중 
