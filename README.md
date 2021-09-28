@@ -63,6 +63,13 @@
  - 이후 User Log in과 Data 저장을 위해 MongoDB와 Express를 사용하여 Server단을 구축하였습니다.
  - 추후 Global state 관리 및 디자인 등 추가 업데이트 지속 실시 예정입니다.
 
+ ##### 지난 버전
+ 1. Vanilla JS + Local Storage 활용 구현
+  ![My ToDoList - Chrome 2021-09-28 17-36-24](https://user-images.githubusercontent.com/80020227/135054537-9be21371-8df5-4465-91cb-a823323ad110.gif)
+
+ 2. React Client 부분만 구현
+  ![React App - Chrome 2021-09-28 17-38-22](https://user-images.githubusercontent.com/80020227/135054556-8112ed5e-321c-4159-9c2e-86645c9630cf.gif)
+
 #### 개발 인원
 1인
 
