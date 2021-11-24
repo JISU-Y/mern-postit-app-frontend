@@ -331,6 +331,7 @@ const TodoList = ({
       onDragEnd={(e) => {
         if (isEdit) dragEndHandler(e);
       }}
+      draggable // 이걸 추가해야 drag가 잘됨
     >
       {/* tag */}
       <div

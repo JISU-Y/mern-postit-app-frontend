@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState, useEffect, useCallback, useRef } from "react"
+import { useSelector, useDispatch } from "react-redux"
 
-import Preloader from "./Preloader";
-import { FiBox } from "react-icons/fi";
-import TodoList from "./TodoList";
-import Modal from "./Modal";
-import { getPosts, createPost, updatePost, deletePost } from "../functions";
-import PostForm from "./PostForm";
+import Preloader from "./Preloader"
+import { FiBox } from "react-icons/fi"
+import TodoList from "./TodoList"
+import Modal from "./Modal"
+import { getPosts, createPost, updatePost, deletePost } from "../functions"
+import PostForm from "./PostForm"
 
 const TodoBoard = ({ currentId, setCurrentId, user }) => {
-  // getPosts로 가져옴 (App.js 에서)
-  const postits = useSelector((state) => state.posts);
-  const dispatch = useDispatch();
+  // getPosts로 가져옴
+  const postits = useSelector((state) => state.posts)
+  const dispatch = useDispatch()
 
   // post format
   // { tag: tag, todos: [ { todoText: "", todoDone: false}]}
@@ -20,15 +20,15 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
     tag: [],
     todos: [],
     position: { x: null, y: null },
-  });
+  })
   // posts (post의 배열)
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState([])
 
   // 드랍할 영역이 위치한 컴포넌트
-  const postBoard = useRef(null);
+  const postBoard = useRef(null)
   // position은 실시간 좌표 / oriPosition은 원래 좌표만 담고 있음
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [oriPosition, setOriPosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({ x: 0, y: 0 })
+  const [oriPosition, setOriPosition] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
     // 선택한 post
@@ -42,31 +42,36 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
             tag: [],
             todos: [],
             position: { x: null, y: null },
-          };
+          }
 
-    setPost(currentPost);
-  }, [currentId]);
+    setPost(currentPost)
+  }, [currentId])
 
   // fetchData (posts)
+  // postits에 store에서 가져온 데이터들을 이미 다 넣어두었는데,
+  // 굳이 setPosts를 해주어야 할까?
   useEffect(() => {
     const fetchData = () => {
-      setPosts(postits); // App js에서 getPosts로 가져온 postits를 set해줌
-    };
-    fetchData();
-  }, [dispatch, postits, currentId]); // posts를 넣으면 실시간으로 rendering은 되는데 너무 자주 rendering 됨
+      setPosts(postits) // App js에서 getPosts로 가져온 postits를 set해줌
+    }
+    fetchData()
+  }, [dispatch, postits, currentId]) // posts를 넣으면 실시간으로 rendering은 되는데 너무 자주 rendering 됨
 
   useEffect(() => {
-    const allPosts = [...document.getElementsByClassName("todo-app")].filter(
-      (post) => post.className === "todo-app"
-    ); // todo app 만 걸러냄(children에서 modal은 뺌)
+    // todo-app은 ToDoList
+    // 이거 ref로 하면 되지 않나..?
+    // 근데 그게 하위에 있으니까
+    // ToDoList에는 todolist만 있게 하고
+    // modal은 ToDoBoard에 넣던가 해야할 것 같은데..
+    const allPosts = [...document.getElementsByClassName("todo-app")].filter((post) => post.className === "todo-app") // todo app 만 걸러냄(children에서 modal은 뺌)
     allPosts.map((eachpost, index) => {
-      eachpost.style.left = `${[...posts][index].position.x}`;
-      eachpost.style.top = `${[...posts][index].position.y}`;
-      return eachpost;
-    });
+      eachpost.style.left = `${[...posts][index].position.x}`
+      eachpost.style.top = `${[...posts][index].position.y}`
+      return eachpost
+    })
 
-    setPosts(posts);
-  }, [posts]);
+    setPosts(posts)
+  }, [posts])
 
   // post를 추가하기만 하는 것 (일단 내용(todos)은 없는 것으로 하기)
   // add post 를 누르면 <Form />를 띄우는 것으로 하는 게 맞을 것 같은데
@@ -74,8 +79,8 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
   const AddPostHandler = async () => {
     // e.preventDefault(); // 하니까 안됨
 
-    console.log("add post handler");
-    console.log({ ...post, name: user?.result?.name });
+    console.log("add post handler")
+    console.log({ ...post, name: user?.result?.name })
 
     dispatch(
       createPost({
@@ -84,15 +89,15 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
         todos: [],
         position: { x: null, y: null },
       })
-    );
+    )
 
     // createPost 할 때 name은 따로 입력하지 않아도 Log in 되어 있으면 user의 name 가져와서 post create
-  };
+  }
 
   // post it (id 선택된) 에 todos (할일 배열) set 해주는
   const setTodosHandler = async (todos) => {
     // id = _id / 나중에 tag 수정도 추가 / todos는 수정할 todo 배열
-    if (currentId === 0) return;
+    if (currentId === 0) return
 
     // 기존의 post들을 map loop 돌려서 그 중에 찾고자 하는 id와 같은 post를 찾아서
     // post를 newPost로 교체한다 / 아니면 그냥 그대로
@@ -108,125 +113,117 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
     // 이렇게 해도 바로 update가 안되네
     let copiedPosts = posts.map((item) => {
       if (item._id === currentId) {
-        item = { ...item, todos: todos };
+        item = { ...item, todos: todos }
       }
-      return item;
-    });
-    setPosts(copiedPosts);
-    console.log(copiedPosts);
-  };
+      return item
+    })
+    setPosts(copiedPosts)
+  }
 
   const setPositionHandler = async (position) => {
-    if (currentId === 0) return;
+    if (currentId === 0) return
 
     let copiedPosts = posts.map((item) => {
       if (item._id === currentId) {
-        item = { ...item, position: position };
+        item = { ...item, position: position }
       }
-      return item;
-    });
-    setPosts(copiedPosts);
-    console.log(position);
-  };
+      return item
+    })
+    setPosts(copiedPosts)
+    console.log(position)
+  }
 
   const setTagsHandler = async (tags) => {
-    if (currentId === 0) return;
+    if (currentId === 0) return
 
     let copiedPosts = posts.map((item) => {
       if (item._id === currentId) {
-        item = { ...item, tag: tags };
+        item = { ...item, tag: tags }
       }
-      return item;
-    });
-    setPosts(copiedPosts);
-    console.log(tags);
-  };
+      return item
+    })
+    setPosts(copiedPosts)
+    console.log(tags)
+  }
 
   // PostIt 삭제
   const removePostHandler = (id) => {
-    if (id === 0) return;
+    if (id === 0) return
 
-    dispatch(deletePost(id));
-  };
+    dispatch(deletePost(id))
+  }
 
   // Drag and Drop 구현
+  // e.targe.className으로 해도 되는 것인지... **
 
   // 드래그 시작되었을 때 실행 - onDragStart
   const dragStartHandler = (e) => {
-    if (e.target.className !== "todo-app") return;
+    if (e.target.className !== "todo-app") return
 
     // drag 끝난 것 가장 앞으로 보내기 / 혹은 클릭했을 때
-    handlePostIndex(e);
+    handlePostIndex(e)
 
     // 드래그 시 반투명 이미지 추가
-    const img = new Image();
-    e.dataTransfer.setDragImage(img, 0, 0);
+    const img = new Image()
+    e.dataTransfer.setDragImage(img, 0, 0)
 
     // 이동시킬 때 필요한 좌표
-    setPosition({ x: e.clientX, y: e.clientY });
+    setPosition({ x: e.clientX, y: e.clientY })
 
     // 초기 위치 값 (잘못된 위치에 놓았을 때 다시 원래 위치로 돌아갈 수 있도록)
-    setOriPosition({ x: e.target.offsetLeft, y: e.target.offsetTop });
-  };
+    setOriPosition({ x: e.target.offsetLeft, y: e.target.offsetTop })
+  }
 
   // 드래그 중일 때 실행 - onDrag
   const dragHandler = (e) => {
-    if (e.target.className !== "todo-app") return;
+    if (e.target.className !== "todo-app") return
 
     // const box = postBoard.current.getBoundingClientRect();
 
     // 요소의 좌표 + 커서 좌표 변화량
     // 현재 요소의 좌표 + 현재 커서의 좌표 - 직전 커서의 좌표
-    e.target.style.left = `${e.target.offsetLeft + e.clientX - position.x}px`;
-    e.target.style.top = `${e.target.offsetTop + e.clientY - position.y}px`;
+    e.target.style.left = `${e.target.offsetLeft + e.clientX - position.x}px`
+    e.target.style.top = `${e.target.offsetTop + e.clientY - position.y}px`
 
-    setPosition({ x: e.clientX, y: e.clientY });
-  };
+    setPosition({ x: e.clientX, y: e.clientY })
+  }
 
   // 드래그 끝났을 때 실행(마우스 놓으면서) - onDragEnd
   const dragEndHandler = (e) => {
-    if (e.target.className !== "todo-app") return;
+    if (e.target.className !== "todo-app") return
     // 올바른 영역에 드랍 되었는지 체크
-    const box = postBoard.current.getBoundingClientRect();
-    if (
-      box.left < e.clientX &&
-      e.clientX < box.right &&
-      box.top < e.clientY &&
-      e.clientY < box.bottom
-    ) {
+    const box = postBoard.current.getBoundingClientRect()
+    if (box.left < e.clientX && e.clientX < box.right && box.top < e.clientY && e.clientY < box.bottom) {
       // 옮겨진 자리
-      e.target.style.left = `${e.target.offsetLeft + e.clientX - position.x}px`;
-      e.target.style.top = `${e.target.offsetTop + e.clientY - position.y}px`;
+      e.target.style.left = `${e.target.offsetLeft + e.clientX - position.x}px`
+      e.target.style.top = `${e.target.offsetTop + e.clientY - position.y}px`
     } else {
       // 잘못된 영역이면 원래 위치로 이동
-      e.target.style.left = `${oriPosition.x}px`;
-      e.target.style.top = `${oriPosition.y}px`;
+      e.target.style.left = `${oriPosition.x}px`
+      e.target.style.top = `${oriPosition.y}px`
     }
 
-    setPositionHandler({ x: e.target.style.left, y: e.target.style.top });
-  };
+    setPositionHandler({ x: e.target.style.left, y: e.target.style.top })
+  }
 
   const handlePostIndex = (e) => {
-    if (e.target.className !== "todo-app") return;
+    if (e.target.className !== "todo-app") return
 
     // childNodes/children는 nodeList라 이렇게 배열로 변환해주어야 loop syntax를 사용할 수 있다
-    const allPosts = [...e.target.parentNode.children].filter(
-      (post) => post.className === "todo-app"
-    ); // todo app 만 걸러냄(children에서 modal은 뺌)
+    const allPosts = [...e.target.parentNode.children].filter((post) => post.className === "todo-app") // todo app 만 걸러냄(children에서 modal은 뺌)
 
     // 일단 모든 todo app 의 z-index를 unset
-    allPosts.map((post) => (post.style.zIndex = "unset"));
+    allPosts.map((post) => (post.style.zIndex = "unset"))
 
     // 선택된 todo app의 z index만 100으로 변경
-    e.target.style.zIndex = "100";
+    e.target.style.zIndex = "100"
 
     // todo-app 클릭 시 / drag start 시 적용
-  };
+  }
 
   return (
     <div className="todo-board" ref={postBoard}>
-      {!posts.find((post) => post.name === user?.result?.name) &&
-        user?.result?.name && <PostForm AddPostHandler={AddPostHandler} />}
+      {!posts.find((post) => post.name === user?.result?.name) && user?.result?.name && <PostForm AddPostHandler={AddPostHandler} />}
       {posts.length > 0
         ? posts.map((post) => {
             return (
@@ -247,18 +244,14 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
                 setTagsHandler={setTagsHandler}
                 user={user}
               />
-            );
+            )
           })
-        : user?.result?.name && (
-            <button className="start-post-btn" onClick={AddPostHandler}>
-              start posting
-            </button>
-          )}
+        : user?.result?.name && <PostForm AddPostHandler={AddPostHandler} />}
     </div>
-  );
-};
+  )
+}
 
-export default TodoBoard;
+export default TodoBoard
 
 // mother post에서만 add post 되도록 구현해야함  => 된듯?
 // 왼쪽 상단에 (혹은 정 가운데에) mother post
