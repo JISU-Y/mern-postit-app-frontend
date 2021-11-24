@@ -18,6 +18,13 @@ body {
   background-size: cover;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .no-user-warning {
   margin-bottom: 30px;
 }
