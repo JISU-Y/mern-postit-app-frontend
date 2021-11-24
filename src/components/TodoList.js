@@ -13,6 +13,7 @@ import { ImCross } from "react-icons/im"
 import { updatePost } from "../functions"
 import Tag from "./Tag"
 import TagContainer from "./TagContainer/TagContainer"
+import PostFooter from "./PostFooter/PostFooter"
 
 //todoList 는 TodoBoard에서 가져온 todos의 배열 중 배열 한 개씩
 const TodoList = ({
@@ -310,41 +311,27 @@ const TodoList = ({
     >
       {/* tag component*/}
       <TagContainer isEdit={isEdit} tags={tags} handleRemoveTags={handleRemoveTags} />
-      {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && !isEdit && (
-        <p className="edit-instruction">double tab to edit this post</p>
-      )}
-      {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && isEdit && (
-        <TodoForm onSubmit={addTodo} openNoInputModal={openNoInputModal} isEdit={isEdit} openPleaseEditModal={openPleaseEditModal} post={post} />
-      )}
-
+      {/* Todo 입력 form / user가 있을 경우에만 / Edit 중인 경우만 form 보이기 */}
+      {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) &&
+        (isEdit ? (
+          <TodoForm onSubmit={addTodo} openNoInputModal={openNoInputModal} isEdit={isEdit} openPleaseEditModal={openPleaseEditModal} post={post} />
+        ) : (
+          <p className="edit-instruction">double tab to edit this post</p>
+        ))}
+      {/* Todo 항목 리스트 */}
       <Todo todos={todos} completeTodo={completeTodo} removeTodo={removeTodo} updateTodo={updateTodo} isEdit={isEdit} post={post} />
       {/* setting area */}
-      <div className="setting-container">
-        <Typography varian="body2">{moment(post.createdAt).fromNow()}</Typography>
-        {/* {isUpdated ? <p>{post.updatedAt}(수정됨)</p> : <p>{post.createdAt}</p>} */}
-        <div className="icons-container">
-          {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
-            <FiMinusCircle
-              className="minus-icon"
-              onClick={() => {
-                setCurrentId(post._id) // currentId로 redering 하기 위함
-                openRemoveModal()
-              }}
-            />
-          )}
-          {isEdit ? (
-            <div className="edit-done-component">
-              <Button variant="contained" color="secondary" size="small" onClick={openEditDoneModal}>
-                click to edit done
-                <MdDone className="done-icon" />
-              </Button>
-            </div>
-          ) : null}
-          {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
-            <FiPlusCircle className="plus-icon" onClick={AddPostHandler} />
-          )}
-        </div>
-      </div>
+      <PostFooter
+        isEdit={isEdit}
+        userGoogleId={user?.result?.googleId}
+        userId={user?.result?._id}
+        post={post}
+        postCreator={post?.creator}
+        setCurrentId={setCurrentId}
+        openRemoveModal={openRemoveModal}
+        openEditDoneModal={openEditDoneModal}
+        AddPostHandler={AddPostHandler}
+      />
       {/* post context menu */}
       {show ? (
         <ul
