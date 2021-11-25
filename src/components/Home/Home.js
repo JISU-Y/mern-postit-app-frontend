@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
-import { Container, Typography, Paper } from "@material-ui/core"
 import { useDispatch } from "react-redux" // dispatching an action
+import { Container, Typography, Paper } from "@material-ui/core"
 
-import { getPosts } from "../../functions/index"
+import { getPosts } from "../../actions/index"
 
-import TodoBoard from "../TodoBoard"
+import TodoBoard from "../TodoBoard/TodoBoard"
 
 const Home = () => {
   const dispatch = useDispatch()

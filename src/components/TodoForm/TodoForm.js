@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react"
 
 // todo form
 const TodoForm = (props) => {
@@ -9,9 +9,9 @@ const TodoForm = (props) => {
           todoText: "",
           todoDone: false,
         }
-  );
+  )
 
-  const inputRef = useRef(null);
+  const inputRef = useRef(null)
 
   // focus 용
   // useEffect(() => {
@@ -19,28 +19,28 @@ const TodoForm = (props) => {
   // }, [postTodo]);
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     // 알림
     if (postTodo.todoText === "") {
       if (props.isEdit || props.post.id === 0) {
-        props.openNoInputModal();
+        props.openNoInputModal()
       } else {
-        props.openPleaseEditModal();
+        props.openPleaseEditModal()
       }
     }
 
     props.onSubmit({
       todoText: postTodo.todoText,
       todoDone: false,
-    });
+    })
 
     // Input 초기화
     setPostTodo({
       todoText: "",
       todoDone: false,
-    });
-  };
+    })
+  }
 
   return (
     <form autoComplete="off" className="todo-form" onSubmit={handleSubmit}>
@@ -52,9 +52,7 @@ const TodoForm = (props) => {
             value={postTodo.todoText}
             name="text"
             className="todo-input edit"
-            onChange={(e) =>
-              setPostTodo({ ...postTodo, todoText: e.target.value })
-            }
+            onChange={(e) => setPostTodo({ ...postTodo, todoText: e.target.value })}
             ref={inputRef}
           />
           <button className="todo-btn edit" type="submit">
@@ -69,9 +67,7 @@ const TodoForm = (props) => {
             value={postTodo.todoText}
             name="text"
             className="todo-input"
-            onChange={(e) =>
-              setPostTodo({ ...postTodo, todoText: e.target.value })
-            }
+            onChange={(e) => setPostTodo({ ...postTodo, todoText: e.target.value })}
             ref={inputRef}
           />
           <button className="todo-btn" type="submit">
@@ -80,7 +76,7 @@ const TodoForm = (props) => {
         </>
       )}
     </form>
-  );
-};
+  )
+}
 
-export default TodoForm;
+export default TodoForm

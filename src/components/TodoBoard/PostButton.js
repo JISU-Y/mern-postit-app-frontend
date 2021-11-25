@@ -1,11 +1,11 @@
-import React from "react";
+import React from "react"
 
-const PostForm = ({ AddPostHandler }) => {
+const PostButton = ({ AddPostHandler }) => {
   return (
     <button className="start-post-btn" onClick={AddPostHandler}>
       start posting
     </button>
-  );
-};
+  )
+}
 
-export default PostForm;
+export default PostButton

@@ -1,6 +1,6 @@
 import React from "react"
 
-const modal = ({ modalType, close, post, removePostHandler, handleEditDone, clear }) => {
+const Modal = ({ modalType, close, post, removePostHandler, handleEditDone, clear }) => {
   const onClickinModal = () => {
     if (modalType.type === "remove") {
       removePostHandler(post._id)
@@ -36,4 +36,4 @@ const modal = ({ modalType, close, post, removePostHandler, handleEditDone, clea
   )
 }
 
-export default modal
+export default Modal

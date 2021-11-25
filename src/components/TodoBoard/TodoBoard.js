@@ -1,12 +1,9 @@
-import React, { useState, useEffect, useCallback, useRef } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux"
 
-import Preloader from "./Preloader"
-import { FiBox } from "react-icons/fi"
-import TodoList from "./TodoList"
-import Modal from "./Modal"
-import { getPosts, createPost, updatePost, deletePost } from "../functions"
-import PostForm from "./PostForm"
+import TodoList from "../TodoList/TodoList"
+import { createPost, deletePost } from "../../actions"
+import StartPostButton from "./PostButton"
 
 const TodoBoard = ({ currentId, setCurrentId, user }) => {
   // getPosts로 가져옴
@@ -223,7 +220,7 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
 
   return (
     <div className="todo-board" ref={postBoard}>
-      {!posts.find((post) => post.name === user?.result?.name) && user?.result?.name && <PostForm AddPostHandler={AddPostHandler} />}
+      {!posts.find((post) => post.name === user?.result?.name) && user?.result?.name && <StartPostButton AddPostHandler={AddPostHandler} />}
       {posts.length > 0
         ? posts.map((post) => {
             return (
@@ -246,7 +243,7 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
               />
             )
           })
-        : user?.result?.name && <PostForm AddPostHandler={AddPostHandler} />}
+        : user?.result?.name && <StartPostButton AddPostHandler={AddPostHandler} />}
     </div>
   )
 }
