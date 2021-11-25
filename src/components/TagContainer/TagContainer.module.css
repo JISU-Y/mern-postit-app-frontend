@@ -1,0 +1,68 @@
+.container {
+  width: 300px;
+  min-height: 23px;
+  background-color: transparent;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.blinking {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 20px;
+  background-color: crimson;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-size: 17px;
+  letter-spacing: 3px;
+  color: #fff;
+}
+
+.notag {
+  width: 300px;
+  height: 20px;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: rgba(170, 170, 170, 0.6);
+  margin: 7px 12px 0 0;
+  display: flex;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+
+.tag {
+  background-color: lawngreen;
+  width: fit-content;
+  margin: 5px 0 5px 10px;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  display: flex;
+}
+
+/* nesting 어떻게 함... */
+.tag.Later {
+  background-color: lawngreen;
+}
+.tag.Important {
+  background-color: firebrick;
+}
+.tag.Today {
+  background-color: hotpink;
+}
+.tag.To.buy {
+  background-color: slategray;
+}
+
+.content {
+  word-break: keep-all;
+}
+
+.removeBtn {
+  cursor: pointer;
+  font-size: 17px;
+  margin-left: 5px;
+}
