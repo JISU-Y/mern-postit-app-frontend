@@ -24,11 +24,17 @@ body {
   align-items: center;
 }
 
+h1 {
+  margin: 32px 0;
+  color: #fff;
+  font-size: 24px;
+}
+
 .title {
   font-size: 26px;
 }
 
-/* post it 하나 */
+/* post it 하나 (TodoList)만 남음.. */
 .todo-app {
   /* background: #ffd20c; 노란색 */
   background-color: #ffffff;
@@ -57,14 +63,6 @@ body {
   color: #555;
 }
 
-/* 
-보라색 5d0cff
-주황색 ff7614
-하늘색 149fff
-분홍색 fa0087
-노란색 ffd20c
-*/
-
 .todo-app .edit-instruction {
   width: 150px;
   font-size: 13px;
@@ -72,7 +70,7 @@ body {
   background-color: rgba(47, 79, 79, 0.8);
   color: #fff;
   margin: 7px 12px 0 0;
-  display: none;
+  opacity: 0;
   justify-content: flex-end;
   pointer-events: none;
   position: absolute;
@@ -82,96 +80,16 @@ body {
   border-radius: 30px;
   padding: 3px 15px;
   margin: 1px;
+  transition: 0.5s ease-in;
 }
 .todo-app:hover .edit-instruction {
-  display: flex;
+  opacity: 1;
 }
 
-h1 {
-  margin: 32px 0;
-  color: #fff;
-  font-size: 24px;
-}
-
-/* Modal - css 가져옴 */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 101;
-}
-.modal button {
-  outline: none;
-  cursor: pointer;
-  border: 0;
-}
-.modal > section {
-  width: 90%;
-  max-width: 450px;
-  margin: 0 auto;
-  border-radius: 0.3rem;
-  background-color: #fff;
-  /* 팝업이 열릴때 스르륵 열리는 효과 */
-  animation: modal-show 0.3s;
-  overflow: hidden;
-}
-.modal > section > header {
-  position: relative;
-  padding: 16px 64px 16px 16px;
-  background-color: #f1f1f1;
-  font-weight: 700;
-}
-.modal > section > header button {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  width: 30px;
-  font-size: 21px;
-  font-weight: 700;
-  text-align: center;
-  color: #999;
-  background-color: transparent;
-}
-.modal > section > main {
-  padding: 16px;
-  border-bottom: 1px solid #dee2e6;
-  border-top: 1px solid #dee2e6;
-}
-.modal > section > footer {
-  padding: 12px 16px;
-  text-align: right;
-}
-.modal > section > footer button {
-  padding: 6px 12px;
-  color: #fff;
-  background-color: #6c757d;
-  border-radius: 5px;
-  font-size: 13px;
-}
-.modal.open {
-  display: flex;
-  align-items: center;
-  /* 팝업이 열릴때 스르륵 열리는 효과 */
-  animation: modal-bg-show 0.3s;
-}
-@keyframes modal-show {
-  from {
-    opacity: 0;
-    margin-top: -50px;
-  }
-  to {
-    opacity: 1;
-    margin-top: 0;
-  }
-}
-@keyframes modal-bg-show {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
+/* 
+보라색 5d0cff
+주황색 ff7614
+하늘색 149fff
+분홍색 fa0087
+노란색 ffd20c
+*/
