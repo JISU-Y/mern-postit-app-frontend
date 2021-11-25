@@ -14,6 +14,8 @@ import { updatePost } from "../functions"
 import Tag from "./Tag"
 import TagContainer from "./TagContainer/TagContainer"
 import PostFooter from "./PostFooter/PostFooter"
+import PostMenu from "./ContextMenu/PostMenu"
+import TagMenu from "./ContextMenu/TagMenu"
 
 //todoList 는 TodoBoard에서 가져온 todos의 배열 중 배열 한 개씩
 const TodoList = ({
@@ -129,6 +131,7 @@ const TodoList = ({
   }
 
   // post edit done
+  // 과연 posts 전체를 받아와서 사용하는 것이 맞는 것일까..**
   const handleEditDone = () => {
     console.log(posts)
     console.log(posts.find((post) => post._id === currentId))
@@ -333,70 +336,20 @@ const TodoList = ({
         AddPostHandler={AddPostHandler}
       />
       {/* post context menu */}
-      {show ? (
-        <ul
-          className="menu"
-          style={{
-            top: anchorPoint.y,
-            left: anchorPoint.x,
-          }}
-        >
-          <li
-            onClick={() => {
-              clear()
-              AddPostHandler()
-            }}
-          >
-            add
-          </li>
-          {isEdit && <li onClick={openEditDoneModal}>edit done</li>}
-          <li onClick={openRemoveModal}>delete</li>
-          <li onClick={changeColor}>changing color</li>
-          <hr className="divider" />
-          <li onClick={handleClick}>Exit</li>
-        </ul>
-      ) : null}
+      {show && (
+        <PostMenu
+          isEdit={isEdit}
+          anchorPoint={anchorPoint}
+          AddPostHandler={AddPostHandler}
+          openEditDoneModal={openEditDoneModal}
+          openRemoveModal={openRemoveModal}
+          changeColor={changeColor}
+          handleClick={handleClick}
+        />
+      )}
       {/* tag context menu */}
-      {showTags ? (
-        <ul
-          className="menu"
-          style={{
-            top: anchorPoint.y,
-            left: anchorPoint.x,
-          }}
-        >
-          <li
-            onClick={() => {
-              handleAddTags("Later")
-            }}
-          >
-            Later to do
-          </li>
-          <li
-            onClick={() => {
-              handleAddTags("Important")
-            }}
-          >
-            Important to do
-          </li>
-          <li
-            onClick={() => {
-              handleAddTags("Today")
-            }}
-          >
-            Today's to do
-          </li>
-          <li
-            onClick={() => {
-              handleAddTags("To buy")
-            }}
-          >
-            Need to buy
-          </li>
-          <hr className="divider" />
-          <li onClick={handleClick}>Exit</li>
-        </ul>
-      ) : null}
+      {showTags && <TagMenu anchorPoint={anchorPoint} handleAddTags={handleAddTags} handleClick={handleClick} />}
+      {/* notice modal */}
       <Modal
         modalType={modalType}
         close={closeModal}
