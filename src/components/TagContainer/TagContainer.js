@@ -3,14 +3,16 @@ import styled, { keyframes } from "styled-components"
 
 import Tag from "./Tag/Tag"
 
+import styles from "./TagContainer.module.css"
+
 const TagContainer = (props) => {
   const containerStyle = { pointerEvents: props.isEdit ? "initial" : "none" }
   return (
-    <div className="tag-container" style={containerStyle}>
+    <div className={styles.container} style={containerStyle}>
       {/* editing warning */}
       {props.isEdit && (
         <AnimatedComponent>
-          <div className="blinking-block">
+          <div className={styles.blinking}>
             <h5>EDITING!</h5>
           </div>
         </AnimatedComponent>
@@ -19,7 +21,7 @@ const TagContainer = (props) => {
         ? props.tags.map((tag, index) => {
             return <Tag key={index} tag={tag} handleRemoveTags={props.handleRemoveTags} />
           })
-        : props.isEdit && <p className="no-tag">right click to add tags</p>}
+        : props.isEdit && <p className={styles.notag}>right click to add tags</p>}
     </div>
   )
 }

@@ -1,5 +1,7 @@
 import React, { useState, useRef } from "react"
 
+import styles from "./TodoForm.module.css"
+
 // todo form
 const TodoForm = (props) => {
   const [postTodo, setPostTodo] = useState(
@@ -43,34 +45,34 @@ const TodoForm = (props) => {
   }
 
   return (
-    <form autoComplete="off" className="todo-form" onSubmit={handleSubmit}>
+    <form autoComplete="off" className={styles.todoForm} onSubmit={handleSubmit}>
       {props.edit ? (
         <>
           <input
+            className={`${styles.todoInput} ${styles.edit}`}
             type="text"
             placeholder="Update your item"
             value={postTodo.todoText}
             name="text"
-            className="todo-input edit"
             onChange={(e) => setPostTodo({ ...postTodo, todoText: e.target.value })}
             ref={inputRef}
           />
-          <button className="todo-btn edit" type="submit">
+          <button className={`${styles.todoBtn} ${styles.edit}`} type="submit">
             Update
           </button>
         </>
       ) : (
         <>
           <input
+            className={styles.todoInput}
             type="text"
             placeholder="Add a todo"
             value={postTodo.todoText}
             name="text"
-            className="todo-input"
             onChange={(e) => setPostTodo({ ...postTodo, todoText: e.target.value })}
             ref={inputRef}
           />
-          <button className="todo-btn" type="submit">
+          <button className={styles.todoBtn} type="submit">
             Add todo
           </button>
         </>

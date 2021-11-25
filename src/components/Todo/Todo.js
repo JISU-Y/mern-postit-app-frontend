@@ -4,6 +4,8 @@ import { RiEdit2Fill } from "react-icons/ri"
 
 import TodoForm from "../TodoForm/TodoForm"
 
+import styles from "./Todo.module.css"
+
 const Todo = ({ todos, completeTodo, removeTodo, updateTodo, isEdit, post }) => {
   const [currTodoId, setCurrTodoId] = useState(0)
   const [edit, setEdit] = useState({
@@ -24,31 +26,28 @@ const Todo = ({ todos, completeTodo, removeTodo, updateTodo, isEdit, post }) => 
     return <TodoForm edit={edit} onSubmit={submitUpdate} />
   }
 
+  const handleEditTodo = (todo) => {
+    setCurrTodoId(todo._id)
+    setEdit({
+      todoText: todo.todoText,
+      todoDone: false,
+    })
+  }
+
+  const rowStyle = {
+    pointerEvents: isEdit ? "initial" : "none",
+  }
+
   return todos.map((todo, index) => {
     return (
-      <div
-        className={todo.todoDone ? "todo-row complete" : "todo-row"}
-        key={index}
-        style={{
-          pointerEvents: isEdit ? "initial" : "none",
-        }}
-      >
+      <div className={todo.todoDone ? `${styles.row} ${styles.complete}` : `${styles.row}`} key={index} style={rowStyle}>
         <div key={todo._id} onClick={() => completeTodo(todo._id)}>
           {todo.todoText}
         </div>
         {isEdit && (
-          <div className="icons">
-            <RiCloseCircleLine onClick={() => removeTodo(todo._id)} className="delete-icon" />
-            <RiEdit2Fill
-              onClick={() => {
-                setCurrTodoId(todo._id)
-                setEdit({
-                  todoText: todo.todoText,
-                  todoDone: false,
-                })
-              }}
-              className="edit-icon"
-            />
+          <div className={styles.icons}>
+            <RiCloseCircleLine onClick={() => removeTodo(todo._id)} className={styles.delete} />
+            <RiEdit2Fill onClick={() => handleEditTodo(todo)} className={styles.edit} />
           </div>
         )}
       </div>

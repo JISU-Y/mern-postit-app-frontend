@@ -14,6 +14,8 @@ import PostFooter from "../PostFooter/PostFooter"
 import PostMenu from "../ContextMenu/PostMenu"
 import TagMenu from "../ContextMenu/TagMenu"
 
+import styles from "./TodoList.module.css"
+
 //todoList 는 TodoBoard에서 가져온 todos의 배열 중 배열 한 개씩
 const TodoList = ({
   dragStartHandler,
@@ -291,6 +293,9 @@ const TodoList = ({
     setModalType(false, "", "")
   }
 
+  // postCss로 적용하면 todo-app className을 가지고
+  // 위치 style을 지정하기 때문에
+  // 안된다... 어떻게 하지
   return (
     <div
       className="todo-app"

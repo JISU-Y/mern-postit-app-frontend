@@ -1,5 +1,7 @@
 import React from "react"
 
+import styles from "./Modal.module.css"
+
 const Modal = ({ modalType, close, post, removePostHandler, handleEditDone, clear }) => {
   const onClickinModal = () => {
     if (modalType.type === "remove") {
@@ -17,17 +19,17 @@ const Modal = ({ modalType, close, post, removePostHandler, handleEditDone, clea
   }
 
   return (
-    <div className={modalType.open ? "modal open" : "modal"} onClick={close}>
+    <div className={modalType.open ? `${styles.modal} ${styles.open}` : `${styles.modal}`} onClick={close}>
       <section>
         <header>
           {modalType.type}
-          <button className="close" onClick={close}>
+          <button className={styles.closeBtn} onClick={close}>
             X
           </button>
         </header>
         <main>{modalType.msg}</main>
         <footer>
-          <button className="close" onClick={onClickinModal}>
+          <button className={styles.yesBtn} onClick={onClickinModal}>
             yes
           </button>
         </footer>

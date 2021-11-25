@@ -1,8 +1,10 @@
 import React from "react"
 
+import styles from "./TodoBoard.module.css"
+
 const PostButton = ({ AddPostHandler }) => {
   return (
-    <button className="start-post-btn" onClick={AddPostHandler}>
+    <button className={styles.startBtn} onClick={AddPostHandler}>
       start posting
     </button>
   )
