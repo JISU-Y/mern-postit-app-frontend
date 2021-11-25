@@ -144,11 +144,6 @@ h1 {
   padding: 16px 22px;
 }
 
-.todo-container {
-  display: flex;
-  flex-direction: row;
-}
-
 /* setting container */
 .todo-app .setting-container {
   width: 100%;

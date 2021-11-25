@@ -54,4 +54,5 @@
   font-weight: bold;
   color: black;
   opacity: 1;
+  pointer-events: none;
 }
