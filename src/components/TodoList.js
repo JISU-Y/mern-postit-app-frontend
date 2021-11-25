@@ -298,9 +298,7 @@ const TodoList = ({
     <div
       className="todo-app"
       ref={todoAppRef}
-      onDoubleClick={(e) => {
-        handleEditPost(e)
-      }}
+      onDoubleClick={(e) => handleEditPost(e)}
       onDragStart={(e) => {
         if (isEdit) dragStartHandler(e)
       }}
