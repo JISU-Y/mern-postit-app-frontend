@@ -3,7 +3,10 @@ import { useSelector, useDispatch } from "react-redux"
 
 import TodoList from "../TodoList/TodoList"
 import { createPost, deletePost } from "../../actions"
+
 import StartPostButton from "./PostButton"
+
+import styles from "./TodoBoard.module.css"
 
 const TodoBoard = ({ currentId, setCurrentId, user }) => {
   // getPosts로 가져옴
@@ -219,7 +222,7 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
   }
 
   return (
-    <div className="todo-board" ref={postBoard}>
+    <div className={styles.board} ref={postBoard}>
       {!posts.find((post) => post.name === user?.result?.name) && user?.result?.name && <StartPostButton AddPostHandler={AddPostHandler} />}
       {posts.length > 0
         ? posts.map((post) => {

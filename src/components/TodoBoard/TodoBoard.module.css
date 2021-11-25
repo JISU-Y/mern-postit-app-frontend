@@ -1,0 +1,32 @@
+.board {
+  background-color: #484f5b;
+  width: 95vw;
+  height: 710px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.startBtn {
+  height: 50px;
+  background-color: #fff;
+  border: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+  position: absolute;
+  top: -60px;
+  border-radius: 10px;
+  z-index: 200;
+  padding: 0 20px;
+}
+.startBtn:active {
+  transform: scale(0.98);
+}

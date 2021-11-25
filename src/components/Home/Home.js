@@ -6,6 +6,8 @@ import { getPosts } from "../../actions/index"
 
 import TodoBoard from "../TodoBoard/TodoBoard"
 
+import styles from "./Home.module.css"
+
 const Home = () => {
   const dispatch = useDispatch()
   const [currentId, setCurrentId] = useState(0)
@@ -19,14 +21,14 @@ const Home = () => {
   return (
     <Container>
       {!user?.result?.name && (
-        <Paper className="no-user-warning">
+        <Paper className={styles.admin}>
           <Typography variant="h6" align="center">
             Please Sign in or Sign up to create your own posts
           </Typography>
           {/* 여기에 버튼이 있었음 좋겠는데 (add post handler) */}
         </Paper>
       )}
-      <div className="container">
+      <div className={styles.container}>
         <TodoBoard currentId={currentId} setCurrentId={setCurrentId} user={user} />
       </div>
     </Container>
