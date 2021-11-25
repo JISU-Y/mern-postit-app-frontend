@@ -2,35 +2,35 @@ import React from "react"
 
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi"
 import { MdDone } from "react-icons/md"
-import { Typography, Button } from "@material-ui/core"
+import { Button } from "@material-ui/core"
 import moment from "moment"
 
+import styles from "./PostFooter.module.css"
+
 const PostFooter = (props) => {
-  console.log(props.isEdit)
+  const onDelete = () => {
+    props.setCurrentId(props.post._id) // currentId로 redering 하기 위함
+    props.openRemoveModal()
+  }
   return (
-    <div className="setting-container">
-      <Typography varian="body2">{moment(props.post.createdAt).fromNow()}</Typography>
-      {/* {isUpdated ? <p>{post.updatedAt}(수정됨)</p> : <p>{post.createdAt}</p>} */}
-      <div className="icons-container">
+    <div className={styles.container}>
+      <p className={styles.createdTime} varian="body2">
+        {moment(props.post.createdAt).fromNow()}
+      </p>
+      <div className={styles.icons}>
         {(props.userGoogleId === props.postCreator || props.userId === props.postCreator) && (
-          <FiMinusCircle
-            className="minus-icon"
-            onClick={() => {
-              props.setCurrentId(props.post._id) // currentId로 redering 하기 위함
-              props.openRemoveModal()
-            }}
-          />
-        )}
-        {props.isEdit ? (
-          <div className="edit-done-component">
-            <Button variant="contained" color="secondary" size="small" onClick={props.openEditDoneModal}>
-              click to edit done
-              <MdDone className="done-icon" />
-            </Button>
-          </div>
-        ) : null}
-        {(props.userGoogleId === props.postCreator || props.userId === props.postCreator) && (
-          <FiPlusCircle className="plus-icon" onClick={props.AddPostHandler} />
+          <>
+            <FiMinusCircle className={styles.minus} onClick={onDelete} />
+            {props.isEdit && (
+              <div className={styles.editDone}>
+                <Button variant="contained" color="secondary" size="small" onClick={props.openEditDoneModal}>
+                  click to edit done
+                  <MdDone className={styles.done} />
+                </Button>
+              </div>
+            )}
+            <FiPlusCircle className={styles.plus} onClick={props.AddPostHandler} />
+          </>
         )}
       </div>
     </div>

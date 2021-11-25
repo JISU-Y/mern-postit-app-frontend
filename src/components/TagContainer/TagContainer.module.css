@@ -33,7 +33,7 @@
   pointer-events: none;
 }
 
-.tag {
+.Tag {
   background-color: lawngreen;
   width: fit-content;
   margin: 5px 0 5px 10px;
@@ -44,16 +44,16 @@
 }
 
 /* nesting 어떻게 함... */
-.tag.Later {
+.Tag.Later {
   background-color: lawngreen;
 }
-.tag.Important {
+.Tag.Important {
   background-color: firebrick;
 }
-.tag.Today {
+.Tag.Today {
   background-color: hotpink;
 }
-.tag.To.buy {
+.Tag.To.buy {
   background-color: slategray;
 }
 

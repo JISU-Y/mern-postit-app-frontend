@@ -1,5 +1,7 @@
 import React from "react"
 
+import styles from "./ContextMenu.module.css"
+
 const TagMenu = (props) => {
   const posInStyle = {
     top: props.anchorPoint.y,
@@ -11,12 +13,12 @@ const TagMenu = (props) => {
   }
 
   return (
-    <ul className="menu" style={posInStyle}>
+    <ul className={styles.menu} style={posInStyle}>
       <li onClick={() => onAddTag("Later")}>Later to do</li>
       <li onClick={() => onAddTag("Important")}>Important to do</li>
       <li onClick={() => onAddTag("Today")}>Today's to do</li>
       <li onClick={() => onAddTag("To buy")}>Need to buy</li>
-      <hr className="divider" />
+      <hr />
       <li onClick={props.handleClick}>Exit</li>
     </ul>
   )
