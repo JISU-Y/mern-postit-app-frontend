@@ -1,7 +1,8 @@
 import React from "react"
-import { Typography, Button } from "@material-ui/core"
+
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi"
 import { MdDone } from "react-icons/md"
+import { Typography, Button } from "@material-ui/core"
 import moment from "moment"
 
 const PostFooter = (props) => {

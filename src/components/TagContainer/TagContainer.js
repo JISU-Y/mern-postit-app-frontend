@@ -1,24 +1,20 @@
 import React from "react"
 import styled, { keyframes } from "styled-components"
-import Tag from "../Tag"
+
+import Tag from "./Tag/Tag"
 
 const TagContainer = (props) => {
-  console.log(props)
+  const containerStyle = { pointerEvents: props.isEdit ? "initial" : "none" }
   return (
-    <div
-      className="tag-container"
-      style={{
-        pointerEvents: props.isEdit ? "initial" : "none",
-      }}
-    >
+    <div className="tag-container" style={containerStyle}>
       {/* editing warning */}
-      {props.isEdit ? (
+      {props.isEdit && (
         <AnimatedComponent>
           <div className="blinking-block">
             <h5>EDITING!</h5>
           </div>
         </AnimatedComponent>
-      ) : null}
+      )}
       {props.tags.length > 0
         ? props.tags.map((tag, index) => {
             return <Tag key={index} tag={tag} handleRemoveTags={props.handleRemoveTags} />

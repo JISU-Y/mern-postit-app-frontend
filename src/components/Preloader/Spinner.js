@@ -1,6 +1,6 @@
-import React from "react";
+import React from "react"
 
-const Preloader = () => {
+const Spinner = () => {
   return (
     <div className="center-align">
       <div className="preloader-wrapper big active">
@@ -17,7 +17,7 @@ const Preloader = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Preloader;
+export default Spinner

@@ -1,21 +1,18 @@
+// react / redux
 import React, { useState, useEffect, useCallback, useRef } from "react"
 import { useDispatch } from "react-redux"
-import { Typography, Button, Paper } from "@material-ui/core"
-import moment from "moment"
 
-import Todo from "./Todo"
-import TodoForm from "./TodoForm"
-import Modal from "./Modal"
-import { FiPlusCircle, FiMinusCircle } from "react-icons/fi"
-import { TiEdit } from "react-icons/ti"
-import { MdDone } from "react-icons/md"
-import { ImCross } from "react-icons/im"
-import { updatePost } from "../functions"
-import Tag from "./Tag"
-import TagContainer from "./TagContainer/TagContainer"
-import PostFooter from "./PostFooter/PostFooter"
-import PostMenu from "./ContextMenu/PostMenu"
-import TagMenu from "./ContextMenu/TagMenu"
+// middleware
+import { updatePost } from "../../actions"
+
+// components
+import Todo from "../Todo/Todo"
+import TodoForm from "../TodoForm/TodoForm"
+import Modal from "../Modal/Modal"
+import TagContainer from "../TagContainer/TagContainer"
+import PostFooter from "../PostFooter/PostFooter"
+import PostMenu from "../ContextMenu/PostMenu"
+import TagMenu from "../ContextMenu/TagMenu"
 
 //todoList 는 TodoBoard에서 가져온 todos의 배열 중 배열 한 개씩
 const TodoList = ({
