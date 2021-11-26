@@ -19,6 +19,7 @@
   font-size: 17px;
   letter-spacing: 3px;
   color: #fff;
+  animation: blinkingEffect 1s linear infinite;
 }
 
 .notag {
@@ -43,7 +44,6 @@
   display: flex;
 }
 
-/* nesting 어떻게 함... */
 .Tag.Later {
   background-color: lawngreen;
 }
@@ -65,4 +65,10 @@
   cursor: pointer;
   font-size: 17px;
   margin-left: 5px;
+}
+
+@keyframes blinkingEffect {
+  50% {
+    opacity: 0;
+  }
 }

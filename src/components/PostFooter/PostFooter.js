@@ -6,6 +6,7 @@ import { Button } from "@material-ui/core"
 import moment from "moment"
 
 import styles from "./PostFooter.module.css"
+import hoverStyle from "../TodoList/TodoList.module.css"
 
 const PostFooter = (props) => {
   const onDelete = () => {
@@ -20,7 +21,7 @@ const PostFooter = (props) => {
       <div className={styles.icons}>
         {(props.userGoogleId === props.postCreator || props.userId === props.postCreator) && (
           <>
-            <FiMinusCircle className={styles.minus} onClick={onDelete} />
+            <FiMinusCircle className={hoverStyle.minus} onClick={onDelete} />
             {props.isEdit && (
               <div className={styles.editDone}>
                 <Button variant="contained" color="secondary" size="small" onClick={props.openEditDoneModal}>

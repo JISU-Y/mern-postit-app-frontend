@@ -1,5 +1,5 @@
 // react / redux
-import React, { useState, useEffect, useCallback, useRef } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { useDispatch } from "react-redux"
 
 // middleware
@@ -11,8 +11,6 @@ import TodoForm from "../TodoForm/TodoForm"
 import Modal from "../Modal/Modal"
 import TagContainer from "../TagContainer/TagContainer"
 import PostFooter from "../PostFooter/PostFooter"
-import PostMenu from "../ContextMenu/PostMenu"
-import TagMenu from "../ContextMenu/TagMenu"
 
 import styles from "./TodoList.module.css"
 
@@ -25,13 +23,13 @@ const TodoList = ({
   post,
   setTodosHandler,
   handlePostIndex,
-  setPost,
   AddPostHandler,
   removePostHandler,
   currentId,
   setCurrentId,
   setTagsHandler,
   user,
+  todoAppRef,
 }) => {
   const dispatch = useDispatch()
   // 여기서 따로 사용할 todo 배열
@@ -40,17 +38,16 @@ const TodoList = ({
   // 아니지, 굳이 useState 쓸 필요가? 그냥 post.todos 가지고 데이터 가공해서 setTodosHandler로 넘겨주면 되지 않나?
   const [todos, setTodos] = useState(post.todos)
   const [tags, setTags] = useState(post.tag)
-  const [isUpdated, setIsUpdated] = useState(post.createdAt !== post.updatedAt)
   const [isEdit, setIsEdit] = useState(false)
+  // change colors
+  const [colorIndex, setColorIndex] = useState(1) // 이게 (중요 / 보통 / 나중) 태그로 활용될 수도
+  const postColor = ["#ffd20c", "#5d0cff", "#ff7614", "#149fff", "#fa0087"]
 
-  // 오른쪽 클릭 좌표
-  const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 })
-  // menu 보여주거나 말거나
-  const [show, setShow] = useState(false)
-  const [showTags, setShowTags] = useState(false)
-
-  // todo-app post ref
-  const todoAppRef = useRef(null)
+  let postStyle = {
+    top: post.position.y,
+    left: post.position.x,
+    backgroundColor: "#fff",
+  }
 
   // Todos
   const addTodo = (todo) => {
@@ -131,6 +128,7 @@ const TodoList = ({
 
   // post edit done
   // 과연 posts 전체를 받아와서 사용하는 것이 맞는 것일까..**
+  // posts를 넘기지말고 그냥 이미 find 한 post를 currentPost로 넘기면 안되나
   const handleEditDone = () => {
     console.log(posts)
     console.log(posts.find((post) => post._id === currentId))
@@ -185,51 +183,8 @@ const TodoList = ({
     console.log("clear")
   }
 
-  // 색 바꾸기 혹은 오른쪽 클릭 메뉴 생성
-  const handleContextMenu = useCallback(
-    (e) => {
-      e.preventDefault()
-      // 이 기괴한 조건을 어떻게 좀 할 수 없을까? **
-      if ((e.target.className !== "todo-app" && e.target.className !== "tag-container") || !isEdit) {
-        setShow(false)
-        return
-      }
-
-      const rect = e.target.getBoundingClientRect()
-      const rectX = e.clientX - rect.left // x position within the element.
-      const rectY = e.clientY - rect.top // y position within the element.
-
-      setAnchorPoint({ x: rectX, y: rectY })
-      if (e.target.className === "todo-app") {
-        setShow(true)
-      }
-      if (e.target.className === "tag-container") {
-        setShowTags(true)
-      }
-    },
-    [setAnchorPoint, setShow, setShowTags, isEdit]
-  )
-
-  const handleClick = useCallback(() => {
-    setShow(() => (show ? false : null))
-    setShowTags(() => (showTags ? false : null))
-  }, [show, showTags])
-
-  useEffect(() => {
-    document.addEventListener("click", handleClick)
-    todoAppRef.current.addEventListener("contextmenu", handleContextMenu)
-    return () => {
-      // context menu는 각각의 todoList에서 event를 생기게 하고
-      // context menu를 없앨때는 어디든 클릭하면 없어져야 하므로 document로 한다
-      document.removeEventListener("click", handleClick)
-      document.removeEventListener("contextmenu", handleContextMenu)
-    }
-  }, [handleClick, handleContextMenu])
-
-  // change colors
-  const [colorIndex, setColorIndex] = useState(1) // 이게 중요 / 보통 / 나중 태그로 활용될 수도
-  const postColor = ["#ffd20c", "#5d0cff", "#ff7614", "#149fff", "#fa0087"]
-
+  // post 색 변경
+  // 현재 최신 포스트만 변경되어 비활성화 필요
   const changeColor = () => {
     setColorIndex((index) => {
       let newIndex = index + 1
@@ -242,7 +197,6 @@ const TodoList = ({
     })
 
     todoAppRef.current.style.backgroundColor = `${postColor[colorIndex]}`
-    setShow(false)
   }
 
   // modal 관련
@@ -293,13 +247,11 @@ const TodoList = ({
     setModalType(false, "", "")
   }
 
-  // postCss로 적용하면 todo-app className을 가지고
-  // 위치 style을 지정하기 때문에
-  // 안된다... 어떻게 하지
   return (
     <div
-      className="todo-app"
+      className={styles.todoPost}
       ref={todoAppRef}
+      style={postStyle}
       onDoubleClick={(e) => handleEditPost(e)}
       onDragStart={(e) => {
         if (isEdit) dragStartHandler(e)
@@ -313,16 +265,27 @@ const TodoList = ({
       draggable // 이걸 추가해야 drag가 잘됨
     >
       {/* tag component*/}
-      <TagContainer isEdit={isEdit} tags={tags} handleRemoveTags={handleRemoveTags} />
+      <TagContainer isEdit={isEdit} tags={tags} handleAddTags={handleAddTags} handleRemoveTags={handleRemoveTags} />
       {/* Todo 입력 form / user가 있을 경우에만 / Edit 중인 경우만 form 보이기 */}
       {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) &&
         (isEdit ? (
           <TodoForm onSubmit={addTodo} openNoInputModal={openNoInputModal} isEdit={isEdit} openPleaseEditModal={openPleaseEditModal} post={post} />
         ) : (
-          <p className="edit-instruction">double tab to edit this post</p>
+          <p className={styles.instruction}>double tab to edit this post</p>
         ))}
       {/* Todo 항목 리스트 */}
-      <Todo todos={todos} completeTodo={completeTodo} removeTodo={removeTodo} updateTodo={updateTodo} isEdit={isEdit} post={post} />
+      <Todo
+        todos={todos}
+        completeTodo={completeTodo}
+        removeTodo={removeTodo}
+        updateTodo={updateTodo}
+        isEdit={isEdit}
+        post={post}
+        AddPostHandler={AddPostHandler}
+        openEditDoneModal={openEditDoneModal}
+        openRemoveModal={openRemoveModal}
+        changeColor={changeColor}
+      />
       {/* setting area */}
       <PostFooter
         isEdit={isEdit}
@@ -335,20 +298,6 @@ const TodoList = ({
         openEditDoneModal={openEditDoneModal}
         AddPostHandler={AddPostHandler}
       />
-      {/* post context menu */}
-      {show && (
-        <PostMenu
-          isEdit={isEdit}
-          anchorPoint={anchorPoint}
-          AddPostHandler={AddPostHandler}
-          openEditDoneModal={openEditDoneModal}
-          openRemoveModal={openRemoveModal}
-          changeColor={changeColor}
-          handleClick={handleClick}
-        />
-      )}
-      {/* tag context menu */}
-      {showTags && <TagMenu anchorPoint={anchorPoint} handleAddTags={handleAddTags} handleClick={handleClick} />}
       {/* notice modal */}
       <Modal
         modalType={modalType}
