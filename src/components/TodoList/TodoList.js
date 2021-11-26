@@ -1,5 +1,5 @@
 // react / redux
-import React, { useState, useEffect, useCallback, useRef } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { useDispatch } from "react-redux"
 
 // middleware
@@ -11,8 +11,6 @@ import TodoForm from "../TodoForm/TodoForm"
 import Modal from "../Modal/Modal"
 import TagContainer from "../TagContainer/TagContainer"
 import PostFooter from "../PostFooter/PostFooter"
-import PostMenu from "../ContextMenu/PostMenu"
-import TagMenu from "../ContextMenu/TagMenu"
 
 import styles from "./TodoList.module.css"
 
@@ -32,6 +30,7 @@ const TodoList = ({
   setCurrentId,
   setTagsHandler,
   user,
+  todoAppRef,
 }) => {
   const dispatch = useDispatch()
   // 여기서 따로 사용할 todo 배열
@@ -40,17 +39,10 @@ const TodoList = ({
   // 아니지, 굳이 useState 쓸 필요가? 그냥 post.todos 가지고 데이터 가공해서 setTodosHandler로 넘겨주면 되지 않나?
   const [todos, setTodos] = useState(post.todos)
   const [tags, setTags] = useState(post.tag)
-  const [isUpdated, setIsUpdated] = useState(post.createdAt !== post.updatedAt)
   const [isEdit, setIsEdit] = useState(false)
-
-  // 오른쪽 클릭 좌표
-  const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 })
-  // menu 보여주거나 말거나
-  const [show, setShow] = useState(false)
-  const [showTags, setShowTags] = useState(false)
-
-  // todo-app post ref
-  const todoAppRef = useRef(null)
+  // change colors
+  const [colorIndex, setColorIndex] = useState(1) // 이게 (중요 / 보통 / 나중) 태그로 활용될 수도
+  const postColor = ["#ffd20c", "#5d0cff", "#ff7614", "#149fff", "#fa0087"]
 
   // Todos
   const addTodo = (todo) => {
@@ -185,10 +177,7 @@ const TodoList = ({
     console.log("clear")
   }
 
-  // change colors
-  const [colorIndex, setColorIndex] = useState(1) // 이게 중요 / 보통 / 나중 태그로 활용될 수도
-  const postColor = ["#ffd20c", "#5d0cff", "#ff7614", "#149fff", "#fa0087"]
-
+  // post 색 변경
   const changeColor = () => {
     setColorIndex((index) => {
       let newIndex = index + 1
@@ -201,7 +190,6 @@ const TodoList = ({
     })
 
     todoAppRef.current.style.backgroundColor = `${postColor[colorIndex]}`
-    setShow(false)
   }
 
   // modal 관련
@@ -257,10 +245,16 @@ const TodoList = ({
   // 안된다... 어떻게 하지
   // hover 같은 거 common css로 옮기기
 
+  const postStyle = {
+    top: post.position.y,
+    left: post.position.x,
+  }
+
   return (
     <div
-      className="todo-app"
+      className={styles.todoPost}
       ref={todoAppRef}
+      style={postStyle}
       onDoubleClick={(e) => handleEditPost(e)}
       onDragStart={(e) => {
         if (isEdit) dragStartHandler(e)
@@ -280,7 +274,7 @@ const TodoList = ({
         (isEdit ? (
           <TodoForm onSubmit={addTodo} openNoInputModal={openNoInputModal} isEdit={isEdit} openPleaseEditModal={openPleaseEditModal} post={post} />
         ) : (
-          <p className="edit-instruction">double tab to edit this post</p>
+          <p className={styles.instruction}>double tab to edit this post</p>
         ))}
       {/* Todo 항목 리스트 */}
       <Todo

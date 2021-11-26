@@ -22,26 +22,18 @@
   background-position: bottom right;
   z-index: 101;
 }
-.todoPost:hover .setting-container .icons-container .minus-icon {
+.todoPost:hover .minus {
   color: #555;
 }
 
-/* 
-  보라색 5d0cff
-  주황색 ff7614
-  하늘색 149fff
-  분홍색 fa0087
-  노란색 ffd20c
-  */
-
-.todo-app .edit-instruction {
+.instruction {
   width: 150px;
   font-size: 13px;
   letter-spacing: 1px;
   background-color: rgba(47, 79, 79, 0.8);
   color: #fff;
   margin: 7px 12px 0 0;
-  display: none;
+  opacity: 0;
   justify-content: flex-end;
   pointer-events: none;
   position: absolute;
@@ -51,7 +43,15 @@
   border-radius: 30px;
   padding: 3px 15px;
   margin: 1px;
+  transition: 0.5s ease-in;
 }
-.todo-app:hover .edit-instruction {
-  display: flex;
+.todoPost:hover .instruction {
+  opacity: 1;
 }
+/* 
+  보라색 5d0cff
+  주황색 ff7614
+  하늘색 149fff
+  분홍색 fa0087
+  노란색 ffd20c
+  */

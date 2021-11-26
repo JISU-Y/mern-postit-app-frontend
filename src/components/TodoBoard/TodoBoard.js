@@ -30,6 +30,8 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [oriPosition, setOriPosition] = useState({ x: 0, y: 0 })
 
+  const todoAppRef = useRef(null)
+
   useEffect(() => {
     // 선택한 post
     // currentId가 0이면 그냥 null로 설정하고
@@ -56,22 +58,6 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
     }
     fetchData()
   }, [dispatch, postits, currentId]) // posts를 넣으면 실시간으로 rendering은 되는데 너무 자주 rendering 됨
-
-  useEffect(() => {
-    // todo-app은 ToDoList
-    // 이거 ref로 하면 되지 않나..?
-    // 근데 그게 하위에 있으니까
-    // ToDoList에는 todolist만 있게 하고
-    // modal은 ToDoBoard에 넣던가 해야할 것 같은데..
-    const allPosts = [...document.getElementsByClassName("todo-app")].filter((post) => post.className === "todo-app") // todo app 만 걸러냄(children에서 modal은 뺌)
-    allPosts.map((eachpost, index) => {
-      eachpost.style.left = `${[...posts][index].position.x}`
-      eachpost.style.top = `${[...posts][index].position.y}`
-      return eachpost
-    })
-
-    setPosts(posts)
-  }, [posts])
 
   // post를 추가하기만 하는 것 (일단 내용(todos)은 없는 것으로 하기)
   // add post 를 누르면 <Form />를 띄우는 것으로 하는 게 맞을 것 같은데
@@ -158,7 +144,7 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
 
   // 드래그 시작되었을 때 실행 - onDragStart
   const dragStartHandler = (e) => {
-    if (e.target.className !== "todo-app") return
+    if (e.target.className !== todoAppRef.current.className) return
 
     // drag 끝난 것 가장 앞으로 보내기 / 혹은 클릭했을 때
     handlePostIndex(e)
@@ -176,7 +162,7 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
 
   // 드래그 중일 때 실행 - onDrag
   const dragHandler = (e) => {
-    if (e.target.className !== "todo-app") return
+    if (e.target.className !== todoAppRef.current.className) return
 
     // const box = postBoard.current.getBoundingClientRect();
 
@@ -190,7 +176,7 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
 
   // 드래그 끝났을 때 실행(마우스 놓으면서) - onDragEnd
   const dragEndHandler = (e) => {
-    if (e.target.className !== "todo-app") return
+    if (e.target.className !== todoAppRef.current.className) return
     // 올바른 영역에 드랍 되었는지 체크
     const box = postBoard.current.getBoundingClientRect()
     if (box.left < e.clientX && e.clientX < box.right && box.top < e.clientY && e.clientY < box.bottom) {
@@ -207,7 +193,7 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
   }
 
   const handlePostIndex = (e) => {
-    if (e.target.className !== "todo-app") return
+    if (e.target.className !== todoAppRef.current.className) return
 
     // childNodes/children는 nodeList라 이렇게 배열로 변환해주어야 loop syntax를 사용할 수 있다
     const allPosts = [...e.target.parentNode.children].filter((post) => post.className === "todo-app") // todo app 만 걸러냄(children에서 modal은 뺌)
@@ -243,6 +229,7 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
                 setCurrentId={setCurrentId}
                 setTagsHandler={setTagsHandler}
                 user={user}
+                todoAppRef={todoAppRef}
               />
             )
           })
