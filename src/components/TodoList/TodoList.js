@@ -23,7 +23,6 @@ const TodoList = ({
   post,
   setTodosHandler,
   handlePostIndex,
-  setPost,
   AddPostHandler,
   removePostHandler,
   currentId,
@@ -43,6 +42,12 @@ const TodoList = ({
   // change colors
   const [colorIndex, setColorIndex] = useState(1) // 이게 (중요 / 보통 / 나중) 태그로 활용될 수도
   const postColor = ["#ffd20c", "#5d0cff", "#ff7614", "#149fff", "#fa0087"]
+
+  let postStyle = {
+    top: post.position.y,
+    left: post.position.x,
+    backgroundColor: "#fff",
+  }
 
   // Todos
   const addTodo = (todo) => {
@@ -123,6 +128,7 @@ const TodoList = ({
 
   // post edit done
   // 과연 posts 전체를 받아와서 사용하는 것이 맞는 것일까..**
+  // posts를 넘기지말고 그냥 이미 find 한 post를 currentPost로 넘기면 안되나
   const handleEditDone = () => {
     console.log(posts)
     console.log(posts.find((post) => post._id === currentId))
@@ -178,6 +184,7 @@ const TodoList = ({
   }
 
   // post 색 변경
+  // 현재 최신 포스트만 변경되어 비활성화 필요
   const changeColor = () => {
     setColorIndex((index) => {
       let newIndex = index + 1
@@ -238,16 +245,6 @@ const TodoList = ({
 
   const closeModal = () => {
     setModalType(false, "", "")
-  }
-
-  // postCss로 적용하면 todo-app className을 가지고
-  // 위치 style을 지정하기 때문에
-  // 안된다... 어떻게 하지
-  // hover 같은 거 common css로 옮기기
-
-  const postStyle = {
-    top: post.position.y,
-    left: post.position.x,
   }
 
   return (

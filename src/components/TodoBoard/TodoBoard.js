@@ -32,8 +32,8 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
 
   const todoAppRef = useRef(null)
 
+  // 선택한 post
   useEffect(() => {
-    // 선택한 post
     // currentId가 0이면 그냥 null로 설정하고
     // currentId가 0이 아니고 뭔가 눌렸을 때는 그 currentId와 posts 중에 id가 같은 것을 찾아서 그 post를 반환
     let currentPost =
@@ -50,22 +50,19 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
   }, [currentId])
 
   // fetchData (posts)
-  // postits에 store에서 가져온 데이터들을 이미 다 넣어두었는데,
+  // postits에 store에서 가져온 데이터들을 이미 다 넣어두었는데, **
   // 굳이 setPosts를 해주어야 할까?
   useEffect(() => {
     const fetchData = () => {
       setPosts(postits) // App js에서 getPosts로 가져온 postits를 set해줌
     }
     fetchData()
-  }, [dispatch, postits, currentId]) // posts를 넣으면 실시간으로 rendering은 되는데 너무 자주 rendering 됨
+  }, [dispatch, postits, currentId])
 
   // post를 추가하기만 하는 것 (일단 내용(todos)은 없는 것으로 하기)
   // add post 를 누르면 <Form />를 띄우는 것으로 하는 게 맞을 것 같은데
   // 지금 이런식으로 하면 무조건 create 먼저하고 다음에 수정하는 걸로 해야하는 건데
   const AddPostHandler = async () => {
-    // e.preventDefault(); // 하니까 안됨
-
-    console.log("add post handler")
     console.log({ ...post, name: user?.result?.name })
 
     dispatch(
@@ -85,18 +82,6 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
     // id = _id / 나중에 tag 수정도 추가 / todos는 수정할 todo 배열
     if (currentId === 0) return
 
-    // 기존의 post들을 map loop 돌려서 그 중에 찾고자 하는 id와 같은 post를 찾아서
-    // post를 newPost로 교체한다 / 아니면 그냥 그대로
-    // newPost를 생성해서 덮어씌우면 부여받은 id가 없으니 당연히 안됐던거지
-    // setPosts((item) =>
-    //   item.map((itemInside) =>
-    //     itemInside._id === currentId
-    //       ? { ...itemInside, todos: todos }
-    //       : itemInside
-    //   )
-    // );
-
-    // 이렇게 해도 바로 update가 안되네
     let copiedPosts = posts.map((item) => {
       if (item._id === currentId) {
         item = { ...item, todos: todos }
@@ -239,24 +224,3 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
 }
 
 export default TodoBoard
-
-// mother post에서만 add post 되도록 구현해야함  => 된듯?
-// 왼쪽 상단에 (혹은 정 가운데에) mother post
-// 옮기려고 하는 포스트 잇은 드래그 앤 드랍(일단은 밑에)으로 옮겨지도록
-// => 그러려고 했는데 그럴 이유가 굳이 없음. 스티커 메모처럼
-// 생성했으면 그 메모에서도  + 하여 생성할 수 있도록 해야함
-
-// todo list 색 바꿀 수 있도록 수정 (오른쪽 마우스 클릭해서 몇 가지 색으로만 바꿀 수 있도록) => 오른쪽 마우스 클릭 됨
-// postit 개별 삭제 추가 => 됨
-// postit 개별 edit 추가 => 됨
-// Board 안에서 post it 드래그 앤 드랍 할 수 있도록 구현 -> 됨
-// context menu 한개 element에서만 동작하도록 -> 됨
-
-// 우선순위
-// changing color 저장되도록 추가 (태그 처럼 사용 / 중요, 오늘 할 일, 기타, 살 것 ...)
-// backend 구현해야함 (MERN ? , Firebase? , 일단 Local Storage?)
-// 완성된 todo는 밑으로 보내서 해야할 것들이 todo list의 상단에 올라오도록
-// 여러 에러(내용 없이 add todo, post 제거 시 진짜 제거 alert창, edit done 시 alert창 등등) 구현
-// css post it 처럼 꾸미기
-// source post는 좀 더 잘 보이게 꾸미기 / 고정 시켜놓기
-// 로그인 / 회원가입 구현

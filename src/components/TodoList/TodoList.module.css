@@ -22,6 +22,14 @@
   background-position: bottom right;
   z-index: 101;
 }
+
+.minus {
+  font-size: 25px;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.5s ease-in;
+}
+
 .todoPost:hover .minus {
   color: #555;
 }
