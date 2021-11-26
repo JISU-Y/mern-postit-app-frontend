@@ -185,47 +185,6 @@ const TodoList = ({
     console.log("clear")
   }
 
-  // 색 바꾸기 혹은 오른쪽 클릭 메뉴 생성
-  const handleContextMenu = useCallback(
-    (e) => {
-      e.preventDefault()
-      // 이 기괴한 조건을 어떻게 좀 할 수 없을까? **
-      if ((e.target.className !== "todo-app" && e.target.className !== "tag-container") || !isEdit) {
-        setShow(false)
-        return
-      }
-
-      const rect = e.target.getBoundingClientRect()
-      const rectX = e.clientX - rect.left // x position within the element.
-      const rectY = e.clientY - rect.top // y position within the element.
-
-      setAnchorPoint({ x: rectX, y: rectY })
-      if (e.target.className === "todo-app") {
-        setShow(true)
-      }
-      if (e.target.className === "tag-container") {
-        setShowTags(true)
-      }
-    },
-    [setAnchorPoint, setShow, setShowTags, isEdit]
-  )
-
-  const handleClick = useCallback(() => {
-    setShow(() => (show ? false : null))
-    setShowTags(() => (showTags ? false : null))
-  }, [show, showTags])
-
-  useEffect(() => {
-    document.addEventListener("click", handleClick)
-    todoAppRef.current.addEventListener("contextmenu", handleContextMenu)
-    return () => {
-      // context menu는 각각의 todoList에서 event를 생기게 하고
-      // context menu를 없앨때는 어디든 클릭하면 없어져야 하므로 document로 한다
-      document.removeEventListener("click", handleClick)
-      document.removeEventListener("contextmenu", handleContextMenu)
-    }
-  }, [handleClick, handleContextMenu])
-
   // change colors
   const [colorIndex, setColorIndex] = useState(1) // 이게 중요 / 보통 / 나중 태그로 활용될 수도
   const postColor = ["#ffd20c", "#5d0cff", "#ff7614", "#149fff", "#fa0087"]
@@ -296,6 +255,8 @@ const TodoList = ({
   // postCss로 적용하면 todo-app className을 가지고
   // 위치 style을 지정하기 때문에
   // 안된다... 어떻게 하지
+  // hover 같은 거 common css로 옮기기
+
   return (
     <div
       className="todo-app"
@@ -322,7 +283,18 @@ const TodoList = ({
           <p className="edit-instruction">double tab to edit this post</p>
         ))}
       {/* Todo 항목 리스트 */}
-      <Todo todos={todos} completeTodo={completeTodo} removeTodo={removeTodo} updateTodo={updateTodo} isEdit={isEdit} post={post} />
+      <Todo
+        todos={todos}
+        completeTodo={completeTodo}
+        removeTodo={removeTodo}
+        updateTodo={updateTodo}
+        isEdit={isEdit}
+        post={post}
+        AddPostHandler={AddPostHandler}
+        openEditDoneModal={openEditDoneModal}
+        openRemoveModal={openRemoveModal}
+        changeColor={changeColor}
+      />
       {/* setting area */}
       <PostFooter
         isEdit={isEdit}
@@ -335,20 +307,6 @@ const TodoList = ({
         openEditDoneModal={openEditDoneModal}
         AddPostHandler={AddPostHandler}
       />
-      {/* post context menu */}
-      {show && (
-        <PostMenu
-          isEdit={isEdit}
-          anchorPoint={anchorPoint}
-          AddPostHandler={AddPostHandler}
-          openEditDoneModal={openEditDoneModal}
-          openRemoveModal={openRemoveModal}
-          changeColor={changeColor}
-          handleClick={handleClick}
-        />
-      )}
-      {/* tag context menu */}
-      {showTags && <TagMenu anchorPoint={anchorPoint} handleAddTags={handleAddTags} handleClick={handleClick} />}
       {/* notice modal */}
       <Modal
         modalType={modalType}

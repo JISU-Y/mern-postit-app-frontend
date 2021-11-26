@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react"
-import styled, { keyframes } from "styled-components"
-import TagMenu from "../ContextMenu/TagMenu"
 
 import Tag from "./Tag/Tag"
+import TagMenu from "../ContextMenu/TagMenu"
 
 import styles from "./TagContainer.module.css"
 
@@ -45,7 +44,7 @@ const TagContainer = (props) => {
       _tagRef.removeEventListener("contextmenu", handleContextMenu)
       // context menu는 각각의 todoList에서 event를 생기게 하고
       // context menu를 없앨때는 어디든 클릭하면 없어져야 하므로 document로 한다
-      document.addEventListener("click", handleClick)
+      document.removeEventListener("contextmenu", handleClick)
       // 다른 곳에서 오른쪽 클릭했을 때 없어지게 해야함...
     }
   }, [handleClick, handleContextMenu])

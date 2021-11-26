@@ -7,6 +7,7 @@ const ContextMenu = (props) => {
     top: props.anchorPoint.y,
     left: props.anchorPoint.x,
   }
+
   return (
     <ul className={styles.menu} style={posInStyle}>
       <li onClick={props.AddPostHandler}>add</li>
