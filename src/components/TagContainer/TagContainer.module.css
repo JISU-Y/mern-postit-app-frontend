@@ -41,20 +41,19 @@
   border-radius: 10px;
   font-size: 13px;
   display: flex;
-}
 
-/* nesting 어떻게 함... */
-.Tag.Later {
-  background-color: lawngreen;
-}
-.Tag.Important {
-  background-color: firebrick;
-}
-.Tag.Today {
-  background-color: hotpink;
-}
-.Tag.To.buy {
-  background-color: slategray;
+  &.Later {
+    background-color: lawngreen;
+  }
+  &.Important {
+    background-color: firebrick;
+  }
+  &.Today {
+    background-color: hotpink;
+  }
+  &.To.buy {
+    background-color: slategray;
+  }
 }
 
 .content {
