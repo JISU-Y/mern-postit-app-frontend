@@ -19,6 +19,7 @@
   font-size: 17px;
   letter-spacing: 3px;
   color: #fff;
+  animation: blinkingEffect 1s linear infinite;
 }
 
 .notag {
@@ -41,19 +42,19 @@
   border-radius: 10px;
   font-size: 13px;
   display: flex;
+}
 
-  &.Later {
-    background-color: lawngreen;
-  }
-  &.Important {
-    background-color: firebrick;
-  }
-  &.Today {
-    background-color: hotpink;
-  }
-  &.To.buy {
-    background-color: slategray;
-  }
+.Tag.Later {
+  background-color: lawngreen;
+}
+.Tag.Important {
+  background-color: firebrick;
+}
+.Tag.Today {
+  background-color: hotpink;
+}
+.Tag.To.buy {
+  background-color: slategray;
 }
 
 .content {
@@ -64,4 +65,10 @@
   cursor: pointer;
   font-size: 17px;
   margin-left: 5px;
+}
+
+@keyframes blinkingEffect {
+  50% {
+    opacity: 0;
+  }
 }

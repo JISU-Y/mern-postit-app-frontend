@@ -313,7 +313,7 @@ const TodoList = ({
       draggable // 이걸 추가해야 drag가 잘됨
     >
       {/* tag component*/}
-      <TagContainer isEdit={isEdit} tags={tags} handleRemoveTags={handleRemoveTags} />
+      <TagContainer isEdit={isEdit} tags={tags} handleAddTags={handleAddTags} handleRemoveTags={handleRemoveTags} />
       {/* Todo 입력 form / user가 있을 경우에만 / Edit 중인 경우만 form 보이기 */}
       {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) &&
         (isEdit ? (
