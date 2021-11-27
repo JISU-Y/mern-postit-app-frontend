@@ -6,11 +6,11 @@ import TagMenu from "../ContextMenu/TagMenu"
 import styles from "./TagContainer.module.css"
 
 const TagContainer = (props) => {
-  const containerStyle = { pointerEvents: props.isEdit ? "initial" : "none" }
-
   const [show, setShow] = useState(false)
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 })
   const tagRef = useRef(null)
+
+  const containerStyle = { pointerEvents: props.isEdit ? "initial" : "none" }
 
   // 오른쪽 클릭 메뉴 생성
   const handleContextMenu = useCallback(
@@ -45,7 +45,6 @@ const TagContainer = (props) => {
       // context menu는 각각의 todoList에서 event를 생기게 하고
       // context menu를 없앨때는 어디든 클릭하면 없어져야 하므로 document로 한다
       document.removeEventListener("contextmenu", handleClick)
-      // 다른 곳에서 오른쪽 클릭했을 때 없어지게 해야함...
     }
   }, [handleClick, handleContextMenu])
 

@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux"
 import { updatePost } from "../../actions"
 
 // components
-import Todo from "../Todo/Todo"
+import TodoContainer from "../Todo/Todo"
 import TodoForm from "../TodoForm/TodoForm"
 import Modal from "../Modal/Modal"
 import TagContainer from "../TagContainer/TagContainer"
@@ -21,13 +21,12 @@ const TodoList = ({
   dragEndHandler,
   posts,
   post,
-  setTodosHandler,
-  handlePostIndex,
   AddPostHandler,
   removePostHandler,
   currentId,
   setCurrentId,
-  setTagsHandler,
+  onSetTodos,
+  onSetTags,
   user,
   todoAppRef,
 }) => {
@@ -38,18 +37,27 @@ const TodoList = ({
   // 아니지, 굳이 useState 쓸 필요가? 그냥 post.todos 가지고 데이터 가공해서 setTodosHandler로 넘겨주면 되지 않나?
   const [todos, setTodos] = useState(post.todos)
   const [tags, setTags] = useState(post.tag)
+  // edit 상태 확인
   const [isEdit, setIsEdit] = useState(false)
+  // modal 관련
+  const [modalType, setModalType] = useState({
+    open: false,
+    type: "",
+    msg: "",
+  })
+
   // change colors
-  const [colorIndex, setColorIndex] = useState(1) // 이게 (중요 / 보통 / 나중) 태그로 활용될 수도
+  const [colorIndex, setColorIndex] = useState(1)
   const postColor = ["#ffd20c", "#5d0cff", "#ff7614", "#149fff", "#fa0087"]
 
   let postStyle = {
     top: post.position.y,
     left: post.position.x,
-    backgroundColor: "#fff",
   }
 
-  // Todos
+  // Todos CURD
+
+  // Todo add
   const addTodo = (todo) => {
     // todo는 {todoText: postTodo.todoText, todoDone:false}
     // 추가하려고 하는 todo의 todoText를 검사
@@ -60,25 +68,21 @@ const TodoList = ({
     // 새 todo와 기존의 todos 배열을 합침 (할일 리스트를 배열로 모음)
     const newTodos = [todo, ...todos]
 
-    console.log(newTodos)
-
-    console.log(currentId)
-
-    // 배열로 모은 todos를 Todos로 set함
+    // 배열로 모은 todos를 Todos로 set함 (서버에 바로 보내주지 못하므로 화면에는 보여주어야 하기 때문에)
     setTodos(newTodos)
+
     // post set // 최신 newTodos로 todos 설정
-    // 이제는 todo를 추가하는거에도 하나하나 id를 달아주어야함
-    // 맨 처음부터 post를 생성하고 그 안에서 수정을 하는 것이기 때문에
-    setTodosHandler(newTodos) // 여기서 저 setTodos 안하고 그냥 바로 newTodos만 넘겨주면 되지 않음? **
+    onSetTodos(newTodos)
   }
 
+  // Todo delete
   const removeTodo = (id) => {
-    console.log(id)
-    const removeArr = todos.filter((todo) => todo._id !== id) // [...todos]는 왜 쓴거니?
+    const removeArr = todos.filter((todo) => todo._id !== id)
     setTodos(removeArr)
-    setTodosHandler(removeArr)
+    onSetTodos(removeArr)
   }
 
+  // Todo update (todo text)
   const updateTodo = (todoId, newValue) => {
     // edit 끝낸 todo value가 빈 String인지 확인
     if (!newValue.todoText || /^\s*$/.test(newValue.todoText)) {
@@ -96,34 +100,32 @@ const TodoList = ({
     )
 
     setTodos(updatedTodos)
-    setTodosHandler(updatedTodos)
+    onSetTodos(updatedTodos)
   }
 
+  // Todo update (todo completed)
   const completeTodo = (todoId) => {
     let updatedTodos = todos.map((todo) => (todo._id === todoId ? { ...todo, todoDone: !todo.todoDone } : todo))
     setTodos(updatedTodos)
-    setTodosHandler(updatedTodos)
+    onSetTodos(updatedTodos)
   }
 
-  // Tags
+  // add Tags
   const handleAddTags = (tagName) => {
-    console.log(tagName)
-    console.log(tags)
     if (tags.includes(tagName)) return
 
+    // const habits = [...tags, { id: Date.now(), tagName }]
     const addedTags = [...tags, tagName]
     setTags(addedTags)
-    setTagsHandler(addedTags)
+    onSetTags(addedTags)
   }
 
+  // remove Tags
   const handleRemoveTags = (tagName) => {
-    console.log(tagName)
-    console.log(tags)
     const removedTags = tags.filter((tag) => tag !== tagName)
 
     setTags(removedTags)
-
-    setTagsHandler(removedTags)
+    onSetTags(removedTags)
   }
 
   // post edit done
@@ -135,31 +137,25 @@ const TodoList = ({
 
     console.log("edit done")
     dispatch(
-      updatePost(currentId, {
-        ...posts.find((post) => post._id === currentId),
-        name: user?.result?.name,
-      }) // name을 왜 또 정해서 줘야하지? 이미 있는거 아님?**
+      updatePost(
+        currentId,
+        posts.find((post) => post._id === currentId)
+      )
     )
     clear()
   }
 
-  const handleEditPost = (e) => {
-    // 더 좋은 방법이 없을 지 문의 **
-
+  const handleEditPost = () => {
     // 로그인 한 user가 클릭했을 때만 반응
     if (user?.result?.googleId !== post?.creator && user?.result?._id !== post?.creator) return
-    if (e.target.nodeName !== "DIV" && e.target.nodeName !== "INPUT") return
+    // edit 중 다른 post를 edit 하려고 할 때 warning
     if (currentId !== 0 && currentId !== post._id) {
       console.log(`${currentId} => ${post._id}`)
-      // modal
       openSelectEditModal()
       return
     }
 
-    handlePostIndex(e) // post zIndex 맞추기
-
     setCurrentId(post._id) // 선택한 post의 id set
-
     setIsEdit(true) // edit 상태로 변경
   }
 
@@ -199,13 +195,6 @@ const TodoList = ({
     todoAppRef.current.style.backgroundColor = `${postColor[colorIndex]}`
   }
 
-  // modal 관련
-  const [modalType, setModalType] = useState({
-    open: false,
-    type: "",
-    msg: "",
-  })
-
   // 포스트 삭제 modal
   const openRemoveModal = () => {
     setModalType({ open: true, type: "remove", msg: "Are you sure?" })
@@ -216,12 +205,12 @@ const TodoList = ({
     setModalType({ open: true, type: "editDone", msg: "Editing done?" })
   }
 
-  // check edit done modal
+  // check edit done modal (edit 상태 중복 방지)
   const openSelectEditModal = () => {
     setModalType({
       open: true,
       type: "editSelect",
-      msg: "Please finish editing first or Press Esc to exit",
+      msg: "Please finish editing first or Press Esc to quit editing",
     })
   }
 
@@ -234,15 +223,6 @@ const TodoList = ({
     })
   }
 
-  // please edit button modal
-  const openPleaseEditModal = () => {
-    setModalType({
-      open: true,
-      type: "edit",
-      msg: "Please press the editing icon",
-    })
-  }
-
   const closeModal = () => {
     setModalType(false, "", "")
   }
@@ -252,7 +232,7 @@ const TodoList = ({
       className={styles.todoPost}
       ref={todoAppRef}
       style={postStyle}
-      onDoubleClick={(e) => handleEditPost(e)}
+      onDoubleClick={handleEditPost}
       onDragStart={(e) => {
         if (isEdit) dragStartHandler(e)
       }}
@@ -262,19 +242,19 @@ const TodoList = ({
       onDragEnd={(e) => {
         if (isEdit) dragEndHandler(e)
       }}
-      draggable // 이걸 추가해야 drag가 잘됨
+      draggable
     >
       {/* tag component*/}
       <TagContainer isEdit={isEdit} tags={tags} handleAddTags={handleAddTags} handleRemoveTags={handleRemoveTags} />
       {/* Todo 입력 form / user가 있을 경우에만 / Edit 중인 경우만 form 보이기 */}
       {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) &&
         (isEdit ? (
-          <TodoForm onSubmit={addTodo} openNoInputModal={openNoInputModal} isEdit={isEdit} openPleaseEditModal={openPleaseEditModal} post={post} />
+          <TodoForm onSubmit={addTodo} openNoInputModal={openNoInputModal} isEdit={isEdit} post={post} />
         ) : (
           <p className={styles.instruction}>double tab to edit this post</p>
         ))}
       {/* Todo 항목 리스트 */}
-      <Todo
+      <TodoContainer
         todos={todos}
         completeTodo={completeTodo}
         removeTodo={removeTodo}
