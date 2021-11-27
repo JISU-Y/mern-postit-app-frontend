@@ -27,8 +27,6 @@ const TodoForm = (props) => {
     if (postTodo.todoText === "") {
       if (props.isEdit || props.post.id === 0) {
         props.openNoInputModal()
-      } else {
-        props.openPleaseEditModal()
       }
     }
 
