@@ -161,13 +161,12 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
                 key={post._id}
                 posts={posts}
                 post={post}
-                setPost={setPost}
-                setTodosHandler={setTodosHandler}
                 AddPostHandler={AddPostHandler}
                 removePostHandler={removePostHandler}
                 currentId={currentId}
                 setCurrentId={setCurrentId}
-                setTagsHandler={setTagsHandler}
+                onSetTodos={setTodosHandler}
+                onSetTags={setTagsHandler}
                 user={user}
                 todoAppRef={todoAppRef}
               />

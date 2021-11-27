@@ -21,12 +21,12 @@ const TodoList = ({
   dragEndHandler,
   posts,
   post,
-  setTodosHandler,
   AddPostHandler,
   removePostHandler,
   currentId,
   setCurrentId,
-  setTagsHandler,
+  onSetTodos,
+  onSetTags,
   user,
   todoAppRef,
 }) => {
@@ -72,14 +72,14 @@ const TodoList = ({
     setTodos(newTodos)
 
     // post set // 최신 newTodos로 todos 설정
-    setTodosHandler(newTodos)
+    onSetTodos(newTodos)
   }
 
   // Todo delete
   const removeTodo = (id) => {
     const removeArr = todos.filter((todo) => todo._id !== id)
     setTodos(removeArr)
-    setTodosHandler(removeArr)
+    onSetTodos(removeArr)
   }
 
   // Todo update (todo text)
@@ -100,14 +100,14 @@ const TodoList = ({
     )
 
     setTodos(updatedTodos)
-    setTodosHandler(updatedTodos)
+    onSetTodos(updatedTodos)
   }
 
   // Todo update (todo completed)
   const completeTodo = (todoId) => {
     let updatedTodos = todos.map((todo) => (todo._id === todoId ? { ...todo, todoDone: !todo.todoDone } : todo))
     setTodos(updatedTodos)
-    setTodosHandler(updatedTodos)
+    onSetTodos(updatedTodos)
   }
 
   // add Tags
@@ -117,7 +117,7 @@ const TodoList = ({
     // const habits = [...tags, { id: Date.now(), tagName }]
     const addedTags = [...tags, tagName]
     setTags(addedTags)
-    setTagsHandler(addedTags)
+    onSetTags(addedTags)
   }
 
   // remove Tags
@@ -125,7 +125,7 @@ const TodoList = ({
     const removedTags = tags.filter((tag) => tag !== tagName)
 
     setTags(removedTags)
-    setTagsHandler(removedTags)
+    onSetTags(removedTags)
   }
 
   // post edit done
