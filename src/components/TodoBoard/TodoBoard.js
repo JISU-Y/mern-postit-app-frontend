@@ -106,9 +106,6 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
   const dragStartHandler = (e) => {
     if (e.target.className !== todoAppRef.current.className) return
 
-    // drag 끝난 것 가장 앞으로 보내기 / 혹은 클릭했을 때
-    handlePostIndex(e)
-
     // 드래그 시 반투명 이미지 추가
     const img = new Image()
     e.dataTransfer.setDragImage(img, 0, 0)
@@ -124,8 +121,6 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
   const dragHandler = (e) => {
     if (e.target.className !== todoAppRef.current.className) return
 
-    // const box = postBoard.current.getBoundingClientRect();
-
     // 요소의 좌표 + 커서 좌표 변화량
     // 현재 요소의 좌표 + 현재 커서의 좌표 - 직전 커서의 좌표
     e.target.style.left = `${e.target.offsetLeft + e.clientX - position.x}px`
@@ -139,6 +134,7 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
     if (e.target.className !== todoAppRef.current.className) return
     // 올바른 영역에 드랍 되었는지 체크
     const box = postBoard.current.getBoundingClientRect()
+
     if (box.left < e.clientX && e.clientX < box.right && box.top < e.clientY && e.clientY < box.bottom) {
       // 옮겨진 자리
       e.target.style.left = `${e.target.offsetLeft + e.clientX - position.x}px`
@@ -150,24 +146,6 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
     }
 
     setPositionHandler({ x: e.target.style.left, y: e.target.style.top })
-  }
-
-  const handlePostIndex = (e) => {
-    console.log(e.target.className, todoAppRef.current.className)
-
-    if (e.target.className !== todoAppRef.current.className) return
-
-    console.log("handlePostIndex")
-    // childNodes/children는 nodeList라 이렇게 배열로 변환해주어야 loop syntax를 사용할 수 있다
-    const allPosts = [...e.target.parentNode.children].filter((post) => post.className === "todo-app") // todo app 만 걸러냄(children에서 modal은 뺌)
-
-    // 일단 모든 todo app 의 z-index를 unset
-    allPosts.map((post) => (post.style.zIndex = "unset"))
-
-    // 선택된 todo app의 z index만 100으로 변경
-    e.target.style.zIndex = "100"
-
-    // todo-app 클릭 시 / drag start 시 적용
   }
 
   return (
@@ -185,7 +163,6 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
                 post={post}
                 setPost={setPost}
                 setTodosHandler={setTodosHandler}
-                handlePostIndex={handlePostIndex}
                 AddPostHandler={AddPostHandler}
                 removePostHandler={removePostHandler}
                 currentId={currentId}

@@ -22,7 +22,6 @@ const TodoList = ({
   posts,
   post,
   setTodosHandler,
-  handlePostIndex,
   AddPostHandler,
   removePostHandler,
   currentId,
@@ -155,8 +154,6 @@ const TodoList = ({
       openSelectEditModal()
       return
     }
-
-    handlePostIndex(e) // post zIndex 맞추기
 
     setCurrentId(post._id) // 선택한 post의 id set
 
