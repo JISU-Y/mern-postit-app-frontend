@@ -13,6 +13,7 @@ const PostFooter = (props) => {
     props.setCurrentId(props.post._id) // currentId로 redering 하기 위함
     props.openRemoveModal()
   }
+
   return (
     <div className={styles.container}>
       <p className={styles.createdTime} varian="body2">

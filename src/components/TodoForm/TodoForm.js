@@ -4,21 +4,12 @@ import styles from "./TodoForm.module.css"
 
 // todo form
 const TodoForm = (props) => {
-  const [postTodo, setPostTodo] = useState(
-    props.edit
-      ? props.edit
-      : {
-          todoText: "",
-          todoDone: false,
-        }
-  )
+  const [postTodo, setPostTodo] = useState({
+    todoText: "",
+    todoDone: false,
+  })
 
   const inputRef = useRef(null)
-
-  // focus 용
-  // useEffect(() => {
-  //   inputRef.current.focus();
-  // }, [postTodo]);
 
   const handleSubmit = (e) => {
     e.preventDefault()

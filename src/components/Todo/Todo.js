@@ -16,6 +16,10 @@ const Todo = (props) => {
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 })
   const todoRef = useRef(null)
 
+  const rowStyle = {
+    pointerEvents: props.isEdit ? "initial" : "none",
+  }
+
   const submitUpdate = (value) => {
     props.updateTodo(currTodoId, value) // edit 하려는 post의 id와 value를 넘겨줘야함
     setEdit({
@@ -69,10 +73,6 @@ const Todo = (props) => {
       todoText: todo.todoText,
       todoDone: false,
     })
-  }
-
-  const rowStyle = {
-    pointerEvents: props.isEdit ? "initial" : "none",
   }
 
   // update input 이랑 그냥 input 이랑 합칠지?

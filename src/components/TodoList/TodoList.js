@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux"
 import { updatePost } from "../../actions"
 
 // components
-import Todo from "../Todo/Todo"
+import TodoContainer from "../Todo/Todo"
 import TodoForm from "../TodoForm/TodoForm"
 import Modal from "../Modal/Modal"
 import TagContainer from "../TagContainer/TagContainer"
@@ -114,6 +114,7 @@ const TodoList = ({
   const handleAddTags = (tagName) => {
     if (tags.includes(tagName)) return
 
+    // const habits = [...tags, { id: Date.now(), tagName }]
     const addedTags = [...tags, tagName]
     setTags(addedTags)
     setTagsHandler(addedTags)
@@ -241,7 +242,7 @@ const TodoList = ({
       onDragEnd={(e) => {
         if (isEdit) dragEndHandler(e)
       }}
-      draggable // 이걸 추가해야 drag가 잘됨
+      draggable
     >
       {/* tag component*/}
       <TagContainer isEdit={isEdit} tags={tags} handleAddTags={handleAddTags} handleRemoveTags={handleRemoveTags} />
@@ -253,7 +254,7 @@ const TodoList = ({
           <p className={styles.instruction}>double tab to edit this post</p>
         ))}
       {/* Todo 항목 리스트 */}
-      <Todo
+      <TodoContainer
         todos={todos}
         completeTodo={completeTodo}
         removeTodo={removeTodo}
