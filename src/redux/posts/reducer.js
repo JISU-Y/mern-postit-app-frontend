@@ -25,7 +25,10 @@ const postsReducer = (state = initialState, action) => {
         posts: [...state.posts, action.payload],
       }
     case UPDATE:
-      return state.posts.map((post) => (post._id === action.payload._id ? action.payload : post))
+      return {
+        ...state,
+        posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)),
+      }
     case DELETE:
       return {
         ...state,

@@ -7,6 +7,7 @@ import PostMenu from "../ContextMenu/PostMenu"
 import styles from "./Todo.module.css"
 
 const Todo = (props) => {
+  console.log(props.todos)
   const [currTodoId, setCurrTodoId] = useState(0)
   const [edit, setEdit] = useState({
     todoText: null,
@@ -81,12 +82,10 @@ const Todo = (props) => {
     <div ref={todoRef} className={styles.container}>
       {/* todoText가 원래 null인데 setEdit해서 뭐라도 들어가면 그때 TodoForm 열음 */}
       {edit.todoText && <TodoForm edit={edit} onSubmit={submitUpdate} />}
-      {props.todos.map((todo, index) => {
+      {props.todos.map((todo) => {
         return (
-          <div className={todo.todoDone ? `${styles.row} ${styles.complete}` : `${styles.row}`} key={index} style={rowStyle}>
-            <div key={todo._id} onClick={() => props.completeTodo(todo._id)}>
-              {todo.todoText}
-            </div>
+          <div className={todo.todoDone ? `${styles.row} ${styles.complete}` : `${styles.row}`} key={todo._id} style={rowStyle}>
+            <div onClick={() => props.completeTodo(todo._id)}>{todo.todoText}</div>
             {props.isEdit && (
               <div className={styles.icons}>
                 <RiCloseCircleLine onClick={() => props.removeTodo(todo._id)} className={styles.delete} />

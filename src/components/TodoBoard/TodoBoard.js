@@ -113,7 +113,6 @@ const TodoBoard = ({ user }) => {
                 dragHandler={dragHandler}
                 dragEndHandler={dragEndHandler}
                 key={post._id}
-                posts={posts}
                 post={post}
                 AddPostHandler={AddPostHandler}
                 removePostHandler={removePostHandler}
