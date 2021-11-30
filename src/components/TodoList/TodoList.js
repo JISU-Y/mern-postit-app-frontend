@@ -72,7 +72,7 @@ const TodoList = ({
     setTodos(newTodos)
 
     // post set // 최신 newTodos로 todos 설정
-    onSetTodos(newTodos)
+    onSetTodos(post.id, newTodos)
   }
 
   // Todo delete

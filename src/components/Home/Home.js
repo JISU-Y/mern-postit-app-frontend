@@ -1,22 +1,12 @@
-import React, { useEffect, useState } from "react"
-import { useDispatch } from "react-redux" // dispatching an action
+import React, { useState } from "react"
 import { Container, Typography, Paper } from "@material-ui/core"
-
-import { getPosts } from "../../actions/index"
 
 import TodoBoard from "../TodoBoard/TodoBoard"
 
 import styles from "./Home.module.css"
 
 const Home = () => {
-  const dispatch = useDispatch()
-  const [currentId, setCurrentId] = useState(0)
   const user = JSON.parse(localStorage.getItem("profile")) // localstorage에 로그인한 사용자 있으면
-
-  // dispatch 사용 시 actions 폴더에서 함수들을 가져와서 action을 dispatch 한다
-  useEffect(() => {
-    dispatch(getPosts())
-  }, [dispatch, currentId])
 
   return (
     <Container>
@@ -29,7 +19,7 @@ const Home = () => {
         </Paper>
       )}
       <div className={styles.container}>
-        <TodoBoard currentId={currentId} setCurrentId={setCurrentId} user={user} />
+        <TodoBoard user={user} />
       </div>
     </Container>
   )
