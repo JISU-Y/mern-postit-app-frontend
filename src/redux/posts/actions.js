@@ -1,29 +1,29 @@
-import * as api from "../api"
+import * as api from "../../api"
 import { FETCH_ALL, CREATE, UPDATE, DELETE } from "./types"
 
 // action creator
-export const fetchPosts = (posts) => {
+const fetchPosts = (posts) => {
   return {
     type: FETCH_ALL,
     payload: posts,
   }
 }
 
-export const createPosts = (post) => {
+const createPostAction = (post) => {
   return {
     type: CREATE,
     payload: post,
   }
 }
 
-export const updatePosts = (post) => {
+const updatePostAction = (post) => {
   return {
     type: UPDATE,
     payload: post,
   }
 }
 
-export const deletePosts = (id) => {
+const deletePostAction = (id) => {
   return {
     type: DELETE,
     payload: id,
@@ -48,7 +48,7 @@ export const createPost = (post) => async (dispatch) => {
   try {
     const { data } = await api.createPost(post)
 
-    dispatch(createPosts(data))
+    dispatch(createPostAction(data))
   } catch (error) {
     console.log(error.message)
   }
@@ -58,7 +58,7 @@ export const updatePost = (id, post) => async (dispatch) => {
   try {
     const { data } = await api.updatePost(id, post)
 
-    dispatch(updatePosts(data))
+    dispatch(updatePostAction(data))
   } catch (error) {
     console.log(error.message)
   }
@@ -68,7 +68,7 @@ export const deletePost = (id) => async (dispatch) => {
   try {
     await api.deletePost(id)
 
-    dispatch(updatePosts(id))
+    dispatch(deletePostAction(id))
   } catch (error) {
     console.log(error.message)
   }

@@ -1,1 +1,1 @@
-export { fetchPosts, createPosts, updatePosts, deletePosts } from "./posts/actions"
+export { getPosts, createPost, updatePost, deletePost } from "./posts/actions"

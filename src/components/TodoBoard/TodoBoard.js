@@ -2,14 +2,13 @@ import React, { useState, useEffect, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux"
 
 import TodoList from "../TodoList/TodoList"
-import { createPost, deletePost } from "../../actions"
+import { getPosts, createPost, deletePost } from "../../redux"
 
 import StartPostButton from "./PostButton"
 
 import styles from "./TodoBoard.module.css"
 
 const TodoBoard = ({ currentId, setCurrentId, user }) => {
-  // getPosts로 가져옴
   const postits = useSelector((state) => state.posts)
   const dispatch = useDispatch()
   // post format
@@ -45,12 +44,16 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
   // postits에 store에서 가져온 데이터들을 이미 다 넣어두었는데, **
   // 굳이 setPosts를 해주어야 할까?
   // dispatch가 바뀔 때마다 실행하는 것(posts)를 새로 받아온 것으로 셋
+  // useEffect(() => {
+  //   const fetchData = () => {
+  //     setPosts(postits) // App js에서 getPosts로 가져온 postits를 set해줌
+  //   }
+  //   fetchData()
+  // }, [dispatch, postits, currentId])
+
   useEffect(() => {
-    const fetchData = () => {
-      setPosts(postits) // App js에서 getPosts로 가져온 postits를 set해줌
-    }
-    fetchData()
-  }, [dispatch, postits, currentId])
+    getPosts()
+  }, [])
 
   // post를 추가하기만 하는 것 (일단 내용(todos)은 없는 것으로 하기)
   const AddPostHandler = async () => {
@@ -150,9 +153,9 @@ const TodoBoard = ({ currentId, setCurrentId, user }) => {
 
   return (
     <div className={styles.board} ref={postBoard}>
-      {!posts.find((post) => post.name === user?.result?.name) && user?.result?.name && <StartPostButton AddPostHandler={AddPostHandler} />}
-      {posts.length > 0
-        ? posts.map((post) => {
+      {/* {!postits.find((post) => post.name === user?.result?.name) && user?.result?.name && <StartPostButton AddPostHandler={AddPostHandler} />} */}
+      {postits.length > 0
+        ? postits.map((post) => {
             return (
               <TodoList
                 dragStartHandler={dragStartHandler}
