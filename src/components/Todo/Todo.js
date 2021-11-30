@@ -7,7 +7,6 @@ import PostMenu from "../ContextMenu/PostMenu"
 import styles from "./Todo.module.css"
 
 const Todo = (props) => {
-  console.log(props.todos)
   const [currTodoId, setCurrTodoId] = useState(0)
   const [edit, setEdit] = useState({
     todoText: null,
@@ -102,7 +101,6 @@ const Todo = (props) => {
           AddPostHandler={props.AddPostHandler}
           openEditDoneModal={props.openEditDoneModal}
           openRemoveModal={props.openRemoveModal}
-          changeColor={props.changeColor}
         />
       )}
     </div>

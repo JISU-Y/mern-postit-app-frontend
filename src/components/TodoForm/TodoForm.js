@@ -5,7 +5,7 @@ import styles from "./TodoForm.module.css"
 // todo form
 const TodoForm = (props) => {
   const [postTodo, setPostTodo] = useState({
-    todoText: "",
+    todoText: props.edit?.todoText ?? "", // props.edit?.todoText ? props.edit?.todoText : ""
     todoDone: false,
   })
 

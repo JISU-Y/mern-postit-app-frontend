@@ -19,20 +19,17 @@ const TodoList = ({
   dragStartHandler,
   dragHandler,
   dragEndHandler,
-  post,
+  post, //
   AddPostHandler,
   removePostHandler,
-  currentId,
   setCurrentId,
-  onSetTodos,
-  onSetTags,
   user,
   todoAppRef,
 }) => {
   const dispatch = useDispatch()
   const todos = post.todos
   const tags = post.tag
-  // edit 상태 확인
+  // edit 상태 확인 // 이것도 redux state에 저장
   const [isEdit, setIsEdit] = useState(false)
   // modal 관련
   const [modalType, setModalType] = useState({
@@ -159,8 +156,9 @@ const TodoList = ({
 
   const handleEditPost = () => {
     // 로그인 한 user가 클릭했을 때만 반응
-    // if (user?.result?.googleId !== post?.creator && user?.result?._id !== post?.creator) return
-    // // edit 중 다른 post를 edit 하려고 할 때 warning
+    if (user?.result?.googleId !== post?.creator && user?.result?._id !== post?.creator) return
+    // edit 중 다른 post를 edit 하려고 할 때 warning
+    // 내 포스트 중에 하나라도 edit 상태인 것이 있으면
     // if (currentId !== 0 && currentId !== post._id) {
     //   console.log(`${currentId} => ${post._id}`)
     //   openSelectEditModal()
@@ -189,22 +187,6 @@ const TodoList = ({
     // setCurrentId(0)
     setIsEdit(false)
     console.log("clear")
-  }
-
-  // post 색 변경
-  // 현재 최신 포스트만 변경되어 비활성화 필요
-  const changeColor = () => {
-    setColorIndex((index) => {
-      let newIndex = index + 1
-      if (newIndex > postColor.length - 1) {
-        newIndex = 0
-      }
-      console.log(index)
-      console.log(newIndex)
-      return newIndex
-    })
-
-    todoAppRef.current.style.backgroundColor = `${postColor[colorIndex]}`
   }
 
   // 포스트 삭제 modal
@@ -239,21 +221,31 @@ const TodoList = ({
     setModalType(false, "", "")
   }
 
+  const handleDragStart = (e) => {
+    if (!isEdit) return
+
+    dragStartHandler(e)
+  }
+  const handleDragging = (e) => {
+    if (!isEdit) return
+
+    dragHandler(e)
+  }
+  const handleDragEnd = (e) => {
+    if (!isEdit) return
+
+    dragEndHandler(e, post)
+  }
+
   return (
     <div
       className={styles.todoPost}
       ref={todoAppRef}
       style={postStyle}
       onDoubleClick={handleEditPost}
-      onDragStart={(e) => {
-        if (isEdit) dragStartHandler(e)
-      }}
-      onDrag={(e) => {
-        if (isEdit) dragHandler(e)
-      }}
-      onDragEnd={(e) => {
-        if (isEdit) dragEndHandler(e)
-      }}
+      onDragStart={handleDragStart}
+      onDrag={handleDragging}
+      onDragEnd={handleDragEnd}
       draggable
     >
       {/* tag component*/}
@@ -276,7 +268,6 @@ const TodoList = ({
         AddPostHandler={AddPostHandler}
         openEditDoneModal={openEditDoneModal}
         openRemoveModal={openRemoveModal}
-        changeColor={changeColor}
       />
       {/* setting area */}
       <PostFooter
@@ -285,10 +276,9 @@ const TodoList = ({
         userId={user?.result?._id}
         post={post}
         postCreator={post?.creator}
-        setCurrentId={setCurrentId}
+        AddPostHandler={AddPostHandler}
         openRemoveModal={openRemoveModal}
         openEditDoneModal={openEditDoneModal}
-        AddPostHandler={AddPostHandler}
       />
       {/* notice modal */}
       <Modal
