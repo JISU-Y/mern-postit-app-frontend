@@ -5,7 +5,7 @@ import { Grid } from "@material-ui/core"
 
 import Input from "../Input"
 import ButtonContainer from "./ButtonContainer/Buttons"
-import { signin, signup } from "../../../actions/auth"
+import { signin, signup } from "../../../redux"
 
 import useStyles from "../sytles"
 
@@ -61,7 +61,7 @@ const LoginForm = (props) => {
     try {
       // AUTH 동작하도록 type에는 AUTH
       // payload data에는 profile 정보를 가지고 있는 result와 tokenId를 전달
-      dispatch({ type: "AUTH", data: { result, token } })
+      dispatch({ type: "AUTH", payload: { result, token } })
 
       // if loged in, redirect to Home immediately
       history.push("/")
