@@ -7,10 +7,26 @@ import moment from "moment"
 
 import styles from "./PostFooter.module.css"
 import hoverStyle from "../TodoList/TodoList.module.css"
+import { useDispatch } from "react-redux"
+import { createPost } from "../../redux"
 
 const PostFooter = (props) => {
+  const dispatch = useDispatch()
+
   const onDelete = () => {
     props.openRemoveModal()
+  }
+
+  const handleAddPost = () => {
+    // props.AddPostHandler 이렇게 안해줘도 됨.
+    dispatch(
+      createPost({
+        name: "",
+        tag: [],
+        todos: [],
+        position: { x: null, y: null },
+      })
+    )
   }
 
   return (
@@ -30,7 +46,7 @@ const PostFooter = (props) => {
                 </Button>
               </div>
             )}
-            <FiPlusCircle className={styles.plus} onClick={props.AddPostHandler} />
+            <FiPlusCircle className={styles.plus} onClick={handleAddPost} />
           </>
         )}
       </div>

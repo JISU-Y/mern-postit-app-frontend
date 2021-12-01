@@ -5,6 +5,7 @@ const initialState = {
   tag: [],
   todos: [],
   position: { x: null, y: null },
+  isTodoEdit: false,
 }
 
 // state = posts
@@ -19,13 +20,17 @@ const postContentsReducer = (state = initialState, action) => {
         ...state,
         todos: [...state.todos, action.payload],
       }
-    //   case UPDATE_TODO:
-    //     return state.posts.map((post) => (post._id === action.payload._id ? action.payload : post))
-    //   case DELETE_TODO:
-    //     return {
-    //       ...state,
-    //       posts: state.posts.filter((post) => post._id !== action.payload),
-    //     }
+    case UPDATE_TODO:
+      return {
+        ...state,
+        todos: state.todos.map((todo) => (todo._id === action.payload.id ? action.payload.todo : todo)),
+      }
+    case DELETE_TODO:
+      console.log(action.payload)
+      return {
+        ...state,
+        todos: state.todos.filter((todo) => todo._id !== action.payload),
+      }
     default:
       return state
   }

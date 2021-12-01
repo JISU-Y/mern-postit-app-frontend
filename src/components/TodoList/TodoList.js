@@ -25,8 +25,10 @@ const TodoList = ({
   user,
   todoAppRef,
 }) => {
+  const posts = useSelector((state) => state.posts.posts)
   const _post = useSelector((state) => state.post)
   const dispatch = useDispatch()
+  const currentId = post._id
   const todos = post.todos
   const tags = post.tag
   // edit 상태 확인 // 이것도 redux state에 저장
@@ -140,16 +142,10 @@ const TodoList = ({
   }
 
   // post edit done
-  // 과연 posts 전체를 받아와서 사용하는 것이 맞는 것일까..**
-  // posts를 넘기지말고 그냥 이미 find 한 post를 currentPost로 넘기면 안되나
   const handleEditDone = () => {
     console.log("edit done")
-    // dispatch(
-    //   updatePost(
-    //     currentId,
-    //     posts.find((post) => post._id === currentId)
-    //   )
-    // )
+    // 구독하고 있던 post의 데이터들 다 변경되었으면 그거 전달해서 업데이트
+    dispatch(updatePost(_post._id, _post))
     clear()
   }
 
@@ -163,6 +159,7 @@ const TodoList = ({
     //   openSelectEditModal()
     //   return
     // }
+    // 수정하려고하는 post를 전역 state로 올린다.
     dispatch(readPostContent(post))
 
     // setCurrentId(post._id) // 선택한 post의 id set
@@ -238,10 +235,9 @@ const TodoList = ({
     dragEndHandler(e, post)
   }
 
-  const handleEditTodo = (text) => {
+  const handleEditTodo = (todo) => {
     setIsTodoEdit(true)
-    setEditText(text)
-    console.log(text) // 이 내용을 Todo Form에다가 전달하고 싶은데..
+    setEditText(todo)
   }
 
   return (

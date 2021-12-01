@@ -32,7 +32,7 @@ const TodoBoard = ({ user }) => {
   // fetch posts data
   useEffect(() => {
     dispatch(getPosts())
-  }, [])
+  }, [dispatch])
 
   // post를 추가하기만 하는 것 (일단 내용(todos)은 없는 것으로 하기)
   const AddPostHandler = async () => {

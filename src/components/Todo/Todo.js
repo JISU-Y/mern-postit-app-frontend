@@ -1,20 +1,22 @@
 import React, { useState, useEffect, useCallback, useRef } from "react"
 import { RiCloseCircleLine, RiEdit2Fill } from "react-icons/ri"
 
-import TodoForm from "../TodoForm/TodoForm"
 import PostMenu from "../ContextMenu/PostMenu"
 
 import styles from "./Todo.module.css"
 import { useDispatch, useSelector } from "react-redux"
+import { deleteTodoAction, readPostContent, updateTodoAction } from "../../redux"
 
 const Todo = (props) => {
   const post = useSelector((state) => state.post)
-  const todos = props.isEdit ? post.todos : props.todos
   const dispatch = useDispatch()
-  const [currTodoId, setCurrTodoId] = useState(0) // 이런것도 전역으로 관리하면 안되나
+  // 기본적으로 edit 상태인 post를 전역 state에 올린다는 것.
+  // 나머지는 list들이기 때문에 props로 받아서 하는 수 밖에 없지 않나?
+  const todos = props.isEdit ? post.todos : props.todos
   const [edit, setEdit] = useState({
     todoText: null,
     todoDone: false,
+    _id: null,
   })
   const [show, setShow] = useState(false)
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 })
@@ -22,14 +24,6 @@ const Todo = (props) => {
 
   const rowStyle = {
     pointerEvents: props.isEdit ? "initial" : "none",
-  }
-
-  const submitUpdate = (value) => {
-    props.updateTodo(currTodoId, value) // edit 하려는 post의 id와 value를 넘겨줘야함
-    setEdit({
-      todoText: null,
-      todoDone: false,
-    })
   }
 
   // 오른쪽 클릭 메뉴 생성
@@ -72,25 +66,28 @@ const Todo = (props) => {
   }, [handleClick, handleContextMenu])
 
   const handleEditTodo = (todo) => {
-    props.onEditTodo(todo.todoText)
-    setCurrTodoId(todo._id)
+    props.onEditTodo(todo)
     setEdit({
       todoText: todo.todoText,
       todoDone: false,
+      _id: todo._id,
     })
+  }
+
+  const handleDelTodo = (todo) => {
+    //() => props.removeTodo(todo._id)
+    dispatch(deleteTodoAction(todo._id))
   }
 
   return (
     <div ref={todoRef} className={styles.container}>
-      {/* todoText가 원래 null인데 setEdit해서 뭐라도 들어가면 그때 TodoForm 열음 */}
-      {/* {edit.todoText && <TodoForm edit={edit} onSubmit={submitUpdate} />} */}
       {todos.map((todo) => {
         return (
           <div className={todo.todoDone ? `${styles.row} ${styles.complete}` : `${styles.row}`} key={todo._id} style={rowStyle}>
             <div onClick={() => props.completeTodo(todo._id)}>{todo.todoText}</div>
             {props.isEdit && (
               <div className={styles.icons}>
-                <RiCloseCircleLine onClick={() => props.removeTodo(todo._id)} className={styles.delete} />
+                <RiCloseCircleLine onClick={() => handleDelTodo(todo)} className={styles.delete} />
                 <RiEdit2Fill onClick={() => handleEditTodo(todo)} className={styles.edit} />
               </div>
             )}
