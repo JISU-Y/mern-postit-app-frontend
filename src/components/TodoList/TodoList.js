@@ -22,7 +22,6 @@ const TodoList = ({
   post, //
   AddPostHandler,
   removePostHandler,
-  setCurrentId,
   user,
   todoAppRef,
 }) => {
@@ -31,6 +30,9 @@ const TodoList = ({
   const tags = post.tag
   // edit 상태 확인 // 이것도 redux state에 저장
   const [isEdit, setIsEdit] = useState(false)
+  // todo edit 확인
+  const [isTodoEdit, setIsTodoEdit] = useState(false)
+  const [editText, setEditText] = useState("")
   // modal 관련
   const [modalType, setModalType] = useState({
     open: false,
@@ -158,7 +160,7 @@ const TodoList = ({
     // 로그인 한 user가 클릭했을 때만 반응
     if (user?.result?.googleId !== post?.creator && user?.result?._id !== post?.creator) return
     // edit 중 다른 post를 edit 하려고 할 때 warning
-    // 내 포스트 중에 하나라도 edit 상태인 것이 있으면
+    // 내 포스트 중에 하나라도 edit 상태인 것이 있으면 ***
     // if (currentId !== 0 && currentId !== post._id) {
     //   console.log(`${currentId} => ${post._id}`)
     //   openSelectEditModal()
@@ -186,6 +188,7 @@ const TodoList = ({
   const clear = () => {
     // setCurrentId(0)
     setIsEdit(false)
+    setIsTodoEdit(false)
     console.log("clear")
   }
 
@@ -237,6 +240,12 @@ const TodoList = ({
     dragEndHandler(e, post)
   }
 
+  const handleEditTodo = (text) => {
+    setIsTodoEdit(true)
+    setEditText(text)
+    console.log(text) // 이 내용을 Todo Form에다가 전달하고 싶은데..
+  }
+
   return (
     <div
       className={styles.todoPost}
@@ -253,7 +262,15 @@ const TodoList = ({
       {/* Todo 입력 form / user가 있을 경우에만 / Edit 중인 경우만 form 보이기 */}
       {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) &&
         (isEdit ? (
-          <TodoForm onSubmit={addTodo} openNoInputModal={openNoInputModal} isEdit={isEdit} post={post} />
+          <TodoForm
+            onAddSubmit={addTodo}
+            onUpdateSubmit={updateTodo}
+            openNoInputModal={openNoInputModal}
+            isEdit={isEdit}
+            post={post}
+            editText={editText}
+            isTodoEdit={isTodoEdit}
+          />
         ) : (
           <p className={styles.instruction}>double tab to edit this post</p>
         ))}
@@ -268,6 +285,7 @@ const TodoList = ({
         AddPostHandler={AddPostHandler}
         openEditDoneModal={openEditDoneModal}
         openRemoveModal={openRemoveModal}
+        onEditTodo={handleEditTodo}
       />
       {/* setting area */}
       <PostFooter

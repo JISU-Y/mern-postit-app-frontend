@@ -7,7 +7,7 @@ import PostMenu from "../ContextMenu/PostMenu"
 import styles from "./Todo.module.css"
 
 const Todo = (props) => {
-  const [currTodoId, setCurrTodoId] = useState(0)
+  const [currTodoId, setCurrTodoId] = useState(0) // 이런것도 전역으로 관리하면 안되나
   const [edit, setEdit] = useState({
     todoText: null,
     todoDone: false,
@@ -68,6 +68,7 @@ const Todo = (props) => {
   }, [handleClick, handleContextMenu])
 
   const handleEditTodo = (todo) => {
+    props.onEditTodo(todo.todoText)
     setCurrTodoId(todo._id)
     setEdit({
       todoText: todo.todoText,
@@ -75,12 +76,10 @@ const Todo = (props) => {
     })
   }
 
-  // update input 이랑 그냥 input 이랑 합칠지?
-
   return (
     <div ref={todoRef} className={styles.container}>
       {/* todoText가 원래 null인데 setEdit해서 뭐라도 들어가면 그때 TodoForm 열음 */}
-      {edit.todoText && <TodoForm edit={edit} onSubmit={submitUpdate} />}
+      {/* {edit.todoText && <TodoForm edit={edit} onSubmit={submitUpdate} />} */}
       {props.todos.map((todo) => {
         return (
           <div className={todo.todoDone ? `${styles.row} ${styles.complete}` : `${styles.row}`} key={todo._id} style={rowStyle}>
