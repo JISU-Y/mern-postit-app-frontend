@@ -58,7 +58,7 @@ const TagContainer = (props) => {
       )}
       {props.tags.length > 0
         ? props.tags.map((tag, index) => {
-            return <Tag key={index} tag={tag} handleRemoveTags={props.handleRemoveTags} />
+            return <Tag key={index} tag={tag} />
           })
         : props.isEdit && <p className={styles.notag}>right click to add tags</p>}
       {/* tag context menu */}

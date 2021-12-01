@@ -9,7 +9,7 @@ const TodoForm = (props) => {
   const post = useSelector((state) => state.post)
   const dispatch = useDispatch()
   const [postTodo, setPostTodo] = useState({
-    todoText: props.isTodoEdit ? props.editText.todoText : "",
+    todoText: props.isTodoEdit ? props.editTodo.todoText : "",
     todoDone: false,
   })
 
@@ -47,10 +47,9 @@ const TodoForm = (props) => {
     }
 
     dispatch(
-      updateTodoAction(props.editText._id, {
-        ...props.editText,
+      updateTodoAction(props.editTodo._id, {
+        ...props.editTodo,
         todoText: postTodo.todoText,
-        todoDone: false,
       })
     )
 

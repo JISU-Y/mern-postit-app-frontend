@@ -69,7 +69,7 @@ const Todo = (props) => {
     props.onEditTodo(todo)
     setEdit({
       todoText: todo.todoText,
-      todoDone: false,
+      todoDone: todo.todoDone,
       _id: todo._id,
     })
   }
@@ -79,12 +79,21 @@ const Todo = (props) => {
     dispatch(deleteTodoAction(todo._id))
   }
 
+  const handleCompTodo = (todo) => {
+    dispatch(
+      updateTodoAction(todo._id, {
+        ...todo,
+        todoDone: !todo.todoDone,
+      })
+    )
+  }
+
   return (
     <div ref={todoRef} className={styles.container}>
       {todos.map((todo) => {
         return (
           <div className={todo.todoDone ? `${styles.row} ${styles.complete}` : `${styles.row}`} key={todo._id} style={rowStyle}>
-            <div onClick={() => props.completeTodo(todo._id)}>{todo.todoText}</div>
+            <div onClick={() => handleCompTodo(todo)}>{todo.todoText}</div>
             {props.isEdit && (
               <div className={styles.icons}>
                 <RiCloseCircleLine onClick={() => handleDelTodo(todo)} className={styles.delete} />

@@ -35,7 +35,7 @@ const TodoList = ({
   const [isEdit, setIsEdit] = useState(false)
   // todo edit 확인
   const [isTodoEdit, setIsTodoEdit] = useState(false)
-  const [editText, setEditText] = useState("")
+  const [editTodo, setEditTodo] = useState("")
   // modal 관련
   const [modalType, setModalType] = useState({
     open: false,
@@ -112,31 +112,6 @@ const TodoList = ({
       updatePost(post._id, {
         ...post,
         todos: updatedTodos,
-      })
-    )
-  }
-
-  // add Tags
-  const handleAddTags = (tagName) => {
-    if (tags.includes(tagName)) return
-
-    // const habits = [...tags, { id: Date.now(), tagName }]
-    const addedTags = [...tags, tagName]
-    dispatch(
-      updatePost(post._id, {
-        ...post,
-        tag: addedTags,
-      })
-    )
-  }
-
-  // remove Tags
-  const handleRemoveTags = (tagName) => {
-    const removedTags = tags.filter((tag) => tag !== tagName)
-    dispatch(
-      updatePost(post._id, {
-        ...post,
-        tag: removedTags,
       })
     )
   }
@@ -237,7 +212,7 @@ const TodoList = ({
 
   const handleEditTodo = (todo) => {
     setIsTodoEdit(true)
-    setEditText(todo)
+    setEditTodo(todo)
   }
 
   return (
@@ -252,7 +227,7 @@ const TodoList = ({
       draggable
     >
       {/* tag component*/}
-      <TagContainer isEdit={isEdit} tags={tags} handleAddTags={handleAddTags} handleRemoveTags={handleRemoveTags} />
+      <TagContainer isEdit={isEdit} tags={tags} />
       {/* Todo 입력 form / user가 있을 경우에만 / Edit 중인 경우만 form 보이기 */}
       {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) &&
         (isEdit ? (
@@ -262,7 +237,7 @@ const TodoList = ({
             openNoInputModal={openNoInputModal}
             isEdit={isEdit}
             post={post}
-            editText={editText}
+            editTodo={editTodo}
             isTodoEdit={isTodoEdit}
           />
         ) : (

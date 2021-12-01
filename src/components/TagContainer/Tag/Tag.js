@@ -1,9 +1,13 @@
 import React from "react"
 import { RiCloseCircleLine } from "react-icons/ri"
+import { useDispatch } from "react-redux"
+import { deleteTagAction } from "../../../redux/postContent/actions"
 
 import styles from "../TagContainer.module.css"
 
-const Tag = ({ tag, handleRemoveTags }) => {
+const Tag = ({ tag }) => {
+  const dispatch = useDispatch()
+
   const tagStyle = (tag) => {
     if (tag === "Later") {
       return `${styles.Tag} ${styles.Later}`
@@ -17,10 +21,14 @@ const Tag = ({ tag, handleRemoveTags }) => {
       return `${styles.Tag} ${styles.Later}`
     }
   }
+
+  const handleRemoveTag = (tagName) => {
+    dispatch(deleteTagAction(tagName))
+  }
   return (
     <div className={tagStyle(tag)}>
       <p className={styles.content}>{tag}</p>
-      <RiCloseCircleLine className={styles.removeBtn} onClick={() => handleRemoveTags(tag)} />
+      <RiCloseCircleLine className={styles.removeBtn} onClick={() => handleRemoveTag(tag)} />
     </div>
   )
 }
