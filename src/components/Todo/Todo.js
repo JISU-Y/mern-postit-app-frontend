@@ -5,8 +5,12 @@ import TodoForm from "../TodoForm/TodoForm"
 import PostMenu from "../ContextMenu/PostMenu"
 
 import styles from "./Todo.module.css"
+import { useDispatch, useSelector } from "react-redux"
 
 const Todo = (props) => {
+  const post = useSelector((state) => state.post)
+  const todos = props.isEdit ? post.todos : props.todos
+  const dispatch = useDispatch()
   const [currTodoId, setCurrTodoId] = useState(0) // 이런것도 전역으로 관리하면 안되나
   const [edit, setEdit] = useState({
     todoText: null,
@@ -80,7 +84,7 @@ const Todo = (props) => {
     <div ref={todoRef} className={styles.container}>
       {/* todoText가 원래 null인데 setEdit해서 뭐라도 들어가면 그때 TodoForm 열음 */}
       {/* {edit.todoText && <TodoForm edit={edit} onSubmit={submitUpdate} />} */}
-      {props.todos.map((todo) => {
+      {todos.map((todo) => {
         return (
           <div className={todo.todoDone ? `${styles.row} ${styles.complete}` : `${styles.row}`} key={todo._id} style={rowStyle}>
             <div onClick={() => props.completeTodo(todo._id)}>{todo.todoText}</div>

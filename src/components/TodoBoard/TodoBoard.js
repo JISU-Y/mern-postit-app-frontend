@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux"
 
 import TodoList from "../TodoList/TodoList"
-import { getPosts, createPost, updatePost, deletePost, readTodos } from "../../redux"
+import { getPosts, createPost, updatePost, deletePost } from "../../redux"
 
 import StartPostButton from "./PostButton"
 
@@ -18,8 +18,6 @@ const initialState = {
 
 const TodoBoard = ({ user }) => {
   const posts = useSelector((state) => state.posts.posts)
-  const todos = useSelector((state) => state.post)
-  console.log(todos)
   const dispatch = useDispatch()
 
   // 드랍할 영역이 위치한 컴포넌트
@@ -34,7 +32,6 @@ const TodoBoard = ({ user }) => {
   // fetch posts data
   useEffect(() => {
     dispatch(getPosts())
-    dispatch(readTodos())
   }, [])
 
   // post를 추가하기만 하는 것 (일단 내용(todos)은 없는 것으로 하기)

@@ -1,9 +1,13 @@
 import React, { useState, useRef } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { addTodoAction } from "../../redux"
 
 import styles from "./TodoForm.module.css"
 
 // todo form
 const TodoForm = (props) => {
+  const post = useSelector((state) => state.post)
+  const dispatch = useDispatch()
   const [postTodo, setPostTodo] = useState({
     todoText: props.isTodoEdit ? props.editText : "",
     todoDone: false,
@@ -21,10 +25,12 @@ const TodoForm = (props) => {
       }
     }
 
-    props.onAddSubmit({
-      todoText: postTodo.todoText,
-      todoDone: false,
-    })
+    dispatch(addTodoAction(postTodo))
+    // props.onAddSubmit({
+    //   todoText: postTodo.todoText,
+    //   todoDone: false,
+    // })
+    console.log(postTodo, post.todos)
 
     // Input 초기화
     setPostTodo({

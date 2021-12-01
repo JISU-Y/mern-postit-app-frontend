@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 // middleware
-import { updatePost } from "../../redux"
+import { readPostContent, updatePost } from "../../redux"
 
 // components
 import TodoContainer from "../Todo/Todo"
@@ -25,6 +25,7 @@ const TodoList = ({
   user,
   todoAppRef,
 }) => {
+  const _post = useSelector((state) => state.post)
   const dispatch = useDispatch()
   const todos = post.todos
   const tags = post.tag
@@ -39,10 +40,6 @@ const TodoList = ({
     type: "",
     msg: "",
   })
-
-  // change colors
-  const [colorIndex, setColorIndex] = useState(1)
-  const postColor = ["#ffd20c", "#5d0cff", "#ff7614", "#149fff", "#fa0087"]
 
   // post 위치 style
   let postStyle = {
@@ -62,12 +59,12 @@ const TodoList = ({
 
     // 새 todo와 기존의 todos 배열을 합침 (할일 리스트를 배열로 모음)
     const newTodos = [todo, ...todos]
-    dispatch(
-      updatePost(post._id, {
-        ...post,
-        todos: newTodos,
-      })
-    )
+    // dispatch(
+    //   updatePost(post._id, {
+    //     ...post,
+    //     todos: newTodos,
+    //   })
+    // )
   }
 
   // Todo delete
@@ -166,6 +163,7 @@ const TodoList = ({
     //   openSelectEditModal()
     //   return
     // }
+    dispatch(readPostContent(post))
 
     // setCurrentId(post._id) // 선택한 post의 id set
     setIsEdit(true) // edit 상태로 변경
