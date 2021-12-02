@@ -1,4 +1,4 @@
-import { READ_POST, ADD_TODO, UPDATE_TODO, DELETE_TODO, ADD_TAG, DELETE_TAG, UPDATE_POS } from "./types"
+import { READ_POST, ADD_TODO, UPDATE_TODO, DELETE_TODO, ADD_TAG, DELETE_TAG, UPDATE_POS, EDIT_DONE } from "./types"
 
 // action creator
 export const readPostContent = (post) => {
@@ -47,5 +47,11 @@ export const updatePosAction = (position) => {
   return {
     type: UPDATE_POS,
     payload: position,
+  }
+}
+
+export const editDonePost = () => {
+  return {
+    type: EDIT_DONE,
   }
 }

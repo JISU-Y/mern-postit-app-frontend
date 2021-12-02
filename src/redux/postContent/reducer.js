@@ -1,4 +1,4 @@
-import { READ_POST, ADD_TODO, UPDATE_TODO, DELETE_TODO, ADD_TAG, DELETE_TAG, UPDATE_POS } from "./types"
+import { READ_POST, ADD_TODO, UPDATE_TODO, DELETE_TODO, ADD_TAG, DELETE_TAG, UPDATE_POS, EDIT_DONE } from "./types"
 
 const initialState = {
   name: "",
@@ -11,6 +11,7 @@ const initialState = {
     },
   ],
   position: { x: null, y: null },
+  isEdit: false,
 }
 
 // state = posts
@@ -18,7 +19,7 @@ const postContentsReducer = (state = initialState, action) => {
   switch (action.type) {
     case READ_POST:
       console.log(action.payload) // 일단 edit 상태에 들어간 post의 정보들을 다 가져옴
-      return { ...state, ...action.payload }
+      return { ...state, ...action.payload, isEdit: true }
     case ADD_TODO:
       console.log(action.payload)
       return {
@@ -60,6 +61,8 @@ const postContentsReducer = (state = initialState, action) => {
         ...state,
         position: action.payload,
       }
+    case EDIT_DONE:
+      return { ...state, isEdit: false }
     default:
       return state
   }

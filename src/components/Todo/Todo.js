@@ -93,9 +93,9 @@ const Todo = (props) => {
     )
   }
 
-  useEffect(() => {
-    dispatch(readPostContent(post))
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(readPostContent(post))
+  // }, [dispatch])
 
   return (
     <div ref={todoRef} className={styles.container}>

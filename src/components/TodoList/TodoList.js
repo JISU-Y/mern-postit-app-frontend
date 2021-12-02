@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 // middleware
-import { readPostContent, updatePost } from "../../redux"
+import { editDonePost, readPostContent, updatePost } from "../../redux"
 
 // components
 import TodoContainer from "../Todo/Todo"
@@ -129,6 +129,11 @@ const TodoList = ({
     // 로그인 한 user가 클릭했을 때만 반응
     if (user?.result?.googleId !== post?.creator && user?.result?._id !== post?.creator) return
     // edit 중 다른 post를 edit 하려고 할 때 warning
+    if (_post.isEdit && !(post._id === _post._id)) {
+      openSelectEditModal()
+      return
+    }
+    console.log(_post.isEdit)
     // 내 포스트 중에 하나라도 edit 상태인 것이 있으면 ***
     // if (currentId !== 0 && currentId !== post._id) {
     //   console.log(`${currentId} => ${post._id}`)
@@ -157,6 +162,7 @@ const TodoList = ({
   }, [])
 
   const clear = () => {
+    dispatch(editDonePost())
     // setCurrentId(0)
     setIsEdit(false)
     setIsTodoEdit(false)

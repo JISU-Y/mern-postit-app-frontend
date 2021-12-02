@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux"
 
 import TodoList from "../TodoList/TodoList"
-import { getPosts, createPost, updatePost, deletePost, updatePosAction } from "../../redux"
+import { getPosts, createPost, deletePost, updatePosAction } from "../../redux"
 
-import StartPostButton from "./PostButton"
+import AddPostButton from "./PostButton"
 
 import styles from "./TodoBoard.module.css"
 
@@ -57,8 +57,6 @@ const TodoBoard = ({ user }) => {
   }
 
   // Drag and Drop 구현
-  // e.targe.className으로 해도 되는 것인지... **
-  // e.target으로 안해도 되는 부분 있는지 보기 (DOM 직접 수정하는 부분)
   // 드래그 시작되었을 때 실행 - onDragStart
   const dragStartHandler = (e) => {
     if (e.target.className !== todoAppRef.current.className) return
@@ -91,43 +89,53 @@ const TodoBoard = ({ user }) => {
     if (e.target.className !== todoAppRef.current.className) return
     // 올바른 영역에 드랍 되었는지 체크
     const box = postBoard.current.getBoundingClientRect()
+    const movedPos = { x: e.target.offsetLeft + e.clientX - position.x, y: e.target.offsetTop + e.clientY - position.y }
 
-    if (box.left < e.clientX && e.clientX < box.right && box.top < e.clientY && e.clientY < box.bottom) {
+    if (box.left < e.clientX && e.clientX < box.right && box.top < e.clientY && e.clientY < box.bottom && movedPos.x > 0 && movedPos.y > 0) {
       // 옮겨진 자리
-      e.target.style.left = `${e.target.offsetLeft + e.clientX - position.x}px`
-      e.target.style.top = `${e.target.offsetTop + e.clientY - position.y}px`
+      e.target.style.left = `${movedPos.x}px`
+      e.target.style.top = `${movedPos.y}px`
     } else {
       // 잘못된 영역이면 원래 위치로 이동
       e.target.style.left = `${oriPosition.x}px`
       e.target.style.top = `${oriPosition.y}px`
     }
-    setPosition({ x: e.target.style.left, y: e.target.style.top })
+    // setPosition({ x: e.target.style.left, y: e.target.style.top })
 
     dispatch(updatePosAction({ x: e.target.style.left, y: e.target.style.top }))
   }
 
   return (
     <div className={styles.board} ref={postBoard}>
-      {/* {!postits.find((post) => post.name === user?.result?.name) && user?.result?.name && <StartPostButton AddPostHandler={AddPostHandler} />} */}
-      {posts.length > 0
-        ? posts.map((post) => {
-            return (
-              <TodoList
-                key={post._id}
-                todoAppRef={todoAppRef}
-                post={post}
-                user={user}
-                dragStartHandler={dragStartHandler}
-                dragHandler={dragHandler}
-                dragEndHandler={dragEndHandler}
-                AddPostHandler={AddPostHandler}
-                removePostHandler={removePostHandler}
-              />
-            )
-          })
-        : user?.result?.name && <StartPostButton AddPostHandler={AddPostHandler} />}
+      {user?.result?.name && <AddPostButton AddPostHandler={AddPostHandler} />}
+      {posts.length > 0 &&
+        posts.map((post) => {
+          return (
+            <TodoList
+              key={post._id}
+              todoAppRef={todoAppRef}
+              post={post}
+              user={user}
+              dragStartHandler={dragStartHandler}
+              dragHandler={dragHandler}
+              dragEndHandler={dragEndHandler}
+              AddPostHandler={AddPostHandler}
+              removePostHandler={removePostHandler}
+            />
+          )
+        })}
     </div>
   )
 }
 
 export default TodoBoard
+
+// edit 중 일 때 다른 포스트 edit 못하게 막기
+// 포스트들이 보드를 벗어나지 못하도록
+// 로그인 되었는데, 아무것도 포스트가 없을 때 버튼 활성화 (잘 보이는 곳에)
+// 함수들 정리
+
+// 기능 추가
+// Login navbar 커스텀
+// 스피너
+// 필터(내 포스트만 보기, 다 보기)
