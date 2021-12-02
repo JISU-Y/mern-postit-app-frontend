@@ -9,6 +9,7 @@ const initialState = {
       position: { x: null, y: null },
     },
   ],
+  isChanged: false,
 }
 
 // state = posts
@@ -28,7 +29,17 @@ const postsReducer = (state = initialState, action) => {
       console.log(action.payload)
       return {
         ...state,
-        posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)),
+        posts: state.posts.map((post) =>
+          post._id === action.payload._id
+            ? {
+                ...post,
+                position: action.payload.position, //
+                tag: action.payload.tag,
+                todos: action.payload.todos,
+              }
+            : post
+        ),
+        isChanged: !state.isChanged,
       }
     case DELETE:
       return {

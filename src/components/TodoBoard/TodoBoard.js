@@ -18,6 +18,8 @@ const initialState = {
 
 const TodoBoard = ({ user }) => {
   const posts = useSelector((state) => state.posts.posts)
+  const isChanged = useSelector((state) => state.posts.isChanged)
+  console.log(posts)
   const dispatch = useDispatch()
 
   // 드랍할 영역이 위치한 컴포넌트
@@ -32,7 +34,8 @@ const TodoBoard = ({ user }) => {
   // fetch posts data
   useEffect(() => {
     dispatch(getPosts())
-  }, [dispatch])
+  }, [dispatch, isChanged])
+  // posts들이 store에서 업데이트가 되었다면 getPost를 다시 해주어서 list를 다시 뿌려준다.
 
   // post를 추가하기만 하는 것 (일단 내용(todos)은 없는 것으로 하기)
   const AddPostHandler = async () => {
