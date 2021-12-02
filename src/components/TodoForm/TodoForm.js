@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { addTodoAction, updateTodoAction } from "../../redux"
+import uuid from "react-uuid"
 
 import styles from "./TodoForm.module.css"
 
@@ -11,6 +12,7 @@ const TodoForm = (props) => {
   const [postTodo, setPostTodo] = useState({
     todoText: props.isTodoEdit ? props.editTodo.todoText : "",
     todoDone: false,
+    tempId: null,
   })
 
   const inputRef = useRef(null)
@@ -25,14 +27,16 @@ const TodoForm = (props) => {
       }
     }
 
+    console.log(postTodo)
+
     // 지금 state에 있는 post의 todos 수정해달라는 요청(여기서 사용자에게 입력받은 todo 전달)
-    dispatch(addTodoAction(postTodo))
-    console.log(postTodo, post.todos)
+    dispatch(addTodoAction({ ...postTodo, tempId: uuid() }))
 
     // Input 초기화
     setPostTodo({
       todoText: "",
       todoDone: false,
+      tempId: null,
     })
   }
 
@@ -62,6 +66,7 @@ const TodoForm = (props) => {
     setPostTodo({
       todoText: "",
       todoDone: false,
+      tempId: null,
     })
   }
 

@@ -13,11 +13,11 @@ const Todo = (props) => {
   // 기본적으로 edit 상태인 post를 전역 state에 올린다는 것.
   // 나머지는 list들이기 때문에 props로 받아서 하는 수 밖에 없지 않나?
   const todos = props.isEdit ? post.todos : props.todos
-  const [edit, setEdit] = useState({
-    todoText: null,
-    todoDone: false,
-    _id: null,
-  })
+  // const [edit, setEdit] = useState({
+  //   todoText: null,
+  //   todoDone: false,
+  //   tempId: null,
+  // })
   const [show, setShow] = useState(false)
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 })
   const todoRef = useRef(null)
@@ -67,32 +67,41 @@ const Todo = (props) => {
 
   const handleEditTodo = (todo) => {
     props.onEditTodo(todo)
-    setEdit({
-      todoText: todo.todoText,
-      todoDone: todo.todoDone,
-      _id: todo._id,
-    })
+    console.log(todo)
+    // setEdit({
+    //   todoText: todo.todoText,
+    //   todoDone: todo.todoDone,
+    //   id: todo.id,
+    // })
   }
 
   const handleDelTodo = (todo) => {
+    console.log(todo)
+    const id = todo._id ?? todo.tempId
+    console.log(id)
     //() => props.removeTodo(todo._id)
-    dispatch(deleteTodoAction(todo._id))
+    dispatch(deleteTodoAction(id))
   }
 
   const handleCompTodo = (todo) => {
+    console.log(todo)
     dispatch(
-      updateTodoAction(todo._id, {
+      updateTodoAction(todo._id ?? todo.tempId, {
         ...todo,
         todoDone: !todo.todoDone,
       })
     )
   }
 
+  useEffect(() => {
+    dispatch(readPostContent(post))
+  }, [dispatch])
+
   return (
     <div ref={todoRef} className={styles.container}>
       {todos.map((todo) => {
         return (
-          <div className={todo.todoDone ? `${styles.row} ${styles.complete}` : `${styles.row}`} key={todo._id} style={rowStyle}>
+          <div className={todo.todoDone ? `${styles.row} ${styles.complete}` : `${styles.row}`} key={todo._id ?? todo.tempId} style={rowStyle}>
             <div onClick={() => handleCompTodo(todo)}>{todo.todoText}</div>
             {props.isEdit && (
               <div className={styles.icons}>
