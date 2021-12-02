@@ -16,10 +16,10 @@ const initialState = {
   position: { x: null, y: null },
 }
 
-const TodoBoard = ({ user }) => {
+const TodoBoard = (props) => {
   const posts = useSelector((state) => state.posts.posts)
   const isChanged = useSelector((state) => state.posts.isChanged)
-  console.log(posts)
+  const user = useSelector((state) => state.auth.authData)
   const dispatch = useDispatch()
 
   // 드랍할 영역이 위치한 컴포넌트
@@ -115,7 +115,6 @@ const TodoBoard = ({ user }) => {
               key={post._id}
               todoAppRef={todoAppRef}
               post={post}
-              user={user}
               dragStartHandler={dragStartHandler}
               dragHandler={dragHandler}
               dragEndHandler={dragEndHandler}

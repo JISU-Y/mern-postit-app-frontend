@@ -7,10 +7,11 @@ import moment from "moment"
 
 import styles from "./PostFooter.module.css"
 import hoverStyle from "../TodoList/TodoList.module.css"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { createPost } from "../../redux"
 
 const PostFooter = (props) => {
+  const user = useSelector((state) => state.auth.authData)
   const dispatch = useDispatch()
 
   const onDelete = () => {
@@ -35,7 +36,7 @@ const PostFooter = (props) => {
         {moment(props.post.createdAt).fromNow()}
       </p>
       <div className={styles.icons}>
-        {(props.userGoogleId === props.postCreator || props.userId === props.postCreator) && (
+        {(user?.result?.googleId === props.post?.creator || user?.result?._id === props.post?.creator) && (
           <>
             <FiMinusCircle className={hoverStyle.minus} onClick={onDelete} />
             {props.isEdit && (

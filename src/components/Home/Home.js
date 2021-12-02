@@ -1,12 +1,21 @@
-import React, { useState } from "react"
+import React, { useEffect } from "react"
 import { Container, Typography, Paper } from "@material-ui/core"
 
 import TodoBoard from "../TodoBoard/TodoBoard"
 
 import styles from "./Home.module.css"
+import { useDispatch, useSelector } from "react-redux"
+import { setUserAction } from "../../redux"
 
 const Home = () => {
-  const user = JSON.parse(localStorage.getItem("profile")) // localstorage에 로그인한 사용자 있으면
+  const user = useSelector((state) => state.auth.authData)
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    // localstorage에 로그인한 사용자 있으면
+    dispatch(setUserAction(JSON.parse(localStorage.getItem("profile"))))
+  }, [])
 
   return (
     <Container>
@@ -15,11 +24,10 @@ const Home = () => {
           <Typography variant="h6" align="center">
             Please Sign in or Sign up to create your own posts
           </Typography>
-          {/* 여기에 버튼이 있었음 좋겠는데 (add post handler) */}
         </Paper>
       )}
       <div className={styles.container}>
-        <TodoBoard user={user} />
+        <TodoBoard />
       </div>
     </Container>
   )

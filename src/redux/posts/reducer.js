@@ -1,18 +1,10 @@
 import { FETCH_ALL, CREATE, UPDATE, DELETE } from "./types"
 
 const initialState = {
-  posts: [
-    {
-      name: "",
-      tag: [],
-      todos: [],
-      position: { x: null, y: null },
-    },
-  ],
+  posts: [],
   isChanged: false,
 }
 
-// state = posts
 const postsReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ALL:

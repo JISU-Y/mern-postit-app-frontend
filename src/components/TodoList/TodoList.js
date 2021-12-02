@@ -22,11 +22,10 @@ const TodoList = ({
   post, //
   AddPostHandler,
   removePostHandler,
-  user,
   todoAppRef,
 }) => {
-  const posts = useSelector((state) => state.posts.posts)
   const _post = useSelector((state) => state.post)
+  const user = useSelector((state) => state.auth.authData)
   const dispatch = useDispatch()
   const currentId = post._id
   const todos = post.todos
@@ -264,16 +263,7 @@ const TodoList = ({
         onEditTodo={handleEditTodo}
       />
       {/* setting area */}
-      <PostFooter
-        isEdit={isEdit}
-        userGoogleId={user?.result?.googleId}
-        userId={user?.result?._id}
-        post={post}
-        postCreator={post?.creator}
-        AddPostHandler={AddPostHandler}
-        openRemoveModal={openRemoveModal}
-        openEditDoneModal={openEditDoneModal}
-      />
+      <PostFooter isEdit={isEdit} post={post} openRemoveModal={openRemoveModal} openEditDoneModal={openEditDoneModal} />
       {/* notice modal */}
       <Modal
         modalType={modalType}

@@ -1,5 +1,5 @@
 import * as api from "../../api"
-import { AUTH, LOGOUT } from "./types"
+import { AUTH, LOGOUT, SET_USER, GET_USER } from "./types"
 
 const signInAction = (data) => {
   return {
@@ -18,12 +18,17 @@ export const logoutAction = () => {
   return { type: LOGOUT }
 }
 
+export const setUserAction = (user) => {
+  return {
+    type: SET_USER,
+    payload: user,
+  }
+}
+
 export const signin = (formData, history) => async (dispatch) => {
   try {
     // log in the user
     const { data } = await api.signIn(formData)
-
-    console.log(data)
 
     dispatch(signInAction(data))
 
