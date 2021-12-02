@@ -1,15 +1,22 @@
 import React from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { addTagAction } from "../../redux"
 
 import styles from "./ContextMenu.module.css"
 
 const TagMenu = (props) => {
+  const post = useSelector((state) => state.post)
+  const dispatch = useDispatch()
+
   const posInStyle = {
     top: props.anchorPoint.y,
     left: props.anchorPoint.x,
   }
 
   const onAddTag = (tagName) => {
-    props.handleAddTags(tagName)
+    if (post.tag.includes(tagName)) return
+    // props.handleAddTags(tagName)
+    dispatch(addTagAction(tagName))
   }
 
   return (

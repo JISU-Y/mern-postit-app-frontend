@@ -13,7 +13,6 @@ const ContextMenu = (props) => {
       <li onClick={props.AddPostHandler}>add</li>
       {props.isEdit && <li onClick={props.openEditDoneModal}>edit done</li>}
       <li onClick={props.openRemoveModal}>delete</li>
-      <li onClick={props.changeColor}>changing color</li>
       <hr />
       <li onClick={props.handleClick}>Exit</li>
     </ul>

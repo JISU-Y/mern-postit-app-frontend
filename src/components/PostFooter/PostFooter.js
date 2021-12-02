@@ -7,11 +7,27 @@ import moment from "moment"
 
 import styles from "./PostFooter.module.css"
 import hoverStyle from "../TodoList/TodoList.module.css"
+import { useDispatch, useSelector } from "react-redux"
+import { createPost } from "../../redux"
 
 const PostFooter = (props) => {
+  const user = useSelector((state) => state.auth.authData)
+  const dispatch = useDispatch()
+
   const onDelete = () => {
-    props.setCurrentId(props.post._id) // currentId로 redering 하기 위함
     props.openRemoveModal()
+  }
+
+  const handleAddPost = () => {
+    // props.AddPostHandler 이렇게 안해줘도 됨.
+    dispatch(
+      createPost({
+        name: "",
+        tag: [],
+        todos: [],
+        position: { x: null, y: null },
+      })
+    )
   }
 
   return (
@@ -20,7 +36,7 @@ const PostFooter = (props) => {
         {moment(props.post.createdAt).fromNow()}
       </p>
       <div className={styles.icons}>
-        {(props.userGoogleId === props.postCreator || props.userId === props.postCreator) && (
+        {(user?.result?.googleId === props.post?.creator || user?.result?._id === props.post?.creator) && (
           <>
             <FiMinusCircle className={hoverStyle.minus} onClick={onDelete} />
             {props.isEdit && (
@@ -31,7 +47,7 @@ const PostFooter = (props) => {
                 </Button>
               </div>
             )}
-            <FiPlusCircle className={styles.plus} onClick={props.AddPostHandler} />
+            <FiPlusCircle className={styles.plus} onClick={handleAddPost} />
           </>
         )}
       </div>

@@ -1,11 +1,16 @@
 import React from "react"
+import { useDispatch } from "react-redux"
+import { deletePost } from "../../redux"
 
 import styles from "./Modal.module.css"
 
-const Modal = ({ modalType, close, post, removePostHandler, handleEditDone, clear }) => {
+const Modal = ({ modalType, close, post, handleEditDone, clear }) => {
+  const dispatch = useDispatch()
+
   const onClickinModal = () => {
     if (modalType.type === "remove") {
-      removePostHandler(post._id)
+      dispatch(deletePost(post._id))
+      // removePostHandler(post._id)
       clear()
     } else if (modalType.type === "editDone") {
       handleEditDone()

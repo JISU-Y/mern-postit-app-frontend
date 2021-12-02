@@ -4,11 +4,15 @@ import Tag from "./Tag/Tag"
 import TagMenu from "../ContextMenu/TagMenu"
 
 import styles from "./TagContainer.module.css"
+import { useSelector } from "react-redux"
 
 const TagContainer = (props) => {
+  const post = useSelector((state) => state.post)
   const [show, setShow] = useState(false)
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 })
   const tagRef = useRef(null)
+
+  const tags = props.isEdit ? post.tag : props.tags
 
   const containerStyle = { pointerEvents: props.isEdit ? "initial" : "none" }
 
@@ -56,9 +60,9 @@ const TagContainer = (props) => {
           <h5>EDITING!</h5>
         </div>
       )}
-      {props.tags.length > 0
-        ? props.tags.map((tag, index) => {
-            return <Tag key={index} tag={tag} handleRemoveTags={props.handleRemoveTags} />
+      {tags.length > 0
+        ? tags.map((tag, index) => {
+            return <Tag key={index} tag={tag} />
           })
         : props.isEdit && <p className={styles.notag}>right click to add tags</p>}
       {/* tag context menu */}

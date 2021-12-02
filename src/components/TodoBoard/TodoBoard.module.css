@@ -26,6 +26,7 @@
   border-radius: 10px;
   z-index: 200;
   padding: 0 20px;
+  text-transform: uppercase;
 }
 .startBtn:active {
   transform: scale(0.98);

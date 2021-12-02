@@ -5,7 +5,7 @@ import styles from "./TodoBoard.module.css"
 const PostButton = ({ AddPostHandler }) => {
   return (
     <button className={styles.startBtn} onClick={AddPostHandler}>
-      start posting
+      Add my post
     </button>
   )
 }

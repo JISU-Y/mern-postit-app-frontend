@@ -3,6 +3,8 @@ import { Link, useHistory, useLocation } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import decode from "jwt-decode"
 
+import { logoutAction } from "../../redux"
+
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core"
 import useStyles from "./styles"
 
@@ -15,7 +17,7 @@ const Navbar = () => {
   const location = useLocation() // 주소 변경되었을 때
 
   const logout = () => {
-    dispatch({ type: "LOGOUT" })
+    dispatch(logoutAction())
 
     history.push("/")
     setUser(null)
