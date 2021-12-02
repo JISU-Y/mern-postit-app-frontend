@@ -119,6 +119,7 @@ const TodoList = ({
   // post edit done
   const handleEditDone = () => {
     console.log("edit done")
+    console.log(_post)
     // 구독하고 있던 post의 데이터들 다 변경되었으면 그거 전달해서 업데이트
     dispatch(updatePost(_post._id, _post))
     clear()
