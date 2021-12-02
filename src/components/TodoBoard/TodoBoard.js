@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux"
 
 import TodoList from "../TodoList/TodoList"
-import { getPosts, createPost, updatePost, deletePost } from "../../redux"
+import { getPosts, createPost, updatePost, deletePost, updatePosAction } from "../../redux"
 
 import StartPostButton from "./PostButton"
 
@@ -84,7 +84,7 @@ const TodoBoard = ({ user }) => {
   }
 
   // 드래그 끝났을 때 실행(마우스 놓으면서) - onDragEnd
-  const dragEndHandler = (e, post) => {
+  const dragEndHandler = (e) => {
     if (e.target.className !== todoAppRef.current.className) return
     // 올바른 영역에 드랍 되었는지 체크
     const box = postBoard.current.getBoundingClientRect()
@@ -98,13 +98,9 @@ const TodoBoard = ({ user }) => {
       e.target.style.left = `${oriPosition.x}px`
       e.target.style.top = `${oriPosition.y}px`
     }
+    setPosition({ x: e.target.style.left, y: e.target.style.top })
 
-    dispatch(
-      updatePost(post._id, {
-        ...post,
-        position: { x: e.target.style.left, y: e.target.style.top },
-      })
-    )
+    dispatch(updatePosAction({ x: e.target.style.left, y: e.target.style.top }))
   }
 
   return (

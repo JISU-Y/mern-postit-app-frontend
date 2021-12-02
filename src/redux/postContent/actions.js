@@ -1,4 +1,4 @@
-import { READ_POST, ADD_TODO, UPDATE_TODO, DELETE_TODO, ADD_TAG, DELETE_TAG } from "./types"
+import { READ_POST, ADD_TODO, UPDATE_TODO, DELETE_TODO, ADD_TAG, DELETE_TAG, UPDATE_POS } from "./types"
 
 // action creator
 export const readPostContent = (post) => {
@@ -40,5 +40,12 @@ export const deleteTagAction = (tagName) => {
   return {
     type: DELETE_TAG,
     payload: tagName,
+  }
+}
+
+export const updatePosAction = (position) => {
+  return {
+    type: UPDATE_POS,
+    payload: position,
   }
 }

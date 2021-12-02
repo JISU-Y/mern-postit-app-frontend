@@ -208,7 +208,7 @@ const TodoList = ({
   const handleDragEnd = (e) => {
     if (!isEdit) return
 
-    dragEndHandler(e, post)
+    dragEndHandler(e)
   }
 
   const handleEditTodo = (todo) => {

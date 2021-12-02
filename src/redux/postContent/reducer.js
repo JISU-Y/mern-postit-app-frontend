@@ -1,4 +1,4 @@
-import { READ_POST, ADD_TODO, UPDATE_TODO, DELETE_TODO, ADD_TAG, DELETE_TAG } from "./types"
+import { READ_POST, ADD_TODO, UPDATE_TODO, DELETE_TODO, ADD_TAG, DELETE_TAG, UPDATE_POS } from "./types"
 
 const initialState = {
   name: "",
@@ -39,6 +39,11 @@ const postContentsReducer = (state = initialState, action) => {
       return {
         ...state,
         tag: state.tag.filter((tag) => tag !== action.payload),
+      }
+    case UPDATE_POS:
+      return {
+        ...state,
+        position: action.payload,
       }
     default:
       return state
