@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useCallback, useRef } from "react"
 import { RiCloseCircleLine, RiEdit2Fill } from "react-icons/ri"
+import { useDispatch, useSelector } from "react-redux"
+
+import { deleteTodoAction, updateTodoAction } from "../../redux"
 
 import PostMenu from "../ContextMenu/PostMenu"
 
 import styles from "./Todo.module.css"
-import { useDispatch, useSelector } from "react-redux"
-import { deleteTodoAction, updateTodoAction } from "../../redux"
 
 const Todo = (props) => {
   const post = useSelector((state) => state.post)

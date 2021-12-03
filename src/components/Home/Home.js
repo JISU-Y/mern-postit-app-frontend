@@ -1,11 +1,11 @@
 import React, { useEffect } from "react"
 import { Container, Typography, Paper } from "@material-ui/core"
+import { useDispatch, useSelector } from "react-redux"
 
 import TodoBoard from "../TodoBoard/TodoBoard"
+import { setUserAction } from "../../redux"
 
 import styles from "./Home.module.css"
-import { useDispatch, useSelector } from "react-redux"
-import { setUserAction } from "../../redux"
 
 const Home = () => {
   const user = useSelector((state) => state.auth.authData)

@@ -15,7 +15,6 @@ const TagMenu = (props) => {
 
   const onAddTag = (tagName) => {
     if (post.tag.includes(tagName)) return
-    // props.handleAddTags(tagName)
     dispatch(addTagAction(tagName))
   }
 

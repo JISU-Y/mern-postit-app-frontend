@@ -1,11 +1,11 @@
 import React, { useState, useRef } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { addTodoAction, updateTodoAction } from "../../redux"
+import { useDispatch } from "react-redux"
 import uuid from "react-uuid"
+
+import { addTodoAction, updateTodoAction } from "../../redux"
 
 import styles from "./TodoForm.module.css"
 
-// todo form
 const TodoForm = (props) => {
   const dispatch = useDispatch()
   const [postTodo, setPostTodo] = useState({
@@ -19,7 +19,7 @@ const TodoForm = (props) => {
   const handleAddSubmit = (e) => {
     e.preventDefault()
 
-    // 알림
+    // input 비어있을 경우
     if (props.isEdit && (!postTodo.todoText || /^\s*$/.test(postTodo.todoText))) {
       props.openNoInputModal()
       return
@@ -58,7 +58,7 @@ const TodoForm = (props) => {
       todoDone: false,
       tempId: null,
     })
-    props.handleEditTodoDone()
+    props.handleEditTodoDone() // edit 끝났으면 다시 add todo 버튼 나오도록 초기화
   }
 
   return props.isTodoEdit ? (

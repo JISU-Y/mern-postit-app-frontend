@@ -1,5 +1,6 @@
 import React from "react"
 import { useDispatch } from "react-redux"
+
 import { deletePost } from "../../redux"
 
 import styles from "./Modal.module.css"
