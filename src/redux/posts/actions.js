@@ -37,6 +37,8 @@ export const getPosts = () => async (dispatch) => {
     // data에 response를 넣음
     const { data } = await api.readPosts() // {data} = response
 
+    console.log(data)
+
     dispatch(fetchPosts(data)) // action dispatching
     // payload를 통해 data return
   } catch (error) {

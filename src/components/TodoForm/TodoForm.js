@@ -7,7 +7,6 @@ import styles from "./TodoForm.module.css"
 
 // todo form
 const TodoForm = (props) => {
-  const post = useSelector((state) => state.post)
   const dispatch = useDispatch()
   const [postTodo, setPostTodo] = useState({
     todoText: props.isTodoEdit ? props.editTodo.todoText : "",
@@ -21,13 +20,10 @@ const TodoForm = (props) => {
     e.preventDefault()
 
     // 알림
-    if (postTodo.todoText === "") {
-      if (props.isEdit || props.post.id === 0) {
-        props.openNoInputModal()
-      }
+    if (props.isEdit && (!postTodo.todoText || /^\s*$/.test(postTodo.todoText))) {
+      props.openNoInputModal()
+      return
     }
-
-    console.log(postTodo)
 
     // 지금 state에 있는 post의 todos 수정해달라는 요청(여기서 사용자에게 입력받은 todo 전달)
     dispatch(addTodoAction({ ...postTodo, tempId: uuid() }))
@@ -44,23 +40,17 @@ const TodoForm = (props) => {
     e.preventDefault()
 
     // 알림
-    if (postTodo.todoText === "") {
-      if (props.isEdit || props.post.id === 0) {
-        props.openNoInputModal()
-      }
+    if (props.isEdit && (!postTodo.todoText || /^\s*$/.test(postTodo.todoText))) {
+      props.openNoInputModal()
+      return
     }
 
     dispatch(
-      updateTodoAction(props.editTodo._id, {
+      updateTodoAction(props.editTodo._id ?? props.editTodo.tempId, {
         ...props.editTodo,
         todoText: postTodo.todoText,
       })
     )
-
-    // props.onUpdateSubmit(props.todo._id, {
-    //   todoText: postTodo.todoText,
-    //   todoDone: false,
-    // })
 
     // Input 초기화
     setPostTodo({
@@ -68,9 +58,9 @@ const TodoForm = (props) => {
       todoDone: false,
       tempId: null,
     })
+    props.handleEditTodoDone()
   }
 
-  // edit / add input 합치기..!
   return props.isTodoEdit ? (
     <form autoComplete="off" className={styles.todoForm} onSubmit={handleUpdateSubmit}>
       <input

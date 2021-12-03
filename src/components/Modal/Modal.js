@@ -10,7 +10,6 @@ const Modal = ({ modalType, close, post, handleEditDone, clear }) => {
   const onClickinModal = () => {
     if (modalType.type === "remove") {
       dispatch(deletePost(post._id))
-      // removePostHandler(post._id)
       clear()
     } else if (modalType.type === "editDone") {
       handleEditDone()
