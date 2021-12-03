@@ -1,18 +1,26 @@
 import React, { useState, useEffect, useCallback, useRef } from "react"
+import { useSelector } from "react-redux"
+import uuid from "react-uuid"
 
 import Tag from "./Tag/Tag"
 import TagMenu from "../ContextMenu/TagMenu"
 
 import styles from "./TagContainer.module.css"
-import { useSelector } from "react-redux"
 
 const TagContainer = (props) => {
   const post = useSelector((state) => state.post)
   const [show, setShow] = useState(false)
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 })
   const tagRef = useRef(null)
-
-  const tags = props.isEdit ? post.tag : props.tags
+  const [tags, setTags] = useState(
+    props.isEdit
+      ? post.tag.map((tag) => {
+          return { tagName: tag, id: null }
+        })
+      : props.tags.map((tag) => {
+          return { tagName: tag, id: null }
+        })
+  )
 
   const containerStyle = { pointerEvents: props.isEdit ? "initial" : "none" }
 
@@ -62,11 +70,12 @@ const TagContainer = (props) => {
       )}
       {tags.length > 0
         ? tags.map((tag, index) => {
-            return <Tag key={index} tag={tag} />
+            // tag id index 에서 uuid로 변경 필요 ********************
+            return <Tag key={index} tag={tag.tagName} />
           })
         : props.isEdit && <p className={styles.notag}>right click to add tags</p>}
       {/* tag context menu */}
-      {show && <TagMenu anchorPoint={anchorPoint} handleAddTags={props.handleAddTags} handleClick={handleClick} />}
+      {show && <TagMenu anchorPoint={anchorPoint} handleClick={handleClick} />}
     </div>
   )
 }

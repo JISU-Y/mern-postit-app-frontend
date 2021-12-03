@@ -2,7 +2,6 @@ import { FETCH_ALL, CREATE, UPDATE, DELETE } from "./types"
 
 const initialState = {
   posts: [],
-  isChanged: false,
 }
 
 const postsReducer = (state = initialState, action) => {
@@ -18,11 +17,11 @@ const postsReducer = (state = initialState, action) => {
         posts: [...state.posts, action.payload],
       }
     case UPDATE:
-      console.log(action.payload)
+      console.log(action.payload._idL)
       return {
         ...state,
         posts: state.posts.map((post) =>
-          post._id === action.payload._id
+          post._id === action.payload._idL
             ? {
                 ...post,
                 position: action.payload.position, //
@@ -31,7 +30,6 @@ const postsReducer = (state = initialState, action) => {
               }
             : post
         ),
-        isChanged: !state.isChanged,
       }
     case DELETE:
       return {

@@ -62,7 +62,7 @@ const postContentsReducer = (state = initialState, action) => {
         position: action.payload,
       }
     case EDIT_DONE:
-      return { ...state, isEdit: false }
+      return initialState
     default:
       return state
   }

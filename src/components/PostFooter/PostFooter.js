@@ -1,14 +1,14 @@
 import React from "react"
-
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi"
 import { MdDone } from "react-icons/md"
 import { Button } from "@material-ui/core"
+import { useDispatch, useSelector } from "react-redux"
 import moment from "moment"
+
+import { createPost } from "../../redux"
 
 import styles from "./PostFooter.module.css"
 import hoverStyle from "../TodoList/TodoList.module.css"
-import { useDispatch, useSelector } from "react-redux"
-import { createPost } from "../../redux"
 
 const PostFooter = (props) => {
   const user = useSelector((state) => state.auth.authData)
