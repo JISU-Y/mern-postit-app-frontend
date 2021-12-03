@@ -6,29 +6,36 @@ import { deleteTagAction } from "../../../redux/postContent/actions"
 import styles from "../TagContainer.module.css"
 
 const Tag = ({ tag }) => {
+  const tagName = tag.tagName
+
   const dispatch = useDispatch()
 
-  const tagStyle = (tag) => {
-    if (tag === "Later") {
+  const tagStyle = (tagName) => {
+    if (tagName === "Later") {
       return `${styles.Tag} ${styles.Later}`
-    } else if (tag === "Important") {
+    } else if (tagName === "Important") {
       return `${styles.Tag} ${styles.Important}`
-    } else if (tag === "Today") {
+    } else if (tagName === "Today") {
       return `${styles.Tag} ${styles.Today}`
-    } else if (tag === "To buy") {
+    } else if (tagName === "To buy") {
       return `${styles.Tag} ${styles.To} ${styles.buy}`
+    } else if (tagName === "Immediate") {
+      return `${styles.Tag} ${styles.Immediate}`
+    } else if (tagName === "etc") {
+      return `${styles.Tag} ${styles.etc}`
     } else {
-      return `${styles.Tag} ${styles.Later}`
+      return `${styles.Tag} ${styles.default}`
     }
   }
 
-  const handleRemoveTag = (tagName) => {
-    dispatch(deleteTagAction(tagName))
+  const handleRemoveTag = (id) => {
+    dispatch(deleteTagAction(id))
   }
+
   return (
-    <div className={tagStyle(tag)}>
-      <p className={styles.content}>{tag}</p>
-      <RiCloseCircleLine className={styles.removeBtn} onClick={() => handleRemoveTag(tag)} />
+    <div className={tagStyle(tagName)}>
+      <p className={styles.content}>{tagName}</p>
+      <RiCloseCircleLine className={styles.removeBtn} onClick={() => handleRemoveTag(tag._id ?? tag.tempId)} />
     </div>
   )
 }

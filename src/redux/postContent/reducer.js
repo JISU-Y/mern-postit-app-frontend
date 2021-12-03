@@ -2,7 +2,12 @@ import { READ_POST, ADD_TODO, UPDATE_TODO, DELETE_TODO, ADD_TAG, DELETE_TAG, UPD
 
 const initialState = {
   name: "",
-  tag: [],
+  tag: [
+    {
+      tagName: "",
+      tempId: null,
+    },
+  ],
   todos: [
     {
       todoText: "",
@@ -18,16 +23,14 @@ const initialState = {
 const postContentsReducer = (state = initialState, action) => {
   switch (action.type) {
     case READ_POST:
-      console.log(action.payload) // 일단 edit 상태에 들어간 post의 정보들을 다 가져옴
+      // 일단 edit 상태에 들어간 post의 정보들을 다 가져옴
       return { ...state, ...action.payload, isEdit: true }
     case ADD_TODO:
-      console.log(action.payload)
       return {
         ...state,
         todos: [...state.todos, action.payload],
       }
     case UPDATE_TODO:
-      console.log(action.payload)
       return {
         ...state,
         todos: state.todos.map((todo) =>
@@ -51,10 +54,9 @@ const postContentsReducer = (state = initialState, action) => {
         tag: [...state.tag, action.payload],
       }
     case DELETE_TAG:
-      console.log(action.payload)
       return {
         ...state,
-        tag: state.tag.filter((tag) => tag !== action.payload),
+        tag: state.tag.filter((tag) => (tag._id ? tag._id !== action.payload : tag.tempId !== action.payload)),
       }
     case UPDATE_POS:
       return {

@@ -31,10 +31,8 @@ const Todo = (props) => {
       }
 
       const rect = todoRef.current.getBoundingClientRect()
-      console.log(rect)
       const rectX = e.clientX - rect.left // x position within the element.
       const rectY = e.clientY - rect.top // y position within the element.
-      console.log(rectX, rectY)
 
       setAnchorPoint({ x: rectX, y: rectY })
       setShow(true)
@@ -64,7 +62,6 @@ const Todo = (props) => {
   }
 
   const handleCompTodo = (todo) => {
-    console.log(todo)
     dispatch(
       updateTodoAction(todo._id ?? todo.tempId, {
         ...todo,

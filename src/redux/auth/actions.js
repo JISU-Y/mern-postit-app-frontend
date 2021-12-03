@@ -1,5 +1,5 @@
 import * as api from "../../api"
-import { AUTH, LOGOUT, SET_USER, GET_USER } from "./types"
+import { AUTH, LOGOUT, SET_USER } from "./types"
 
 const signInAction = (data) => {
   return {

@@ -3,7 +3,7 @@
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   width: 300px;
   min-height: 300px;
   text-align: center;

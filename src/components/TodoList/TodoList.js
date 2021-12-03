@@ -1,5 +1,5 @@
 // react / redux
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 // middleware
@@ -24,7 +24,6 @@ const TodoList = ({
   const _post = useSelector((state) => state.post)
   const user = useSelector((state) => state.auth.authData)
   const dispatch = useDispatch()
-
   const todos = post.todos
   // edit 상태 확인 // 이것도 redux state에 저장
   const [isEdit, setIsEdit] = useState(false)
@@ -42,6 +41,12 @@ const TodoList = ({
     top: post.position.y,
     left: post.position.x,
   }
+
+  const clear = useCallback(() => {
+    dispatch(editDonePost()) // 업데이트 완료되었으니까 isEdit을 다시 false로
+    setIsEdit(false)
+    setIsTodoEdit(false)
+  }, [dispatch])
 
   const handleEditPost = () => {
     // 로그인 한 user가 클릭했을 때만 반응
@@ -66,7 +71,6 @@ const TodoList = ({
   // post edit done
   const handleEditDone = () => {
     // e.target.style.zIndex = "initial"
-
     // 구독하고 있던 post의 데이터들 다 변경되었으면 그거 전달해서 업데이트
     dispatch(updatePost(_post._id, _post))
 
@@ -85,13 +89,7 @@ const TodoList = ({
     return () => {
       window.removeEventListener("keyup", clearField)
     }
-  }, [])
-
-  const clear = () => {
-    dispatch(editDonePost()) // 업데이트 완료되었으니까 isEdit을 다시 false로
-    setIsEdit(false)
-    setIsTodoEdit(false)
-  }
+  }, [clear])
 
   // MODAL
 
