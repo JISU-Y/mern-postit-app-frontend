@@ -15,7 +15,7 @@ const Home = () => {
   useEffect(() => {
     // localstorage에 로그인한 사용자 있으면
     dispatch(setUserAction(JSON.parse(localStorage.getItem("profile"))))
-  }, [])
+  }, [dispatch])
 
   return (
     <Container>

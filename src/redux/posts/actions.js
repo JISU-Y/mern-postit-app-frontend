@@ -37,8 +37,6 @@ export const getPosts = () => async (dispatch) => {
     // data에 response를 넣음
     const { data } = await api.readPosts() // {data} = response
 
-    console.log(data)
-
     dispatch(fetchPosts(data)) // action dispatching
     // payload를 통해 data return
   } catch (error) {
@@ -50,8 +48,6 @@ export const createPost = (post) => async (dispatch) => {
   try {
     const { data } = await api.createPost(post)
 
-    console.log(data)
-
     dispatch(createPostAction(data))
   } catch (error) {
     console.log(error.message)
@@ -62,7 +58,6 @@ export const updatePost = (id, post) => async (dispatch) => {
   try {
     const { data } = await api.updatePost(id, post)
 
-    console.log(data)
     dispatch(updatePostAction(data))
   } catch (error) {
     console.log(error.message)

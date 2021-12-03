@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import { Link, useHistory, useLocation } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import decode from "jwt-decode"
@@ -16,12 +16,12 @@ const Navbar = () => {
   const history = useHistory()
   const location = useLocation() // 주소 변경되었을 때
 
-  const logout = () => {
+  const logout = useCallback(() => {
     dispatch(logoutAction())
 
     history.push("/")
     setUser(null)
-  }
+  }, [dispatch, history])
 
   // user login 되었을 때 (여기서는 Login 되면 home으로 이동하는 것을 이용) re render
   useEffect(() => {
@@ -36,7 +36,7 @@ const Navbar = () => {
     }
 
     setUser(JSON.parse(localStorage.getItem("profile")))
-  }, [location])
+  }, [location, user?.token, logout])
 
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">

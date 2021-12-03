@@ -20,7 +20,6 @@ const TodoBoard = () => {
   const posts = useSelector((state) => state.posts.posts)
   const user = useSelector((state) => state.auth.authData)
   const dispatch = useDispatch()
-  console.log(posts)
 
   // 드랍할 영역이 위치한 컴포넌트
   const postBoard = useRef(null)
