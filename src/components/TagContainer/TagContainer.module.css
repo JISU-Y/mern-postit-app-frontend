@@ -48,13 +48,25 @@
   background-color: lawngreen;
 }
 .Tag.Important {
-  background-color: firebrick;
+  background-color: red;
 }
 .Tag.Today {
-  background-color: hotpink;
+  background-color: blueviolet;
 }
 .Tag.To.buy {
+  background-color: skyblue;
+}
+.Tag.Immediate {
+  background-color: tomato;
+  color: midnightblue;
+  animation: alert 1.5s linear infinite;
+}
+.Tag.etc {
   background-color: slategray;
+}
+.Tag.default {
+  background-color: black;
+  color: #fff;
 }
 
 .content {
@@ -70,5 +82,12 @@
 @keyframes blinkingEffect {
   50% {
     opacity: 0;
+  }
+}
+
+@keyframes alert {
+  50% {
+    background-color: midnightblue;
+    color: tomato;
   }
 }

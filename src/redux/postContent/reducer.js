@@ -2,7 +2,12 @@ import { READ_POST, ADD_TODO, UPDATE_TODO, DELETE_TODO, ADD_TAG, DELETE_TAG, UPD
 
 const initialState = {
   name: "",
-  tag: [],
+  tag: [
+    {
+      tagName: "",
+      tempId: null,
+    },
+  ],
   todos: [
     {
       todoText: "",
@@ -56,7 +61,7 @@ const postContentsReducer = (state = initialState, action) => {
       console.log(action.payload)
       return {
         ...state,
-        tag: state.tag.filter((tag) => tag !== action.payload),
+        tag: state.tag.filter((tag) => (tag._id ? tag._id !== action.payload : tag.tempId !== action.payload)),
       }
     case UPDATE_POS:
       return {

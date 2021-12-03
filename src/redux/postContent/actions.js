@@ -36,10 +36,10 @@ export const addTagAction = (tag) => {
   }
 }
 
-export const deleteTagAction = (tagName) => {
+export const deleteTagAction = (id) => {
   return {
     type: DELETE_TAG,
-    payload: tagName,
+    payload: id,
   }
 }
 

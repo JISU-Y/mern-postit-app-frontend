@@ -15,8 +15,8 @@ const TagMenu = (props) => {
   }
 
   const onAddTag = (tagName) => {
-    console.log(tagName)
-    // if (post.tag.map((el) => el.tagName === tagName)) return
+    const isThere = post.tag.map((el) => el.tagName === tagName)
+    if (isThere.includes(true)) return
     dispatch(addTagAction({ tagName, tempId: uuid() }))
   }
 

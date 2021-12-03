@@ -1,7 +1,10 @@
 import axios from "axios"
 
+// const API = axios.create({
+//   baseURL: "https://postit-app-mern-project.herokuapp.com",
+// })
 const API = axios.create({
-  baseURL: "https://postit-app-mern-project.herokuapp.com",
+  baseURL: "http://localhost:5000",
 })
 // server 주소
 
