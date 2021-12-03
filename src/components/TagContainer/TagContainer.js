@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from "react"
 import { useSelector } from "react-redux"
-import uuid from "react-uuid"
 
 import Tag from "./Tag/Tag"
 import TagMenu from "../ContextMenu/TagMenu"
@@ -12,15 +11,7 @@ const TagContainer = (props) => {
   const [show, setShow] = useState(false)
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 })
   const tagRef = useRef(null)
-  const [tags, setTags] = useState(
-    props.isEdit
-      ? post.tag.map((tag) => {
-          return { tagName: tag, id: null }
-        })
-      : props.tags.map((tag) => {
-          return { tagName: tag, id: null }
-        })
-  )
+  const tags = props.isEdit ? post.tag : props.tags // useState로 하면 비동기적이라 렌더되지 않는 이상 업데이트 안됨
 
   const containerStyle = { pointerEvents: props.isEdit ? "initial" : "none" }
 
@@ -69,9 +60,8 @@ const TagContainer = (props) => {
         </div>
       )}
       {tags.length > 0
-        ? tags.map((tag, index) => {
-            // tag id index 에서 uuid로 변경 필요 ********************
-            return <Tag key={index} tag={tag.tagName} />
+        ? tags.map((tag) => {
+            return <Tag key={tag.tempId} tag={tag} />
           })
         : props.isEdit && <p className={styles.notag}>right click to add tags</p>}
       {/* tag context menu */}

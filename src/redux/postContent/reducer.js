@@ -46,6 +46,8 @@ const postContentsReducer = (state = initialState, action) => {
         todos: state.todos.filter((todo) => (todo._id ? todo._id !== action.payload : todo.tempId !== action.payload)),
       }
     case ADD_TAG:
+      console.log(state.tag)
+      console.log(action.payload)
       return {
         ...state,
         tag: [...state.tag, action.payload],

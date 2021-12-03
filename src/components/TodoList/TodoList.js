@@ -24,7 +24,6 @@ const TodoList = ({
   const _post = useSelector((state) => state.post)
   const user = useSelector((state) => state.auth.authData)
   const dispatch = useDispatch()
-
   const todos = post.todos
   // edit 상태 확인 // 이것도 redux state에 저장
   const [isEdit, setIsEdit] = useState(false)

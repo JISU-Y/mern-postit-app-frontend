@@ -29,10 +29,10 @@ export const deleteTodoAction = (id) => {
   }
 }
 
-export const addTagAction = (tagName) => {
+export const addTagAction = (tag) => {
   return {
     type: ADD_TAG,
-    payload: tagName,
+    payload: tag,
   }
 }
 
