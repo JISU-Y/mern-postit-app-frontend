@@ -55,7 +55,7 @@ const TagContainer = (props) => {
     <div ref={tagRef} className={styles.container} style={containerStyle}>
       {/* editing warning */}
       {props.isEdit && (
-        <div className={styles.blinking}>
+        <div className={styles.editing}>
           <h5>EDITING!</h5>
         </div>
       )}

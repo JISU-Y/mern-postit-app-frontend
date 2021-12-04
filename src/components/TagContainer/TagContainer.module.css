@@ -7,19 +7,19 @@
   position: relative;
 }
 
-.blinking {
+.editing {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 300px;
   height: 20px;
-  background-color: crimson;
+  background-color: gold;
+  color: black;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  font-size: 17px;
+  font-size: 18px;
   letter-spacing: 3px;
-  color: #fff;
-  animation: blinkingEffect 1s linear infinite;
+  /* animation: blinkingEffect 1s linear infinite; */
 }
 
 .notag {
