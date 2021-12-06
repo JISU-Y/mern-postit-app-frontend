@@ -5,7 +5,7 @@ import decode from "jwt-decode"
 
 import { logoutAction } from "../../redux"
 
-import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core"
+import { AppBar, Button, Toolbar, Typography } from "@material-ui/core"
 import styles from "./Navbar.module.css"
 
 const Navbar = () => {

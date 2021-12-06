@@ -18,7 +18,7 @@ const Home = () => {
   }, [dispatch])
 
   return (
-    <Container>
+    <div className={styles.container}>
       {!user?.result?.name && (
         <Paper className={styles.admin}>
           <Typography variant="h6" align="center">
@@ -26,10 +26,10 @@ const Home = () => {
           </Typography>
         </Paper>
       )}
-      <div className={styles.container}>
+      <div className={styles.board}>
         <TodoBoard />
       </div>
-    </Container>
+    </div>
   )
 }
 
