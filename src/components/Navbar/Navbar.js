@@ -6,10 +6,10 @@ import decode from "jwt-decode"
 import { logoutAction } from "../../redux"
 
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core"
-import useStyles from "./styles"
+import styles from "./Navbar.module.css"
 
 const Navbar = () => {
-  const classes = useStyles()
+  // const classes = useStyles()
   // local storage에서 login 정보 가져옴
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")))
   const dispatch = useDispatch()
@@ -39,31 +39,28 @@ const Navbar = () => {
   }, [location, user?.token, logout])
 
   return (
-    <AppBar className={classes.appBar} position="static" color="inherit">
-      <div className={classes.brandContainer}>
+    <AppBar className={styles.appBar} style={{ flexDirection: "row", backgroundColor: "darkcyan", color: "black" }}>
+      <div className={styles.brandContainer}>
         <Typography
           component={Link} // pointing to Home
           to="/"
-          className={classes.heading}
+          className={styles.heading}
           variant="h4"
           align="left"
         >
           Post Your Plans!
         </Typography>
-        {/* <img className={classes.image} src={} alt="icon" height="60" /> */}
+        {/* <img className={styles.image} src={} alt="icon" height="60" /> */}
       </div>
-      <Toolbar className={classes.toolbar}>
+      <Toolbar className={styles.toolbar}>
         {/* user login 여부에 따른 동작 */}
         {user ? (
           //   login 되었을 경우 user info 보여줌 (image / name / logout button)
-          <div className={classes.profile}>
-            <Avatar className={classes.purple} alt={user.result.name} src={user.result.imageUrl}>
-              {user.result.name.charAt(0)}
-            </Avatar>
-            <Typography className={classes.userName} variant="h6">
+          <div className={styles.profile}>
+            <Typography className={styles.userName} variant="h6">
               {user.result.name}
             </Typography>
-            <Button variant="contained" className={classes.logout} color="secondary" onClick={logout}>
+            <Button variant="contained" className={styles.logout} color="secondary" onClick={logout}>
               Logout
             </Button>
           </div>
