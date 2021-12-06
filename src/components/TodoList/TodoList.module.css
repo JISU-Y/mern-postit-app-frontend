@@ -24,15 +24,18 @@
 }
 
 .minus {
-  font-size: 25px;
+  position: absolute;
+  font-size: 30px;
   color: #fff;
   cursor: pointer;
   transition: 0.5s ease-in;
+  bottom: 5px;
+  right: 5px;
 }
 
-.todoPost:hover .minus {
-  color: #555;
-}
+/* .todoPost:hover .minus {
+  color: #fff;
+} */
 
 .instruction {
   width: 150px;
@@ -55,6 +58,20 @@
 }
 .todoPost:hover .instruction {
   opacity: 1;
+}
+
+.createdTime {
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: rgba(170, 170, 170, 0.6);
+}
+
+.todoPost:hover .createdTime {
+  display: none;
 }
 /* 
   보라색 5d0cff
