@@ -74,7 +74,7 @@ const TodoForm = (props) => {
         className={`${styles.todoInput} ${styles.edit}`}
         type="text"
         placeholder="Update your item"
-        value={postTodo.todoText}
+        value={postTodo.todoText ?? ""}
         name="text"
         onChange={(e) => setPostTodo({ ...postTodo, todoText: e.target.value })}
         ref={inputRef}
@@ -89,7 +89,7 @@ const TodoForm = (props) => {
         className={styles.todoInput}
         type="text"
         placeholder="Add a todo"
-        value={postTodo.todoText}
+        value={postTodo.todoText ?? ""}
         name="text"
         onChange={(e) => setPostTodo({ ...postTodo, todoText: e.target.value })}
         ref={inputRef}

@@ -30,6 +30,8 @@ const TodoList = ({
   // todo edit 확인
   const [isTodoEdit, setIsTodoEdit] = useState(false)
   const [editTodo, setEditTodo] = useState("")
+  // z index
+  const [zIndex, setZindex] = useState("unset")
   // modal 관련
   const [modalType, setModalType] = useState({
     open: false,
@@ -40,12 +42,14 @@ const TodoList = ({
   let postStyle = {
     top: post.position.y,
     left: post.position.x,
+    zIndex: zIndex,
   }
 
   const clear = useCallback(() => {
     dispatch(editDonePost()) // 업데이트 완료되었으니까 isEdit을 다시 false로
     setIsEdit(false)
     setIsTodoEdit(false)
+    setZindex("unset")
   }, [dispatch])
 
   const handleEditPost = () => {
@@ -57,20 +61,17 @@ const TodoList = ({
       return
     }
 
-    // 수정 중 일 때는 수정 중인 포스트가 항상 맨 위로 오도록
-    // e.target.style.zIndex = "200"
-
     // 수정하려고하는 post를 전역 state로 올린다.
     // 처음 설정할 때는 props로 받아온 post를, 다시 더블클릭한 경우에 초기화 될 수 있으므로
     // 두번째부터는 state에 업데이트 된 post를 state에서 읽어오도록 한다.
     dispatch(readPostContent(_post.name === "" ? post : _post))
 
     setIsEdit(true) // edit 상태로 변경
+    setZindex(200)
   }
 
   // post edit done
   const handleEditDone = () => {
-    // e.target.style.zIndex = "initial"
     // 구독하고 있던 post의 데이터들 다 변경되었으면 그거 전달해서 업데이트
     dispatch(updatePost(_post._id, _post))
 
