@@ -5,11 +5,24 @@ import decode from "jwt-decode"
 
 import { logoutAction } from "../../redux"
 
-import { AppBar, Button, Toolbar, Typography } from "@material-ui/core"
+import { AppBar, Button, Slide, Toolbar, Typography, useScrollTrigger } from "@material-ui/core"
 import styles from "./Navbar.module.css"
 
+function HideOnScroll(props) {
+  const { children, window } = props
+  const trigger = useScrollTrigger({
+    target: window ? window() : undefined,
+    threshold: 50,
+  })
+
+  return (
+    <Slide appear={false} direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  )
+}
+
 const Navbar = () => {
-  // const classes = useStyles()
   // local storage에서 login 정보 가져옴
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")))
   const dispatch = useDispatch()
@@ -39,38 +52,40 @@ const Navbar = () => {
   }, [location, user?.token, logout])
 
   return (
-    <AppBar className={styles.appBar} style={{ flexDirection: "row", backgroundColor: "darkcyan", color: "black" }}>
-      <div className={styles.brandContainer}>
-        <Typography
-          component={Link} // pointing to Home
-          to="/"
-          className={styles.heading}
-          variant="h4"
-          align="left"
-        >
-          Post Your Plans!
-        </Typography>
-        {/* <img className={styles.image} src={} alt="icon" height="60" /> */}
-      </div>
-      <Toolbar className={styles.toolbar}>
-        {/* user login 여부에 따른 동작 */}
-        {user ? (
-          //   login 되었을 경우 user info 보여줌 (image / name / logout button)
-          <div className={styles.profile}>
-            <Typography className={styles.userName} variant="h6">
-              {user.result.name}
-            </Typography>
-            <Button variant="contained" className={styles.logout} color="secondary" onClick={logout}>
-              Logout
+    <HideOnScroll>
+      <AppBar className={styles.appBar} style={{ flexDirection: "row", backgroundColor: "darkcyan", color: "black" }}>
+        <div className={styles.brandContainer}>
+          <Typography
+            component={Link} // pointing to Home
+            to="/"
+            className={styles.heading}
+            variant="h4"
+            align="left"
+          >
+            Post Your Plans!
+          </Typography>
+          {/* <img className={styles.image} src={} alt="icon" height="60" /> */}
+        </div>
+        <Toolbar className={styles.toolbar}>
+          {/* user login 여부에 따른 동작 */}
+          {user ? (
+            //   login 되었을 경우 user info 보여줌 (image / name / logout button)
+            <div className={styles.profile}>
+              <Typography className={styles.userName} variant="h6">
+                {user.result.name}
+              </Typography>
+              <Button variant="contained" className={styles.logout} color="secondary" onClick={logout}>
+                Logout
+              </Button>
+            </div>
+          ) : (
+            <Button component={Link} to="/auth" variant="contained" color="primary">
+              Sign in
             </Button>
-          </div>
-        ) : (
-          <Button component={Link} to="/auth" variant="contained" color="primary">
-            Sign in
-          </Button>
-        )}
-      </Toolbar>
-    </AppBar>
+          )}
+        </Toolbar>
+      </AppBar>
+    </HideOnScroll>
   )
 }
 
