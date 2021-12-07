@@ -62,7 +62,7 @@ const Navbar = () => {
             variant="h4"
             align="left"
           >
-            Post Your Plans!
+            Post It!
           </Typography>
           {/* <img className={styles.image} src={} alt="icon" height="60" /> */}
         </div>
