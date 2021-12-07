@@ -38,6 +38,12 @@
   border: none;
 }
 
+.mineBtn,
+.showAllBtn {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
 .admin {
   font-size: 15px;
   font-weight: bold;

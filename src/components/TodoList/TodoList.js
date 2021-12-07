@@ -70,6 +70,14 @@ const TodoList = ({
     setZindex(200)
   }
 
+  const onHover = () => {
+    !isEdit && setZindex(101)
+  }
+
+  const onLeave = () => {
+    !isEdit && setZindex("unset")
+  }
+
   // post edit done
   const handleEditDone = () => {
     // 구독하고 있던 post의 데이터들 다 변경되었으면 그거 전달해서 업데이트
@@ -154,6 +162,8 @@ const TodoList = ({
       onDragStart={handleDragStart}
       onDrag={handleDragging}
       onDragEnd={handleDragEnd}
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
       draggable
     >
       {/* tag component*/}

@@ -13,6 +13,7 @@ const initialState = {
 
 const Pallette = () => {
   const posts = useSelector((state) => state.posts.posts)
+  const post = useSelector((state) => state.post)
   const user = useSelector((state) => state.auth.authData)
   const dispatch = useDispatch()
 
@@ -34,6 +35,10 @@ const Pallette = () => {
     })
   }
 
+  const handleShowMine = () => {
+    console.log(posts)
+  }
+
   return (
     <div className={styles.container}>
       {user?.result?.name ? (
@@ -44,7 +49,9 @@ const Pallette = () => {
           <button className={styles.deleteAllBtn} onClick={handleDeleteAll}>
             delete my all posts
           </button>
-          <button className={styles.mineBtn}>show mine only</button>
+          <button className={styles.mineBtn} onClick={handleShowMine}>
+            show mine only
+          </button>
           <button className={styles.showAllBtn}>show all</button>
         </div>
       ) : (

@@ -18,9 +18,7 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <Pallette />
-      <div className={styles.board}>
-        <TodoBoard />
-      </div>
+      <TodoBoard />
     </div>
   )
 }
