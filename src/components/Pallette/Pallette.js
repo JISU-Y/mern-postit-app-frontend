@@ -1,6 +1,6 @@
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { createPost } from "../../redux"
+import { createPost, deletePost } from "../../redux"
 
 import styles from "./Pallette.module.css"
 
@@ -12,6 +12,7 @@ const initialState = {
 }
 
 const Pallette = () => {
+  const posts = useSelector((state) => state.posts.posts)
   const user = useSelector((state) => state.auth.authData)
   const dispatch = useDispatch()
 
@@ -24,12 +25,24 @@ const Pallette = () => {
     )
   }
 
+  const handleDeleteAll = () => {
+    const userName = user?.result?.name
+    posts.forEach((post) => {
+      if (post.name === userName) {
+        dispatch(deletePost(post._id))
+      }
+    })
+  }
+
   return (
     <div className={styles.container}>
       {user?.result?.name ? (
         <div className={styles.buttons}>
           <button className={styles.addBtn} onClick={handleAddPost}>
-            add a post
+            add my post
+          </button>
+          <button className={styles.deleteAllBtn} onClick={handleDeleteAll}>
+            delete my all posts
           </button>
           <button className={styles.mineBtn}>show mine only</button>
           <button className={styles.showAllBtn}>show all</button>

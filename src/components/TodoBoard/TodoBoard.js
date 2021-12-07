@@ -2,23 +2,12 @@ import React, { useState, useEffect, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux"
 
 import TodoList from "../TodoList/TodoList"
-import { getPosts, createPost, updatePosAction } from "../../redux"
-
-import AddPostButton from "./PostButton"
+import { getPosts, updatePosAction } from "../../redux"
 
 import styles from "./TodoBoard.module.css"
 
-// post format
-const initialState = {
-  name: "",
-  tag: [],
-  todos: [],
-  position: { x: null, y: null },
-}
-
 const TodoBoard = () => {
   const posts = useSelector((state) => state.posts.posts)
-  const user = useSelector((state) => state.auth.authData)
   const dispatch = useDispatch()
 
   // 드랍할 영역이 위치한 컴포넌트
@@ -34,18 +23,6 @@ const TodoBoard = () => {
   useEffect(() => {
     dispatch(getPosts())
   }, [dispatch])
-
-  // post를 추가하기만 하는 것 (일단 내용(todos)은 없는 것으로 하기)
-  const AddPostHandler = () => {
-    // user name만 있는 빈 post 생성
-    dispatch(
-      createPost({
-        ...initialState,
-        name: user?.result?.name,
-      })
-    )
-    // createPost 할 때 name은 따로 입력하지 않아도 Log in 되어 있으면 user의 name 가져와서 post create
-  }
 
   // Drag and Drop 구현
   // 드래그 시작되었을 때 실행 - onDragStart
@@ -91,7 +68,6 @@ const TodoBoard = () => {
 
   return (
     <div className={styles.board} ref={postBoard}>
-      {user?.result?.name && <AddPostButton AddPostHandler={AddPostHandler} />}
       {posts.length > 0 &&
         posts.map((post) => {
           return (
