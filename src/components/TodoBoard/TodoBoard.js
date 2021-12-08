@@ -8,6 +8,7 @@ import styles from "./TodoBoard.module.css"
 
 const TodoBoard = () => {
   const posts = useSelector((state) => state.posts.posts)
+  console.log(posts)
   const dispatch = useDispatch()
 
   // 드랍할 영역이 위치한 컴포넌트

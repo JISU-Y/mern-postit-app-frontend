@@ -8,20 +8,25 @@ const initialState = {
   name: "",
   tag: [],
   todos: [],
-  position: { x: null, y: null },
+  position: { x: 0, y: 0 },
 }
 
 const Pallette = () => {
   const posts = useSelector((state) => state.posts.posts)
-  const post = useSelector((state) => state.post)
   const user = useSelector((state) => state.auth.authData)
   const dispatch = useDispatch()
 
+  const handlePosition = () => {
+    console.log(window.pageXOffset, window.pageYOffset)
+  }
+
   const handleAddPost = () => {
+    console.log({ x: window.pageXOffset, y: window.pageYOffset })
     dispatch(
       createPost({
         ...initialState,
         name: user?.result?.name,
+        position: { x: `${window.pageXOffset}px`, y: `${window.pageYOffset}px` },
       })
     )
   }
@@ -52,7 +57,9 @@ const Pallette = () => {
           <button className={styles.mineBtn} onClick={handleShowMine}>
             show mine only
           </button>
-          <button className={styles.showAllBtn}>show all</button>
+          <button className={styles.showAllBtn} onClick={handlePosition}>
+            show all
+          </button>
         </div>
       ) : (
         <p className={styles.admin}>Please Sign in or Sign up to create your own posts</p>
