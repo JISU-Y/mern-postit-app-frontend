@@ -1,5 +1,5 @@
 import * as api from "../../api"
-import { FETCH_ALL, CREATE, UPDATE, DELETE } from "./types"
+import { FETCH_ALL, CREATE, UPDATE, DELETE, LOAD_DONE } from "./types"
 
 // action creator
 const fetchPosts = (posts) => {
@@ -27,6 +27,12 @@ const deletePostAction = (id) => {
   return {
     type: DELETE,
     payload: id,
+  }
+}
+
+export const setLoadingDoneAction = () => {
+  return {
+    type: LOAD_DONE,
   }
 }
 

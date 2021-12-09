@@ -2,13 +2,14 @@ import React, { useState, useEffect, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux"
 
 import TodoList from "../TodoList/TodoList"
-import { getPosts, updatePosAction } from "../../redux"
+import { getPosts, setLoadingDoneAction, updatePosAction } from "../../redux"
 
 import styles from "./TodoBoard.module.css"
+import Spinner from "../Preloader/Spinner"
 
 const TodoBoard = () => {
   const posts = useSelector((state) => state.posts.posts)
-  console.log(posts)
+  const isLoading = useSelector((state) => state.posts.isLoading)
   const dispatch = useDispatch()
 
   // 드랍할 영역이 위치한 컴포넌트
@@ -20,10 +21,17 @@ const TodoBoard = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [oriPosition, setOriPosition] = useState({ x: 0, y: 0 })
 
+  // loading
+  // const [isLoading, setIsLoading] = useState(false)
+
   // fetch posts data
   useEffect(() => {
     dispatch(getPosts())
   }, [dispatch])
+
+  useEffect(() => {
+    posts.length > 0 && dispatch(setLoadingDoneAction())
+  }, [posts, dispatch])
 
   // Drag and Drop 구현
   // 드래그 시작되었을 때 실행 - onDragStart
@@ -69,7 +77,10 @@ const TodoBoard = () => {
 
   return (
     <div className={styles.board} ref={postBoard}>
-      {posts.length > 0 &&
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        posts.length > 0 &&
         posts.map((post) => {
           return (
             <TodoList
@@ -81,7 +92,8 @@ const TodoBoard = () => {
               dragEndHandler={dragEndHandler}
             />
           )
-        })}
+        })
+      )}
     </div>
   )
 }
