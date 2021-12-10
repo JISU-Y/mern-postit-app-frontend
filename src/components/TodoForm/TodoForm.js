@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { useDispatch } from "react-redux"
 import uuid from "react-uuid"
 
@@ -9,12 +9,19 @@ import styles from "./TodoForm.module.css"
 const TodoForm = (props) => {
   const dispatch = useDispatch()
   const [postTodo, setPostTodo] = useState({
-    todoText: props.isTodoEdit ? props.editTodo.todoText : "",
+    todoText: "",
     todoDone: false,
     tempId: null,
   })
 
   const inputRef = useRef(null)
+
+  useEffect(() => {
+    // dependency 추가하지 않고, functional update 사용
+    setPostTodo((todo) => {
+      return { ...todo, todoText: props.editTodo.todoText }
+    })
+  }, [props.editTodo])
 
   const handleAddSubmit = (e) => {
     e.preventDefault()
@@ -67,7 +74,7 @@ const TodoForm = (props) => {
         className={`${styles.todoInput} ${styles.edit}`}
         type="text"
         placeholder="Update your item"
-        value={postTodo.todoText}
+        value={postTodo.todoText ?? ""}
         name="text"
         onChange={(e) => setPostTodo({ ...postTodo, todoText: e.target.value })}
         ref={inputRef}
@@ -82,7 +89,7 @@ const TodoForm = (props) => {
         className={styles.todoInput}
         type="text"
         placeholder="Add a todo"
-        value={postTodo.todoText}
+        value={postTodo.todoText ?? ""}
         name="text"
         onChange={(e) => setPostTodo({ ...postTodo, todoText: e.target.value })}
         ref={inputRef}

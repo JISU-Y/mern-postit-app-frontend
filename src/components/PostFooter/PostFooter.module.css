@@ -8,17 +8,25 @@
   padding-bottom: 10px;
 }
 
-.createdTime {
-  font-size: 11px;
-  letter-spacing: 1px;
-  color: rgba(170, 170, 170, 0.6);
-}
-
 .icons {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 0 10px;
+}
+
+.editDone {
+  display: flex;
+  align-items: center;
+  background-color: goldenrod;
+  color: black;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 3px;
+  padding: 3px 7px;
+  cursor: pointer;
+  margin-bottom: 5px;
 }
 
 /* button에 blinking 빼서 이거 없어도 되긴 함 */

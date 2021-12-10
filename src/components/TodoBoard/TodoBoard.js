@@ -2,23 +2,14 @@ import React, { useState, useEffect, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux"
 
 import TodoList from "../TodoList/TodoList"
-import { getPosts, createPost, updatePosAction } from "../../redux"
-
-import AddPostButton from "./PostButton"
+import Spinner from "../Preloader/TutorialSpinner/Spinner"
+import { getPosts, setLoadingDoneAction, updatePosAction } from "../../redux"
 
 import styles from "./TodoBoard.module.css"
 
-// post format
-const initialState = {
-  name: "",
-  tag: [],
-  todos: [],
-  position: { x: null, y: null },
-}
-
 const TodoBoard = () => {
   const posts = useSelector((state) => state.posts.posts)
-  const user = useSelector((state) => state.auth.authData)
+  const isLoading = useSelector((state) => state.posts.isLoading)
   const dispatch = useDispatch()
 
   // 드랍할 영역이 위치한 컴포넌트
@@ -30,22 +21,17 @@ const TodoBoard = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [oriPosition, setOriPosition] = useState({ x: 0, y: 0 })
 
+  // loading
+  // const [isLoading, setIsLoading] = useState(false)
+
   // fetch posts data
   useEffect(() => {
     dispatch(getPosts())
   }, [dispatch])
 
-  // post를 추가하기만 하는 것 (일단 내용(todos)은 없는 것으로 하기)
-  const AddPostHandler = () => {
-    // user name만 있는 빈 post 생성
-    dispatch(
-      createPost({
-        ...initialState,
-        name: user?.result?.name,
-      })
-    )
-    // createPost 할 때 name은 따로 입력하지 않아도 Log in 되어 있으면 user의 name 가져와서 post create
-  }
+  useEffect(() => {
+    posts.length > 0 && dispatch(setLoadingDoneAction())
+  }, [posts, dispatch])
 
   // Drag and Drop 구현
   // 드래그 시작되었을 때 실행 - onDragStart
@@ -91,8 +77,10 @@ const TodoBoard = () => {
 
   return (
     <div className={styles.board} ref={postBoard}>
-      {user?.result?.name && <AddPostButton AddPostHandler={AddPostHandler} />}
-      {posts.length > 0 &&
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        posts.length > 0 &&
         posts.map((post) => {
           return (
             <TodoList
@@ -104,7 +92,8 @@ const TodoBoard = () => {
               dragEndHandler={dragEndHandler}
             />
           )
-        })}
+        })
+      )}
     </div>
   )
 }

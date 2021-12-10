@@ -80,7 +80,9 @@ const Todo = (props) => {
       {todos.map((todo) => {
         return (
           <div className={todo.todoDone ? `${styles.row} ${styles.complete}` : `${styles.row}`} key={todo._id ?? todo.tempId} style={rowStyle}>
-            <div onClick={() => handleCompTodo(todo)}>{todo.todoText}</div>
+            <div className={styles.text} onClick={() => handleCompTodo(todo)}>
+              {todo.todoText}
+            </div>
             {props.isEdit && (
               <div className={styles.icons}>
                 <RiCloseCircleLine onClick={() => handleDelTodo(todo)} className={styles.delete} />

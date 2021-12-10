@@ -1,4 +1,4 @@
-export { getPosts, createPost, updatePost, deletePost } from "./posts/actions"
+export { getPosts, createPost, updatePost, deletePost, setLoadingDoneAction } from "./posts/actions"
 export { signin, signup, logoutAction, setUserAction } from "./auth/actions"
 export {
   readPostContent,

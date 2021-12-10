@@ -16,7 +16,6 @@ const initialState = {
     },
   ],
   position: { x: null, y: null },
-  isEdit: false,
 }
 
 // state = posts
