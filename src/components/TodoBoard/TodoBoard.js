@@ -2,10 +2,10 @@ import React, { useState, useEffect, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux"
 
 import TodoList from "../TodoList/TodoList"
+import Spinner from "../Preloader/TutorialSpinner/Spinner"
 import { getPosts, setLoadingDoneAction, updatePosAction } from "../../redux"
 
 import styles from "./TodoBoard.module.css"
-import Spinner from "../Preloader/TutorialSpinner/Spinner"
 
 const TodoBoard = () => {
   const posts = useSelector((state) => state.posts.posts)

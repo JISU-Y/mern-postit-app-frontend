@@ -8,33 +8,23 @@ import styles from "./Spinner.module.css"
 
 const Spinner = () => {
   const [isEdit, setIsEdit] = useState(false)
-  const dummytags = [{ tempId: 1, tagName: "Important" }]
+  const dummytags = [{ tempId: 1, tagName: "Loading..." }]
   const dummyTodos = [
-    { tempId: 1, todoText: "할 일1", todoDone: false },
-    { tempId: 2, todoText: "할 일2", todoDone: true },
+    { tempId: 1, todoText: "Wait for a second please.", todoDone: false },
+    { tempId: 2, todoText: "your todo", todoDone: true },
   ]
   const dummyPost = { creator: undefined, createdAt: new Date() }
 
   return (
-    <div className={styles.box} onDoubleClick={() => setIsEdit((prev) => !prev)}>
-      <TagContainer isEdit={isEdit} tags={dummytags} />
-      <hr />
-      <TodoForm isEdit={isEdit} openNoInputModal={null} editTodo={""} isTodoEdit={false} handleEditTodoDone={null} />
-      <hr />
-      <TodoContainer isEdit={isEdit} todos={dummyTodos} openEditDoneModal={null} openRemoveModal={null} onEditTodo={null} />
-      <hr />
-      <PostFooter isEdit={isEdit} post={dummyPost} openRemoveModal={null} openEditDoneModal={null} />
+    <div className={styles.wrap}>
+      <div className={styles.box} onDoubleClick={() => setIsEdit((prev) => !prev)}>
+        <TagContainer isEdit={isEdit} tags={dummytags} />
+        <TodoForm isEdit={isEdit} openNoInputModal={null} editTodo={""} isTodoEdit={false} handleEditTodoDone={null} />
+        <TodoContainer isEdit={isEdit} todos={dummyTodos} openEditDoneModal={null} openRemoveModal={null} onEditTodo={null} />
+        <PostFooter isEdit={isEdit} post={dummyPost} openRemoveModal={null} openEditDoneModal={null} />
+      </div>
     </div>
   )
 }
 
 export default Spinner
-
-{
-  /* <p className={styles.loading}>로딩 중입니다.</p>
-<p>튜토리얼을 먼저 확인해보세요!</p>
-<p>Hover me!</p>
-<div className="tagContainer">tag container</div> */
-}
-// 튜토리얼을 만들어서
-// 코드의 재사용성을 높여보자

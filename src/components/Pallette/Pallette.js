@@ -49,10 +49,10 @@ const Pallette = () => {
       {user?.result?.name ? (
         <div className={styles.buttons}>
           <button className={styles.addBtn} onClick={handleAddPost}>
-            add my post
+            add post
           </button>
           <button className={styles.deleteAllBtn} onClick={handleDeleteAll}>
-            delete my all posts
+            delete all
           </button>
           <button className={styles.mineBtn} onClick={handleShowMine}>
             show mine only
