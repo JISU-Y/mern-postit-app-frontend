@@ -13,7 +13,7 @@ import TagContainer from "../TagContainer/TagContainer"
 import PostFooter from "../PostFooter/PostFooter"
 
 import styles from "./TodoList.module.css"
-import Spinner from "../Preloader/Spinner"
+import Spinner from "../Preloader/PostSpinner/Spinner"
 
 const TodoList = ({
   dragStartHandler,
@@ -190,7 +190,6 @@ const TodoList = ({
             (isEdit ? (
               <TodoForm
                 isEdit={isEdit}
-                post={post}
                 openNoInputModal={openNoInputModal}
                 editTodo={editTodo}
                 isTodoEdit={isTodoEdit}

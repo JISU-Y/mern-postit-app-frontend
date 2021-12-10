@@ -5,7 +5,7 @@ import TodoList from "../TodoList/TodoList"
 import { getPosts, setLoadingDoneAction, updatePosAction } from "../../redux"
 
 import styles from "./TodoBoard.module.css"
-import Spinner from "../Preloader/Spinner"
+import Spinner from "../Preloader/TutorialSpinner/Spinner"
 
 const TodoBoard = () => {
   const posts = useSelector((state) => state.posts.posts)

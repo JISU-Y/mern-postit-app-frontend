@@ -19,7 +19,7 @@ const TodoForm = (props) => {
   useEffect(() => {
     // dependency 추가하지 않고, functional update 사용
     setPostTodo((todo) => {
-      return { ...todo, todoText: props.editTodo.todoText }
+      return { ...todo, todoText: props.editTodo.todoText } // editTodo는 그냥 text인데요...?
     })
   }, [props.editTodo])
 
