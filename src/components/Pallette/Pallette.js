@@ -1,6 +1,7 @@
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { createPost, deletePost } from "../../redux"
+import ReactTooltip from "react-tooltip"
 
 import styles from "./Pallette.module.css"
 
@@ -48,18 +49,19 @@ const Pallette = () => {
     <div className={styles.container}>
       {user?.result?.name ? (
         <div className={styles.buttons}>
-          <button className={styles.addBtn} onClick={handleAddPost}>
+          <button className={styles.addBtn} data-tip="add a new post on the board" onClick={handleAddPost}>
             add post
           </button>
-          <button className={styles.deleteAllBtn} onClick={handleDeleteAll}>
+          <button className={styles.deleteAllBtn} data-tip="delete all posts of mine on the board" onClick={handleDeleteAll}>
             delete all
           </button>
-          <button className={styles.mineBtn} onClick={handleShowMine}>
+          <button className={styles.mineBtn} data-tip="show all posts I create only" onClick={handleShowMine}>
             show mine only
           </button>
-          <button className={styles.showAllBtn} onClick={handlePosition}>
+          <button className={styles.showAllBtn} data-tip="show all posts of all friends' and mine" onClick={handlePosition}>
             show all
           </button>
+          <ReactTooltip />
         </div>
       ) : (
         <p className={styles.admin}>Please Sign in or Sign up to create your own posts</p>
