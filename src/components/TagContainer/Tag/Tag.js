@@ -5,7 +5,7 @@ import { deleteTagAction } from "../../../redux/postContent/actions"
 
 import styles from "../TagContainer.module.css"
 
-const Tag = ({ tag }) => {
+const Tag = ({ tag, isEdit }) => {
   const tagName = tag.tagName
 
   const dispatch = useDispatch()
@@ -35,7 +35,7 @@ const Tag = ({ tag }) => {
   return (
     <div className={tagStyle(tagName)}>
       <p className={styles.content}>{tagName}</p>
-      <RiCloseCircleLine className={styles.removeBtn} onClick={() => handleRemoveTag(tag._id ?? tag.tempId)} />
+      {isEdit && <RiCloseCircleLine className={styles.removeBtn} onClick={() => handleRemoveTag(tag._id ?? tag.tempId)} />}
     </div>
   )
 }

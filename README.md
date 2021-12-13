@@ -4,7 +4,7 @@
 
 - 포스트잇 내부에 To-Do List를 작성하여 게시하고 저장 및 공유하는 어플
 
-[link] https://blissful-colden-0f6a2a.netlify.app/
+[link] https://post-your-plans.netlify.app/
 
 ---
 
