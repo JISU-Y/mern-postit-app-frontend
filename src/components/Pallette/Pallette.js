@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react"
+import React, { useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { createPost, deletePost } from "../../redux"
+import { createPost, deletePost, hidePalletteAction } from "../../redux"
 import { MdPostAdd, MdOutlineRemoveFromQueue } from "react-icons/md"
 import { IoPerson, IoPeople } from "react-icons/io5"
 import { BiHide } from "react-icons/bi"
@@ -18,12 +18,11 @@ const initialState = {
 const Pallette = () => {
   const posts = useSelector((state) => state.posts.posts)
   const user = useSelector((state) => state.auth.authData)
-  const [isFolded, setIsFolded] = useState(false)
+  const shouldShow = useSelector((state) => state.pallette.shouldShowPal)
   const dispatch = useDispatch()
   const palletteRef = useRef()
 
   const handleAddPost = () => {
-    console.log({ x: window.pageXOffset, y: window.pageYOffset })
     dispatch(
       createPost({
         ...initialState,
@@ -53,18 +52,16 @@ const Pallette = () => {
   const handleFold = () => {
     palletteRef.current.style.width = "0"
     palletteRef.current.style.visibility = "hidden"
-
-    setIsFolded(true)
-    // palletteRef.current.style.visibility = "hidden"
-    // palletteRef.current.style.display = "none"
+    dispatch(hidePalletteAction())
   }
 
   const handleRemovePallete = () => {
-    console.log(isFolded)
-    isFolded && (palletteRef.current.style.height = "0")
-    setIsFolded(false)
-    // palletteRef.current.style.visibility = "hidden"
+    !shouldShow && (palletteRef.current.style.height = "0")
   }
+
+  useEffect(() => {
+    shouldShow && (palletteRef.current.style = {})
+  }, [shouldShow])
 
   return (
     <div ref={palletteRef} className={styles.container} onTransitionEnd={handleRemovePallete}>

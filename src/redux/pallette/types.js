@@ -1,0 +1,2 @@
+export const SHOW_PALLETTE = "SHOW_PALLETTE"
+export const HIDE_PALLETTE = "HIDE_PALLETTE"

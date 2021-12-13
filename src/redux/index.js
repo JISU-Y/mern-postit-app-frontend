@@ -9,3 +9,4 @@ export {
   updatePosAction,
   editDonePost,
 } from "./postContent/actions"
+export { showPalletteAction, hidePalletteAction } from "./pallette/actions"
