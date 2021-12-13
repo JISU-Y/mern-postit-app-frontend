@@ -49,7 +49,7 @@ const TodoBoard = () => {
 
   // 드래그 중일 때 실행 - onDrag
   const dragHandler = (e) => {
-    e.target.style.zIndex = "101"
+    e.target.style.zIndex = "101" // 옮기는 도중에도 항상 위에 보이도록
 
     // 요소의 좌표 + 커서 좌표 변화량
     // 현재 요소의 좌표 + 현재 커서의 좌표 - 직전 커서의 좌표
@@ -61,7 +61,6 @@ const TodoBoard = () => {
 
   // 드래그 끝났을 때 실행(마우스 놓으면서) - onDragEnd
   const dragEndHandler = (e) => {
-    e.target.style.zIndex = "unset"
     // 올바른 영역에 드랍 되었는지 체크
     const box = postBoard.current.getBoundingClientRect()
     const movedPos = { x: e.target.offsetLeft + e.clientX - position.x, y: e.target.offsetTop + e.clientY - position.y }
