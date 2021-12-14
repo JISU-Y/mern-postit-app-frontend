@@ -58,7 +58,7 @@ const Navbar = () => {
 
   return (
     <HideOnScroll>
-      <AppBar className={styles.appBar} style={{ flexDirection: "row", backgroundColor: "darkcyan", color: "black" }}>
+      <AppBar className={styles.appBar} style={{ flexDirection: "row", backgroundColor: "#9781B3", color: "black" }}>
         <div className={styles.brandContainer}>
           <Typography
             component={Link} // pointing to Home
@@ -71,13 +71,17 @@ const Navbar = () => {
           </Typography>
           {/* <img className={styles.image} src={} alt="icon" height="60" /> */}
         </div>
-        <Toolbar className={styles.toolbar}>
-          {!shouldShow && <Button onClick={handleShowPallette}>show Pallette</Button>}
+        <Toolbar className={styles.toolbar} style={{ width: "500px" }}>
+          {!shouldShow && (
+            <Button variant="outlined" onClick={handleShowPallette} style={{ marginRight: "10px", fontSize: "15px", minWidth: "150px" }}>
+              show Pallette
+            </Button>
+          )}
           {/* user login 여부에 따른 동작 */}
           {user ? (
             //   login 되었을 경우 user info 보여줌 (image / name / logout button)
             <div className={styles.profile}>
-              <Typography className={styles.userName} variant="h6">
+              <Typography className={styles.userName} variant="h6" style={{ width: "125px", margin: "auto" }}>
                 {user.result.name}
               </Typography>
               <Button variant="contained" className={styles.logout} color="secondary" onClick={logout}>

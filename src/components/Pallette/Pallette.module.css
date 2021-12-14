@@ -8,15 +8,12 @@
   margin-top: 95px;
   margin-bottom: 10px;
   z-index: 999;
-  background-color: darksalmon;
+  background-color: #fbeaff;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: 1s ease-in-out;
   overflow: hidden;
-}
-.container.hide {
-  background-color: crimson;
 }
 
 .buttons {
@@ -30,11 +27,11 @@
 .deleteAllBtn,
 .showAllBtn,
 .foldBtn {
-  width: calc((100% - 21.5px) / 4);
+  width: calc((100% - 20px) / 4);
   height: 100%;
   background-color: transparent;
   border: none;
-  border-right: 2px solid olive;
+  border-right: 2px solid rgba(0, 0, 0, 0.4);
   cursor: pointer;
   font-size: 30px;
   font-weight: bold;
@@ -43,7 +40,12 @@
 .mineBtn,
 .showAllBtn {
   /* pointer-events: none; */
+  border-right: 2px solid black;
   opacity: 0.4;
+}
+
+.showAllBtn {
+  border: none;
 }
 
 .foldBtn {
@@ -51,11 +53,10 @@
   right: 0;
   top: 0;
   width: fit-content;
-  background-color: firebrick;
+  background-color: #354b45;
+  color: #fff;
   font-size: 20px;
   border: none;
-  /* border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px; */
 }
 
 .admin {

@@ -1,13 +1,15 @@
 .board {
-  background-color: #484f5b;
+  /* #484f5b */
+  background-color: #545479;
   width: 1500px;
-  height: 710px;
+  height: 780px;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   display: flex;
   position: relative;
   justify-content: center;
   align-items: center;
+  margin-bottom: 50px;
 }
 
 .startBtn {

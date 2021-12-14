@@ -1,8 +1,8 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles"
 
 export default makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(20),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -27,4 +27,4 @@ export default makeStyles((theme) => ({
   googleButton: {
     marginBottom: theme.spacing(2),
   },
-}));
+}))

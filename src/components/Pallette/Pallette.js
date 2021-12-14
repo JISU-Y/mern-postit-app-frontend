@@ -73,13 +73,13 @@ const Pallette = () => {
           <button className={styles.deleteAllBtn} data-tip="delete all posts of mine on the board" onClick={handleDeleteAll}>
             <MdOutlineRemoveFromQueue />
           </button>
-          <button className={styles.mineBtn} data-tip="show all posts I create only" onClick={handleShowMine}>
+          <button className={styles.mineBtn} data-tip="show all posts I create only (not available)" onClick={handleShowMine}>
             <IoPerson />
           </button>
-          <button className={styles.showAllBtn} data-tip="show all posts of all friends' and mine" onClick={handleShowAll}>
+          <button className={styles.showAllBtn} data-tip="show all posts of all friends' and mine (not available)" onClick={handleShowAll}>
             <IoPeople />
           </button>
-          <button className={styles.foldBtn} onClick={handleFold}>
+          <button className={styles.foldBtn} data-tip="Hide Pallette" onClick={handleFold}>
             <BiHide />
           </button>
           <ReactTooltip place="bottom" />
