@@ -1,6 +1,6 @@
-#📑 Post It!
+# 📑 Post It!
 
-##❗❓ 프로젝트 설명
+## ❗❓ 프로젝트 설명
 포스트잇을 이용해서 즉각적으로 생각나는 것들을 추가하고,
 이를 모든 사람과 공유할 수 있는 웹 어플리케이션
 
@@ -9,7 +9,7 @@
 
 ---
 
-###😄 주요 기능
+### 😄 주요 기능
 
 1. Post It 생성, 업데이트, 삭제 기능
 2. Post It 개별 위치 설정(Drag & Drop)
@@ -20,12 +20,12 @@
 ---
 <!-- Line -->
 
-###🟣 Main UI
+### 🟣 Main UI
 ![post it main UI](https://user-images.githubusercontent.com/80020227/146124551-76118fbf-c20d-4e0b-89de-36e5bc094bac.JPG)
 
 ---
 
-###👨‍🏫 사용 방법
+### 👨‍🏫 사용 방법
 
 1. 로그인
  - Sign up/Sign in
@@ -72,19 +72,19 @@
 
 ---
 
-###🛠 기술 스택
+### 🛠 기술 스택
 
 - Frontend : React, Redux
 - Backend : node.JS(express), MongoDB
 
 ---
 
-###🎞 개발 과정
+### 🎞 개발 과정
  - Vanilla JS와 Local Storage를 활용하여 기획 및 기능 구현
  - React를 사용하여 Refactoring 및 기능 추가
  - MERN stack 사용하여 Front단 Refactoring 및 MongoDB와 Express를 사용하여 Server단을 구축
 
-###📜 지난 버전
+### 📜 지난 버전
  1. Vanilla JS + Local Storage 활용 구현
   ![My ToDoList - Chrome 2021-09-28 17-36-24](https://user-images.githubusercontent.com/80020227/135054537-9be21371-8df5-4465-91cb-a823323ad110.gif)
   [link] https://github.com/JISU-Y/PostIt
@@ -93,8 +93,8 @@
   ![React App - Chrome 2021-09-28 17-38-22](https://user-images.githubusercontent.com/80020227/135054556-8112ed5e-321c-4159-9c2e-86645c9630cf.gif)
   [link] https://github.com/JISU-Y/react-app-post-it
 
-###👨‍💻 개발 인원
+### 👨‍💻 개발 인원
 1인
 
-###⌛ 개발 기간
+### ⌛ 개발 기간
 2021.06부터 (Vanilla JS->React->Mern Stack) 진행 중 
