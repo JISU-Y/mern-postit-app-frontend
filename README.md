@@ -60,11 +60,11 @@
   <br>\* Edit 상태가 아닐 때 todo 수정 불가
   ![PostIt App - todos (add, edit, remove, complete)](https://user-images.githubusercontent.com/80020227/146128456-88abbac3-77b8-4929-b66c-9e24e79d8fcf.gif)
 
-4. Post It 삭제
- <br>Post에 마우스 올려 놓을 시 X 버튼(remove button) 생성, 개별 삭제 가능<br>
+4. Post It 삭제 
   1) Post 삭제
+  <br>Post에 마우스 올려 놓을 시 X 버튼(remove button) 생성, 개별 삭제 가능
   ![PostIt App - delete post](https://user-images.githubusercontent.com/80020227/146128485-29fea2ee-d691-423b-9066-7fc34898a2a6.gif)
- <br>
+
   2) 모든 Post 삭제
   <br>palette의 두번째 버튼 클릭 시 모든 Post 삭제 가능 (user가 생성한 것만 모두 삭제)
   ![PostIt App - delete all post](https://user-images.githubusercontent.com/80020227/146128493-22f465ea-86ad-495b-ae75-3cd8cbf833c5.gif)
