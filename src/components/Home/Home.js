@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import { useDispatch } from "react-redux"
 
 import TodoBoard from "../TodoBoard/TodoBoard"
-import Palette from "../Palette/Palette"
+import Pallette from "../Pallette/Pallette"
 import { setUserAction } from "../../redux"
 
 import styles from "./Home.module.css"
@@ -17,7 +17,7 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      <Palette />
+      <Pallette />
       <TodoBoard />
     </div>
   )

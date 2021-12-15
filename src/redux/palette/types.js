@@ -1,2 +1,0 @@
-export const SHOW_PALETTE = "SHOW_PALETTE"
-export const HIDE_PALETTE = "HIDE_PALETTE"
