@@ -1,18 +1,18 @@
-import { SHOW_PALLETTE, HIDE_PALLETTE } from "./types"
+import { SHOW_PALETTE, HIDE_PALETTE } from "./types"
 
 const initialState = {
   shouldShowPal: true,
 }
 
-const palletteReducer = (state = initialState, action) => {
+const paletteReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SHOW_PALLETTE:
+    case SHOW_PALETTE:
       return { ...state, shouldShowPal: true }
-    case HIDE_PALLETTE:
+    case HIDE_PALETTE:
       return { ...state, shouldShowPal: false }
     default:
       return state
   }
 }
 
-export default palletteReducer
+export default paletteReducer

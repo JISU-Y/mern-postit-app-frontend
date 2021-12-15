@@ -3,7 +3,7 @@ import { Link, useHistory, useLocation } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import decode from "jwt-decode"
 
-import { logoutAction, showPalletteAction } from "../../redux"
+import { logoutAction, showPaletteAction } from "../../redux"
 
 import { AppBar, Button, Slide, Toolbar, Typography, useScrollTrigger } from "@material-ui/core"
 import styles from "./Navbar.module.css"
@@ -25,7 +25,7 @@ function HideOnScroll(props) {
 const Navbar = () => {
   // local storage에서 login 정보 가져옴
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")))
-  const shouldShow = useSelector((state) => state.pallette.shouldShowPal)
+  const shouldShow = useSelector((state) => state.palette.shouldShowPal)
   const dispatch = useDispatch()
   const history = useHistory()
   const location = useLocation() // 주소 변경되었을 때
@@ -52,8 +52,8 @@ const Navbar = () => {
     setUser(JSON.parse(localStorage.getItem("profile")))
   }, [location, user?.token, logout])
 
-  const handleShowPallette = () => {
-    dispatch(showPalletteAction())
+  const handleShowPalette = () => {
+    dispatch(showPaletteAction())
   }
 
   return (
@@ -73,8 +73,8 @@ const Navbar = () => {
         </div>
         <Toolbar className={styles.toolbar} style={{ width: "500px" }}>
           {!shouldShow && (
-            <Button variant="outlined" onClick={handleShowPallette} style={{ marginRight: "10px", fontSize: "15px", minWidth: "150px" }}>
-              show Pallette
+            <Button variant="outlined" onClick={handleShowPalette} style={{ marginRight: "10px", fontSize: "15px", minWidth: "150px" }}>
+              show Palette
             </Button>
           )}
           {/* user login 여부에 따른 동작 */}

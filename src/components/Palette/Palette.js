@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { createPost, deletePost, hidePalletteAction } from "../../redux"
+import { createPost, deletePost, hidePaletteAction } from "../../redux"
 import { MdPostAdd, MdOutlineRemoveFromQueue } from "react-icons/md"
 import { IoPerson, IoPeople } from "react-icons/io5"
 import { BiHide } from "react-icons/bi"
 import ReactTooltip from "react-tooltip"
 
-import styles from "./Pallette.module.css"
+import styles from "./Palette.module.css"
 
 const initialState = {
   name: "",
@@ -15,12 +15,12 @@ const initialState = {
   position: { x: 0, y: 0 },
 }
 
-const Pallette = () => {
+const Palette = () => {
   const posts = useSelector((state) => state.posts.posts)
   const user = useSelector((state) => state.auth.authData)
-  const shouldShow = useSelector((state) => state.pallette.shouldShowPal)
+  const shouldShow = useSelector((state) => state.palette.shouldShowPal)
   const dispatch = useDispatch()
-  const palletteRef = useRef()
+  const paletteRef = useRef()
 
   const handleAddPost = () => {
     dispatch(
@@ -50,21 +50,21 @@ const Pallette = () => {
   }
 
   const handleFold = () => {
-    palletteRef.current.style.width = "0"
-    palletteRef.current.style.visibility = "hidden"
-    dispatch(hidePalletteAction())
+    paletteRef.current.style.width = "0"
+    paletteRef.current.style.visibility = "hidden"
+    dispatch(hidePaletteAction())
   }
 
   const handleRemovePallete = () => {
-    !shouldShow && (palletteRef.current.style.height = "0")
+    !shouldShow && (paletteRef.current.style.height = "0")
   }
 
   useEffect(() => {
-    shouldShow && (palletteRef.current.style = {})
+    shouldShow && (paletteRef.current.style = {})
   }, [shouldShow])
 
   return (
-    <div ref={palletteRef} className={styles.container} onTransitionEnd={handleRemovePallete}>
+    <div ref={paletteRef} className={styles.container} onTransitionEnd={handleRemovePallete}>
       {user?.result?.name ? (
         <div className={styles.buttons}>
           <button className={styles.addBtn} data-tip="add a new post on the board" onClick={handleAddPost}>
@@ -79,7 +79,7 @@ const Pallette = () => {
           <button className={styles.showAllBtn} data-tip="show all posts of all friends' and mine (not available)" onClick={handleShowAll}>
             <IoPeople />
           </button>
-          <button className={styles.foldBtn} data-tip="Hide Pallette" onClick={handleFold}>
+          <button className={styles.foldBtn} data-tip="Hide Palette" onClick={handleFold}>
             <BiHide />
           </button>
           <ReactTooltip place="bottom" />
@@ -91,4 +91,4 @@ const Pallette = () => {
   )
 }
 
-export default Pallette
+export default Palette
