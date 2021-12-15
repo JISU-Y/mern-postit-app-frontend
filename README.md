@@ -40,19 +40,19 @@
 3. Post 수정
  <br>더블 클릭(Double tab)한 후 Edit 상태로 진입하여 선택한 Post 수정 가능
  <br>\* User가 생성한 Post만 가능<br>
-  \1) Post Position
+  1) Post Position
   <br>Drag & Drop 하여 위치 선정 후 Edit Done 버튼 클릭
   <br>\* Edit 상태가 아닐 때 Drag & Drop 시 새로고침 시 원상태로 변경
   ![PostIt App - move post](https://user-images.githubusercontent.com/80020227/146128403-195dbb16-e27e-498f-81f2-be5158421567.gif)
- <br>
-  \2) Tag (추가, 삭제)
+  
+  2) Tag (추가, 삭제)
   <br>Post의 위쪽 부분에서 오른쪽 클릭
   <br>Context menu에서 원하는 태그 선택하여 추가
   <br>태그 옆의 x 버튼 이용 삭제
   <br>\* Edit 상태가 아닐 때 추가 및 삭제 불가
   ![PostIt App - add tags](https://user-images.githubusercontent.com/80020227/146128424-b8ba1a27-1760-484d-9c50-bc7dd0051a88.gif)
- <br>
-  \3) Todo (추가, 삭제, 변경, 완료)
+
+  3) Todo (추가, 삭제, 변경, 완료)
   <br>Input Form 생기면 원하는 todo 생성 가능
   <br>x icon 이용 todo 삭제 가능
   <br>edit icon 클릭 시 해당 todo 수정 가능
@@ -62,10 +62,10 @@
 
 4. Post It 삭제
  <br>Post에 마우스 올려 놓을 시 X 버튼(remove button) 생성, 개별 삭제 가능<br>
-  \1) Post 삭제
+  1) Post 삭제
   ![PostIt App - delete post](https://user-images.githubusercontent.com/80020227/146128485-29fea2ee-d691-423b-9066-7fc34898a2a6.gif)
  <br>
-  \2) 모든 Post 삭제
+  2) 모든 Post 삭제
   <br>palette의 두번째 버튼 클릭 시 모든 Post 삭제 가능 (user가 생성한 것만 모두 삭제)
   ![PostIt App - delete all post](https://user-images.githubusercontent.com/80020227/146128493-22f465ea-86ad-495b-ae75-3cd8cbf833c5.gif)
 
