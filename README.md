@@ -5,7 +5,7 @@
 이를 모든 사람과 공유할 수 있는 웹 어플리케이션
 
 **작품 링크**
-[link] https://post-your-plans.netlify.app/
+<br> [link] https://post-your-plans.netlify.app/
 
 ---
 
@@ -76,6 +76,7 @@
 
 - Frontend : React, Redux
 - Backend : node.JS(express), MongoDB
+- 배포: front(Netlify), back(Heroku)
 
 ---
 
